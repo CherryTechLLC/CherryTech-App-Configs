@@ -1,0 +1,88 @@
+services:
+  glpi-db:
+    image: docker.io/mariadb:11
+    container_name: glpi-db
+    hostname: glpi-db
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --innodb-buffer-pool-size=512M
+    networks:
+      - glpi-net
+    environment:
+      TZ: ${TZ}
+      MARIADB_DATABASE: glpi
+      MARIADB_USER: glpi
+      MARIADB_PASSWORD_FILE: /run/secrets/glpi_db_password
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/glpi_db_root_password
+    volumes:
+      - glpi-db:/var/lib/mysql:Z
+    secrets:
+      - glpi_db_password
+      - glpi_db_root_password
+    mem_limit: ${GLPI_DB_MEMORY_LIMIT}
+    cpus: ${GLPI_DB_CPU_LIMIT}
+
+  glpi-redis:
+    image: docker.io/redis:7-alpine
+    container_name: glpi-redis
+    hostname: glpi-redis
+    restart: unless-stopped
+    command: >-
+      redis-server
+      --appendonly yes
+      --requirepass "$$(cat /run/secrets/glpi_redis_password)"
+    networks:
+      - glpi-net
+    volumes:
+      - glpi-redis:/data:Z
+    secrets:
+      - glpi_redis_password
+    mem_limit: ${GLPI_REDIS_MEMORY_LIMIT}
+    cpus: ${GLPI_REDIS_CPU_LIMIT}
+
+  glpi-app:
+    image: docker.io/glpi/glpi:latest
+    container_name: glpi-app
+    hostname: glpi
+    restart: unless-stopped
+    depends_on:
+      - glpi-db
+      - glpi-redis
+    networks:
+      - glpi-net
+    ports:
+      - "127.0.0.1:8005:80"
+    environment:
+      TZ: ${TZ}
+      GLPI_DB_HOST: glpi-db
+      GLPI_DB_PORT: 3306
+      GLPI_DB_NAME: glpi
+      GLPI_DB_USER: glpi
+      GLPI_DB_PASSWORD_FILE: /run/secrets/glpi_db_password
+      GLPI_REDIS_HOST: glpi-redis
+      GLPI_REDIS_PORT: 6379
+    volumes:
+      - glpi-app:/var/glpi:Z
+      - glpi-marketplace:/var/www/glpi/marketplace:Z
+    secrets:
+      - glpi_db_password
+    mem_limit: ${GLPI_APP_MEMORY_LIMIT}
+    cpus: ${GLPI_APP_CPU_LIMIT}
+
+volumes:
+  glpi-app:
+  glpi-marketplace:
+  glpi-db:
+  glpi-redis:
+
+secrets:
+  glpi_db_password:
+  glpi_db_root_password:
+  glpi_redis_password:
+
+networks:
+  glpi-net:
+    name: glpi-net
+    driver: bridge

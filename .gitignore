@@ -1,0 +1,16 @@
+# Secrets
+.env
+*.secret
+*.key
+*.pem
+secrets/
+
+# Runtime data
+data/
+logs/
+tmp/
+
+# OS/editor files
+.DS_Store
+*.swp
+.vscode/

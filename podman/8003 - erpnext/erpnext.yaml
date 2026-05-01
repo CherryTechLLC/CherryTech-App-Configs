@@ -1,0 +1,270 @@
+services:
+  erpnext-create-site:
+    image: docker.io/frappe/erpnext:v16.15.0
+    container_name: erpnext-create-site
+    hostname: erpnext-create-site
+    networks:
+      - erpnext-net
+    restart: "no"
+    volumes:
+      - erpnext-sites:/home/frappe/frappe-bench/sites:Z
+      - erpnext-logs:/home/frappe/frappe-bench/logs:Z
+    secrets:
+      - erpnext_db_root_password
+      - erpnext_admin_password
+    entrypoint:
+      - bash
+      - -c
+    command:
+      - >
+        wait-for-it -t 180 erpnext-db:3306;
+        wait-for-it -t 180 erpnext-redis-cache:6379;
+        wait-for-it -t 180 erpnext-redis-queue:6379;
+        export start=`date +%s`;
+        until [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".db_host // empty"` ]] && \
+          [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_cache // empty"` ]] && \
+          [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_queue // empty"` ]];
+        do
+          echo "Waiting for sites/common_site_config.json to be created";
+          sleep 5;
+          if (( `date +%s`-start > 120 )); then
+            echo "could not find sites/common_site_config.json with required keys";
+            exit 1
+          fi
+        done;
+        echo "sites/common_site_config.json found";
+        bench new-site
+        --mariadb-user-host-login-scope='%
+        --admin-password="$$(cat /run/secrets/erpnext_admin_password)"
+        --db-root-username=root
+        --db-root-password="$$(cat /run/secrets/erpnext_db_root_password)"
+        --install-app erpnext
+        --set-default frontend;
+
+  erpnext-configurator:
+    image: docker.io/frappe/erpnext:v16.15.0
+    container_name: erpnext-configurator
+    hostname: erpnext-configurator
+    networks:
+      - erpnext-net
+    restart: "no"
+    entrypoint:
+      - bash
+      - -c
+    command:
+      - >
+        ls -1 apps > sites/apps.txt;
+        bench set-config -g db_host erpnext-db;
+        bench set-config -gp db_port 3306;
+        bench set-config -g redis_cache "redis://erpnext-redis-cache:6379";
+        bench set-config -g redis_queue "redis://erpnext-redis-queue:6379";
+        bench set-config -g redis_socketio "redis://erpnext-redis-queue:6379";
+        bench set-config -gp socketio_port 9000;
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      REDIS_CACHE: redis-cache:6379
+      REDIS_QUEUE: redis-queue:6379
+      SOCKETIO_PORT: "9000"
+    volumes:
+      - erpnext-sites:/home/frappe/frappe-bench/sites:Z
+      - erpnext-logs:/home/frappe/frappe-bench/logs:Z
+
+  erpnext-scheduler:
+    image: frappe/erpnext:v16.15.0
+    container_name: erpnext-scheduler
+    hostname: erpnext-scheduler
+    networks:
+      - erpnext-net
+    restart: unless-stopped
+    command:
+      - bench
+      - schedule
+    volumes:
+      - erpnext-sites:/home/frappe/frappe-bench/sites:Z
+      - erpnext-logs:/home/frappe/frappe-bench/logs:Z
+
+  erpnext-db:
+    image: docker.io/mariadb:11.8
+    container_name: erpnext-db
+    hostname: erpnext-db
+    networks:
+      - erpnext-net
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 5s
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+    environment:
+      MYSQL_ROOT_PASSWORD: /run/secrets/erpnext_mysql_root_password
+      MARIADB_ROOT_PASSWORD: /run/secrets/erpnext_db_root_password
+    secrets:
+      erpnext_mysql_root_password
+      erpnext_db_root_password
+    volumes:
+      - erpnext-db:/var/lib/mysql:Z
+    mem_limit: ${ERPNEXT_DB_MEM_LIMIT}
+    cpus: ${ERPNEXT_DB_CPU_LIMIT}
+
+  erpnext-backend:
+    image: docker.io/frappe/erpnext:v16.15.0
+    container_name: erpnext-backend
+    hostname: erpnext-backend
+    networks:
+      - erpnext-net
+    restart: unless-stopped
+    volumes:
+      - erpnext-sites:/home/frappe/frappe-bench/sites:z
+      - erpnext-logs:/home/frappe/frappe-bench/logs:Z
+    environment:
+      TZ: ${TZ}
+      DB_HOST: erpnext-db
+      DB_PORT: "3306"
+      MYSQL_ROOT_PASSWORD: /run/secrets/erpnext_mysql_root_password
+      MARIADB_ROOT_PASSWORD: /run/secrets/erpnext_db_root_password
+    mem_limit: ${ERPNEXT_BACKEND_MEM_LIMIT}
+    cpus: ${ERPNEXT_BACKEND_CPU_LIMIT}
+
+  erpnext-frontend:
+    image: docker.io/frappe/erpnext:v16.15.0
+    container_name: erpnext-frontend
+    hostname: erpnext-frontend
+    networks:
+      - erpnext-net
+    depends_on:
+      - websocket
+    restart: unless-stopped
+    command:
+      - nginx-entrypoint.sh
+    environment:
+      BACKEND: backend:8000
+      FRAPPE_SITE_NAME_HEADER: frontend
+      SOCKETIO: websocket:9000
+      UPSTREAM_REAL_IP_ADDRESS: 127.0.0.1
+      UPSTREAM_REAL_IP_HEADER: X-Forwarded-For
+      UPSTREAM_REAL_IP_RECURSIVE: "off"
+      PROXY_READ_TIMEOUT: 120
+      CLIENT_MAX_BODY_SIZE: 50m
+    volumes:
+      - erpnext-sites:/home/frappe/frappe-bench/sites:Z
+      - erpnext-logs:/home/frappe/frappe-bench/logs:Z
+    ports:
+      - "127.0.0.1:8003:8080"
+    mem_limit: ${ERPNEXT_FRONTEND_MEM_LIMIT}
+    cpus: ${ERPNEXT_FRONTEND_CPU_LIMIT}
+
+  erpnext-queue-short:
+    image: docker.io/frappe/erpnext:v16.15.0
+    container_name: erpnext-queue-short
+    hostname: erpnext-queue-short
+    networks:
+      - erpnext-net
+    restart: unless-stopped
+    command:
+      - bench
+      - worker
+      - --queue
+      - short,default
+    volumes:
+      - erpnext-sites:/home/frappe/frappe-bench/sites:Z
+      - erpnext-logs:/home/frappe/frappe-bench/logs:Z
+    environment:
+      FRAPPE_REDIS_CACHE: redis://erpnext-redis-cache:6379
+      FRAPPE_REDIS_QUEUE: redis://erpnext-redis-queue:6379
+    mem_limit: ${ERPNEXT_QUEUE_SHORT_MEM_LIMIT}
+    cpus: ${ERPNEXT_QUEUE_SHORT_CPU_LIMIT}
+
+
+  erpnext-queue-long:
+    image: docker.io/frappe/erpnext:v16.15.0
+    container_name: erpnext-queue-long
+    hostname: erpnext-queue-long
+    networks:
+      - erpnext-net
+    restart: unless-stopped
+    command:
+      - bench
+      - worker
+      - --queue
+      - long,default,short
+    volumes:
+      - erpnext-sites:/home/frappe/frappe-bench/sites
+      - erpnext-logs:/home/frappe/frappe-bench/logs
+    environment:
+      FRAPPE_REDIS_CACHE: redis://erpnext-redis-cache:6379
+      FRAPPE_REDIS_QUEUE: redis://erpnext-redis-queue:6379
+    mem_limit: ${ERPNEXT_QUEUE_LONG_MEM_LIMIT}
+    cpus: ${ERPNEXT_QUEUE_LONG_CPU_LIMIT}
+
+
+  erpnext-redis-queue:
+    image: docker.io/valkey/valkey:8-alpine
+    container_name: erpnext-redis-queue
+    hostname: erpnext-redis-queue
+    networks:
+      - erpnext-net
+    restart: unless-stopped
+    command: >
+      valkey-server
+      --appendonly yes
+      --save 60 1000
+    volumes:
+      - erpnext-valkey-queue-data:/data:Z
+    mem_limit: ${ERPNEXT_VALKEY_QUEUE_MEM_LIMIT}
+    cpus: ${ERPNEXT_VALKEY_QUEUE_CPU_LIMIT}
+
+  erpnext-redis-cache:
+    image: docker.io/valkey/valkey:8-alpine
+    container_name: erpnext-redis-cache
+    hostname: erpnext-redis-cache
+    networks:
+      - erpnext-net
+    restart: unless-stopped
+    command: >
+      valkey-server
+      --save ''
+      --appendonly no
+      --maxmemory-policy allkeys-lru
+    mem_limit: ${ERPNEXT_VALKEY_CACHE_MEM_LIMIT}
+    cpus: ${ERPNEXT_VALKEY_CACHE_CPU_LIMIT}
+
+
+  erpnext-websocket:
+    image: docker.io/frappe/erpnext:v16.15.0
+    container_name: erpnext-websocket
+    hostname: erpnext-websocket
+    networks:
+      - erpnext-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+    command:
+      - node
+      - /home/frappe/frappe-bench/apps/frappe/socketio.js
+    environment:
+      FRAPPE_REDIS_CACHE: redis://erpnext-redis-cache:6379
+      FRAPPE_REDIS_QUEUE: redis://erpnext-redis-queue:6379
+      SOCKETIO_PORT: 9000
+    volumes:
+      - erpnext-sites:/home/frappe/frappe-bench/sites:Z
+      - erpnext-logs:/home/frappe/frappe-bench/logs:Z
+
+volumes:
+  erpnext-db:
+  erpnext-redis-queue-data:
+  erpnext-sites:
+  erpnext-logs:
+
+secrets:
+  erpnext_mysql_root_password:
+  erpnext_db_root_password:
+  erpnext_admin_password:
+
+networks:
+  erpnext-net:

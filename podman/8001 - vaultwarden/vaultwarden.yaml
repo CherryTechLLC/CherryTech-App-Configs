@@ -1,0 +1,36 @@
+name: vaultwarden
+
+services:
+  vaultwarden-app:
+    image: docker.io/vaultwarden/server:latest
+    container_name: vaultwarden-app
+    hostname: vaultwarden
+    env_file: .env
+    restart: unless-stopped
+    networks:
+      - vaultwarden-net
+    environment:
+      DOMAIN: https://${DOMAIN}
+      ADMIN_TOKEN_FILE: /run/secrets/vaultwarden_admin_token
+      TZ: ${TZ}
+      SIGNUPS_ALLOWED: ${VAULTWARDEN_SIGN-UPS_ALLOWED}
+    volumes:
+      - vaultwarden-app:/data:Z
+    ports:
+      - "127.0.0.1:8001:80"
+    secrets:
+      - vaultwarden_admin_token
+    cpus: ${VAULTWARDEN_CPU_LIMIT}
+    mem_limit: ${VAULTWARDEN_MEM_LIMIT}
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  vaultwarden-app:
+
+secrets:
+  vaultwarden_admin_token:
+    external: true
+
+networks:
+  vaultwarden-net:

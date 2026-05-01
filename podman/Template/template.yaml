@@ -1,0 +1,125 @@
+name: EXAMPLE
+
+services:
+  EXAMPLE(maria)-db:
+    image: docker.io/mariadb:EXAMPLE
+    container_name: EXAMPLE-db
+    hostname: EXAMPLE-db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - EXAMPLE-net
+    environment:
+      TZ: ${TZ}
+      MARIADB_DATABASE: EXAMPLE
+      MARIADB_USER: EXAMPLE
+      MARIADB_PASSWORD_FILE: /run/secrets/EXAMPLE_db_password
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/EXAMPLE_db_root_password
+    secrets:
+      - EXAMPLE_db_password
+      - EXAMPLE_root_password
+    volumes:
+      - EXAMPLE-db:/var/lib/mysql:Z
+    mem_limit: ${EXAMPLE_DB_MEM_LIMIT}
+    cpus: ${EXAMPLE_DB_CPU_LIMIT}
+    security_opt:
+      - no-new-privileges:true
+
+  EXAMPLE(postgres)-db:
+    image: docker.io/postgres:EXAMPLE
+    container_name: EXAMPLE-db
+    hostname: EXAMPLE-db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - EXAMPLE-net
+    environment:
+      TZ: ${TZ}
+      POSTGRES_DB: EXAMPLE
+      POSTGRES_USER: EXAMPLE
+      POSTGRES_PASSWORD_FILE: /run/secrets/EXAMPLE_db_password
+    secrets:
+      - EXAMPLE_db_password
+    volumes:
+      - EXAMPLE-db:/var/lib/postgresql/data:Z
+    mem_limit: ${EXAMPLE_DB_MEM_LIMIT}
+    cpus: ${EXAMPLE_DB_CPU_LIMIT}
+    security_opt:
+      - no-new-privileges:true
+
+  EXAMPLE-redis:
+    image: docker.io/valkey/valkey:EXAMPLE
+    container_name: EXAMPLE-redis
+    hostname: EXAMPLE-redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "valkey-cli -a \"$$(cat /run/secrets/EXAMPLE_valkey_password)\" ping | grep PONG"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    networks:
+      - EXAMPLE-net
+    command: >
+      sh -c 'exec valkey-server
+      --appendonly yes
+      --requirepass "$$(cat /run/secrets/EXAMPLE_valkey_password)"'
+    environment:
+      TZ: ${TZ}
+    secrets:
+      - EXAMPLE_valkey_password
+    volumes:
+      - EXAMPLE-valkey:/data:Z
+    mem_limit: ${EXAMPLE_VALKEY_MEM_LIMIT}
+    cpus: ${EXAMPLE_VALKEY_CPU_LIMIT}
+    security_opt:
+      - no-new-privileges:true
+
+  EXAMPLE-app:
+    image: docker.io/
+    container_name: EXAMPLE-app
+    hostname: EXAMPLE
+    restart: unless-stopped
+    depends_on:
+      EXAMPLE-db:
+        condition: service_healthy
+      EXAMPLE-redis:
+        condition: service_healthy
+    networks:
+      - EXAMPLE-net
+    environment:
+      TZ: ${TZ}
+    secrets:
+    volumes:
+      - EXAMPLE-app:/
+    mem_limit: ${EXAMPLE_APP_MEM_LIMIT}
+    cpus: ${EXAMPLE_APP_CPU_LIMIT}
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  EXAMPLE-db:
+  EXAMPLE-valkey:
+  EXAMPLE-app:
+
+secrets:
+  EXAMPLE_db_password:
+    external: true
+  EXAMPLE_root_db_password:
+    external: true
+  EXAMPLE_valkey_password:
+    external: true
+
+networks:
+  EXAMPLE-net:
+    name: EXAMPLE-net
+    driver: bridge

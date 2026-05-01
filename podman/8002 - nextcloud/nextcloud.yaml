@@ -1,0 +1,117 @@
+services:
+  nextcloud-db:
+    image: docker.io/postgres:17-alpine
+    container_name: nextcloud-db
+    hostname: nextcloud-db
+    restart: unless-stopped
+    networks:
+      - nextcloud-net
+    environment:
+      TZ: ${TZ}
+      POSTGRES_DB: nextcloud
+      POSTGRES_USER: nextcloud
+      POSTGRES_PASSWORD_FILE: /run/secrets/nextcloud_db_password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    secrets:
+      - nextcloud_db_password
+    volumes:
+      - cloud-db:/var/lib/postgresql/data:Z
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nextcloud -d nextcloud"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    mem_limit: ${NEXTCLOUD_DB_MEMORY_LIMIT}
+    cpus: ${NEXTCLOUD_DB_CPU_LIMIT}
+    pids_limit: 256
+    security_opt:
+      - no-new-privileges:true
+
+  nextcloud-redis:
+    image: docker.io/valkey/valkey:8-alpine
+    container_name: nextcloud-redis
+    hostname: nextcloud-redis
+    restart: unless-stopped
+    networks:
+      - nextcloud-net
+    command: >
+      sh -c 'exec valkey-server
+      --appendonly yes
+      --requirepass "$$(cat /run/secrets/nextcloud_valkey_password)"'
+    environment:
+      TZ: ${TZ}
+    secrets:
+      - nextcloud_valkey_password
+    volumes:
+      - nextcloud-valkey:/data:Z
+    healthcheck:
+      test: ["CMD-SHELL", "valkey-cli -a \"$$(cat /run/secrets/nextcloud_valkey_password)\" ping | grep PONG"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    mem_limit: ${NEXTCLOUD_VALKEY_MEMORY_LIMIT}
+    cpus: ${NEXTCLOUD_VALKEY_CPU_LIMIT}
+    pids_limit: 128
+    security_opt:
+      - no-new-privileges:true
+
+  nextcloud-app:
+    image: docker.io/nextcloud:apache
+    container_name: nextcloud-app
+    hostname: nextcloud
+    restart: unless-stopped
+    depends_on:
+      cloud-db:
+        condition: service_healthy
+      cloud-redis:
+        condition: service_healthy
+    networks:
+      - nextcloud-net
+    ports:
+      - "127.0.0.1:8002:80"
+    environment:
+      TZ: ${TZ}
+      POSTGRES_HOST: nextcloud-db
+      POSTGRES_DB: nextcloud
+      POSTGRES_USER: nextcloud
+      POSTGRES_PASSWORD_FILE: /run/secrets/nextcloud_db_password
+
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+
+      REDIS_HOST: nextcloud-redis
+      REDIS_HOST_PORT: 6379
+      REDIS_HOST_PASSWORD_FILE: /run/secrets/nextcloud_redis_password
+
+      NEXTCLOUD_TRUSTED_DOMAINS: ${DOMAIN}
+      OVERWRITEHOST: ${DOMAIN}
+      OVERWRITEPROTOCOL: https
+      OVERWRITECLIURL: https://${DOMAIN}
+
+      PHP_MEMORY_LIMIT: ${NEXTCLOUD_PHP_MEMORY_LIMIT}
+      PHP_UPLOAD_LIMIT: ${NEXTCLOUD_PHP_UPLOAD_LIMIT}
+    secrets:
+      - nextcloud_db_password
+      - nextcloud_redis_password
+    volumes:
+      - nextcloud-app:/var/www/html:Z
+    mem_limit: ${NEXTCLOUD_APP_MEMORY_LIMIT}
+    cpus: ${NEXTCLOUD_APP_CPU_LIMIT}
+    pids_limit: 512
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  nextcloud-app:
+  nextcloud-db:
+  nextcloud-redis:
+
+secrets:
+  nextcloud_db_password:
+  nextcloud_redis_password:
+
+networks:
+  nextcloud-net:
+    name: nextcloud-net
+    driver: bridge

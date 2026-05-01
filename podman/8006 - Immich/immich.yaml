@@ -1,0 +1,133 @@
+name: immich
+
+services:
+  immich-db:
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+    container_name: immich-db
+    hostname: immich-db
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - immich-net
+    environment:
+      TZ: ${TZ}
+      POSTGRES_DB: immich
+      POSTGRES_USER: immich
+      POSTGRES_PASSWORD_FILE: /run/secrets/immich_db_password
+      POSTGRES_INITDB_ARGS: '--data-checksum'
+    secrets:
+      - immich_db_password
+    volumes:
+      - immich-db:/var/lib/postgresql/data:Z
+    mem_limit: ${IMMICH_DB_MEM_LIMIT}
+    cpus: ${IMMICH_DB_CPU_LIMIT}
+    security_opt:
+      - no-new-privileges:true
+
+  immich-redis:
+    image: docker.io/valkey/valkey:9@sha256:3b55fbaa0cd93cf0d9d961f405e4dfcc70efe325e2d84da207a0a8e6d8fde4f9
+    container_name: immich-redis
+    hostname: immich-redis
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    networks:
+      - immich-net
+    environment:
+      TZ: ${TZ}
+    secrets:
+      - immich_valkey_password
+    volumes:
+      - immich-valkey:/data:valkey
+    command: >
+      sh -c 'exec valkey-server
+      --appendonly yes
+      --requirepass "$$(cat /run/secrets/immich_valkey_password)"'
+    mem_limit: ${IMMICH_VALKEY_MEM_LIMIT}
+    cpus: ${IMMICH_VALKEY_CPU_LIMIT}
+    security_opt:
+      - no-new-privileges:true
+
+  immich-app:
+    container_name: immich-app
+    hostname: immich
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    # extends:
+    #   file: hwaccel.transcoding.yml
+    #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
+    volumes:
+      # Do not edit the next line. If you want to change the media storage location on your system, edith the value of UPLOAD_LOCATION in the .env file
+      - /mnt/immich:/data
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    ports:
+      - '127.0.0.1:8006:2283'
+    environment:
+      TZ: ${TZ}
+      IMMICH_TRUSTED_PROXIES: ${ALLOWED_PROXIES}
+      DB_USERNAME: immich
+      DB_PORT: 5432
+      DB_PASSWORD_FILE: /run/secrets/immich_db_password
+      DB_HOSTNAME: immich-db
+      REDIS_PORT: 6379
+      REDIS_HOSTNAME: immich-redish
+      REDIS_PASSWORD_FILE: /run/secrets/immich_valkey_password
+    secrets:
+      - immich_valkey_password
+      - immich_db_password
+    depends_on:
+      immich-db:
+        condition: service_healthy
+      immich-redis:
+        condition: service_healthy
+    restart: always
+    mem_limit: ${IMMICH_APP_MEM_LIMIT}
+    cpus: ${IMMICH_APP_CPU_LIMIT}
+    security_opt:
+      - no-new-privileges:true
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    hostname: immich-machine-learning
+    # For hardware acceleration, add one of -[armnn, cuda, rocm, openvino, rknn] to the image tag.
+    # immich tag: ${IMMICH_VERSION:-release}-cuda
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    # extends: # uncomment this section for hardware acceleration - see https://docs.immich.app/features/ml-hardware-acceleration
+    #   file: hwaccel.ml.yml
+    #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
+    volumes:
+      - immich-model-cache:/cache
+    env_file:
+      - .env
+    restart: always
+    healthcheck:
+      disable: false
+    mem_limit: ${IMMICH_MACHINE_LEARNING_MEM_LIMIT}
+    cpus: ${IMMICH_MACHINE_LEARNING_CPU_LIMIT}
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  immich-db:
+  immich-valkey:
+  immich-model-cache:
+
+secrets:
+  immich_db_password:
+    external: true
+  immich_valkey_password:
+    external: true
+
+networks:
+  immich-net:
+    name: immich-net
+    driver: bridge

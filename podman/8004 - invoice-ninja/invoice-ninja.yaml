@@ -1,0 +1,75 @@
+services:
+  invoiceninja-db:
+    image: docker.io/library/mariadb:11
+    container_name: invoiceninja-db
+    hostname: invoiceninja-db
+    restart: unless-stopped
+    networks:
+      - invoiceninja-net
+    environment:
+      TZ: ${TZ}
+      MYSQL_DATABASE: invoiceninja
+      MYSQL_USER: invoiceninja
+      MYSQL_PASSWORD_FILE: /run/secrets/invoiceninja_db_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/invoiceninja_db_root_password
+    secrets:
+      - invoiceninja_db_password
+      - invoiceninja_db_root_password
+    volumes:
+      - invoiceninja-db:/var/lib/mysql:Z
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    mem_limit: ${INVOICE-NINJA_DB_MEMORY_LIMIT}
+    cpus: ${INVOICE-NINJA_DB_CPU_LIMIT}
+
+  invoiceninja-app:
+    image: docker.io/invoiceninja/invoiceninja-debian:latest
+    container_name: invoiceninja
+    hostname: invoiceninja
+    restart: unless-stopped
+    depends_on:
+      invoiceninja-db:
+        condition: service_healthy
+    networks:
+      - invoiceninja-net
+    ports:
+      - "127.0.0.1:8004:80"
+    environment:
+      TZ: ${TZ}
+      APP_URL: https://${DOMAIN}
+      APP_KEY: /run/secrets/invoiceninja_app_key
+      APP_ENV: production
+      DB_HOST: invoiceninja-db
+      DB_PORT: 3306
+      DB_DATABASE: invoiceninja
+      DB_USERNAME: invoiceninja
+      DB_PASSWORD_FILE: /run/secrets/invoiceninja_db_password
+      REQUIRE_HTTPS: true
+      IS_DOCKER: true
+      PHANTOMJS_PDF_GENERATION: false
+      PDF_GENERATOR: snappdf
+    secrets:
+      - invoiceninja_db_password
+      - invoiceninja_app_key
+    volumes:
+      - invoiceninja-app:/var/www/app/storage:Z
+    mem_limit: ${INVOICE-NINJA_APP_MEMORY_LIMIT}
+    cpus: ${INVOICE-NINJA_APP_CPU_LIMIT}
+
+volumes:
+  invoiceninja-app:
+  invoiceninja-db:
+
+secrets:
+  invoiceninja_db_password:
+  invoiceninja_db_root_password:
+  invoiceninja_app_key:
+
+networks:
+  invoiceninja-net:
+    driver: bridge
+    name: invoiceninja-net

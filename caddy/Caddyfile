@@ -1,0 +1,168 @@
+{
+
+#Must disable Caddy API on a multi-user system as it is locally accesable to ALL users
+
+  admin off
+
+}
+
+#VAULTWARDEN - 8001
+
+vault.{env.DOMAIN} {
+
+  tls {
+    dns hetzner {env.HETZNER_API_TOKEN}
+    propagation_delay 30s
+  }
+
+
+  encode zstd gzip
+
+  reverse_proxy 127.0.0.1:8001 {
+    header_up X-Real-IP {remote_host}
+  }
+
+  header {
+    Strict-Transport-Security "max-age=31536000;"
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "deny"
+  }
+}
+
+
+#NEXTCLOUD - 8002
+
+cloud.{env.DOMAIN} {
+
+  tls {
+    dns hetzner {env.HETZNER_API_TOKEN}
+    propagation_delay 30s
+  }
+
+  encode zstd gzip
+
+  reverse_proxy 127.0.0.1:8002 {
+    header_up X-Real-IP {remote_host}
+    header_up X-Forewarded-For {remote_host}
+    header_up Host {host}
+  }
+
+  header {
+    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    Referrer-Policy "no-referrer"
+    X-Contact-Type-Options "nosniff"
+    X-Frame-Options "SAMEORIGIN"
+    X-Robots-Tag "noindex, nofollow"
+  }
+
+  request_body {
+    max_size 16GB
+  }
+
+}
+
+
+#ERPNEXT - 8003
+
+erp.{env.DOMAIN} {
+
+  tls {
+    dns hetzner {env.HETZNER_API_TOKEN}
+    propagation_delay 30s
+  }
+
+  encode zstd gzip
+
+  reverse_proxy 127.0.0.1:8003 {
+    header_up X-Real-IP {remote_host}
+    header_up X-Forewarded-For {remote_host}
+    header_up Host {host}
+  }
+
+  request_body {
+    max_size 16GB
+  }
+
+}
+
+
+#INVOICE-NINJA - 8004
+
+invoice.{env.DOMAIN} {
+
+  tls {
+    dns hetzner {env.HETZNER_API_TOKEN}
+    propagation_delay 30s
+  }
+
+  encode zstd gzip
+
+  reverse_proxy 127.0.0.1:8004 {
+    header_up X-Real-IP {remote_host}
+    header_up X-Forewarded-For {remote_host}
+    header_up Host {host}
+  }
+
+}
+
+
+#GLPI - 8005
+
+glpi.{env.DOMAIN} {
+
+  tls {
+    dns hetzner {env.HETZNER_API_TOKEN}
+    propagation_delay 30s
+  }
+
+  encode zstd gzip
+
+  reverse_proxy 127.0.0.1:8005 {
+    header_up X-Real-IP {remote_host}
+    header_up X-Forewarded-For {remote_host}
+    header_up Host {host}
+  }
+
+  header {
+    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    Referrer-Policy "no-referrer"
+    X-Contact-Type-Options "nosniff"
+    X-Frame-Options "SAMEORIGIN"
+  }
+
+  request_body {
+    max_size 16GB
+  }
+
+}
+
+
+#IMMICH - 8006
+
+immich.{env.DOMAIN} {
+
+  tls {
+    dns hetzner {env.HETZNER_API_TOKEN}
+    propagation_delay 30s
+  }
+
+  encode zstd gzip
+
+  reverse_proxy 127.0.0.1:8006 {
+    header_up X-Real-IP {remote_host}
+    header_up X-Forewarded-For {remote_host}
+    header_up Host {host}
+  }
+
+  header {
+    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    Referrer-Policy strict-origin-when-cross-origin
+    X-Contact-Type-Options "nosniff"
+    X-Frame-Options "SAMEORIGIN"
+  }
+
+  request_body {
+    max_size 500GB
+  }
+
+}
