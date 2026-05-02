@@ -46,7 +46,7 @@ services:
     secrets:
       - immich_valkey_password
     volumes:
-      - immich-valkey:/data:valkey
+      - immich-valkey:/data:Z
     command: >
       sh -c 'exec valkey-server
       --appendonly yes
@@ -79,7 +79,7 @@ services:
       DB_PASSWORD_FILE: /run/secrets/immich_db_password
       DB_HOSTNAME: immich-db
       REDIS_PORT: 6379
-      REDIS_HOSTNAME: immich-redish
+      REDIS_HOSTNAME: immich-redis
       REDIS_PASSWORD_FILE: /run/secrets/immich_valkey_password
     secrets:
       - immich_valkey_password

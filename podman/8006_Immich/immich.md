@@ -4,6 +4,7 @@ DEPLOYMENT INSTRUCTIONS:
   - Set Domain and TZ env
   - Adjust resource limits for user count
   - Create Secrets (Per list at bottom of Yaml)
+    - - IMMICH RULE: Please use only the characters `A-Za-z0-9`, without special characters or spaces (For DB password)
   - Networks and Volumes are automatically created
   - App Specific Requirements:
     - Create a mnt point on a NAS at /mnt/immich or have a large app disk
