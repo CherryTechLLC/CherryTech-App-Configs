@@ -14,10 +14,23 @@ services:
       ADMIN_TOKEN_FILE: /run/secrets/vaultwarden_admin_token
       TZ: ${TZ}
       SIGNUPS_ALLOWED: ${VAULTWARDEN_SIGN-UPS_ALLOWED}
+
+      SMTP_HOST: ${VAULTWARDEN_SMTP_HOST}
+      SMTP_FROM: ${VAULTWARDEN_SMTP_FROM}
+      SMTP_PORT: ${VAULTWARDEN_SMTP_PORT}
+      SMTP_SECURITY: ${VAULTWARDEN_SMTP_SECURITY}
+      SMTP_USERNAME: ${VAULTWARDEN_SMTP_USERNAME}
+      SMTP_PASSWORD: /run/secrets/vaultwarden_smtp_password
     volumes:
       - vaultwarden-app:/data:Z
     ports:
       - "127.0.0.1:8001:80"
+    healthcheck:
+     test: ["CMD", "curl", "-f", "http://localhost:80/alive"]
+     interval: 30s
+     timeout: 10s
+     retries: 3
+     start_period: 10s
     secrets:
       - vaultwarden_admin_token
     cpus: ${VAULTWARDEN_CPU_LIMIT}
@@ -30,6 +43,8 @@ volumes:
 
 secrets:
   vaultwarden_admin_token:
+    external: true
+  vaultwarden_smtp_password:
     external: true
 
 networks:

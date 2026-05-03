@@ -8,7 +8,7 @@ DEPLOYMENT INSTRUCTIONS:
     - Values to change:
       - DOMAIN
       - TZ
-      - SMTP Settings
+      - SMTP Settingss
         - https://github.com/dani-garcia/vaultwarden/wiki/SMTP-Configuration
   - Create a new dedicated user for this app
     - sudo useradd -m vaultwarden -F
@@ -25,7 +25,7 @@ DEPLOYMENT INSTRUCTIONS:
   - Networks and Volumes are automatically created
   - Start the App:
     - Login to that user (sudo -u vaultwarden -i)
-    - podman-compose -f vaultwarden.yaml up -d
+    - podman-compose -f EXAMPLE.yaml up -d
       - Use -d to detach the app from the terminal
 
 
