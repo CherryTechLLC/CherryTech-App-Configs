@@ -94,11 +94,10 @@ services:
       PHP_MEMORY_LIMIT: ${NEXTCLOUD_PHP_MEMORY_LIMIT}
       PHP_UPLOAD_LIMIT: ${NEXTCLOUD_PHP_UPLOAD_LIMIT}
     healthcheck:
-      test: ["CMD-SHELL", "php -f /var/www/html/occ status || exit 1"]
-      interval: 60s
-      timeout: 10s
-      retries: 5
-      start_period: 120s
+      test: curl -sSf 'http://localhost/status.php' | grep '"installed":true' | grep '"maintenance":false' | grep '"needsDbUpgrade":false' || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
     secrets:
       - nextcloud_db_password
       - nextcloud_valkey_password
