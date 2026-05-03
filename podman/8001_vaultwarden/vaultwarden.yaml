@@ -11,16 +11,9 @@ services:
       - vaultwarden-net
     environment:
       DOMAIN: https://${DOMAIN}
-      ADMIN_TOKEN_FILE: /run/secrets/vaultwarden_admin_token
+      ADMIN_TOKEN: CHANGE-ME
       TZ: ${TZ}
       SIGNUPS_ALLOWED: ${VAULTWARDEN_SIGN-UPS_ALLOWED}
-
-      SMTP_HOST: ${VAULTWARDEN_SMTP_HOST}
-      SMTP_FROM: ${VAULTWARDEN_SMTP_FROM}
-      SMTP_PORT: ${VAULTWARDEN_SMTP_PORT}
-      SMTP_SECURITY: ${VAULTWARDEN_SMTP_SECURITY}
-      SMTP_USERNAME: ${VAULTWARDEN_SMTP_USERNAME}
-      SMTP_PASSWORD: /run/secrets/vaultwarden_smtp_password
     volumes:
       - vaultwarden-app:/data:Z
     ports:

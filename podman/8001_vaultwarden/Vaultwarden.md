@@ -8,8 +8,6 @@ DEPLOYMENT INSTRUCTIONS:
     - Values to change:
       - DOMAIN
       - TZ
-      - SMTP Settings
-        - https://github.com/dani-garcia/vaultwarden/wiki/SMTP-Configuration
   - Create a new dedicated user for this app
     - sudo useradd -m vaultwarden -F
     - sudo loginctl enable-linger vaultwarden
@@ -21,11 +19,6 @@ DEPLOYMENT INSTRUCTIONS:
       - echo -n 'EXAMPLE-PASSWORD' | argon2 "$(openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4
       - Copy the ENTIRE string including $argon2id$
         - Replace all $ with $$ to avoid variable inerprolation
-    - vaultwarden_smtp_password
-      - Create .vaultwarden_smtp_password.txt
-      - Paste the password into the text file (By itself)
-      - Login to that user (sudo -u vaultwarden -i)
-      - Run podman secret create vaultwarden_smtp_password /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets/.vaultwarden_smtp_password.txt
     - Protect Secrets (MANDATORY)
       - sudo chown vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
       - sudo chmod 700 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
@@ -34,6 +27,7 @@ DEPLOYMENT INSTRUCTIONS:
     - Login to app user (sudo -u vaultwarden -i)
     - podman-compose -f vaultwarden.yaml up -d
       - Use -d to detach the app from the terminal
+  - Log in with the password you used to create the argon2 string and add the SMTP email settings so VaultWarden can function properly
 
 
 Resource Limits:
