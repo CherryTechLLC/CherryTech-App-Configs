@@ -1,6 +1,8 @@
 {
 
-#Must disable Caddy API on a multi-user system as it is locally accesable to ALL users
+#  acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+
+  #Must disable Caddy API on a multi-user system as it is locally accesable to ALL users
 
   admin off
 
