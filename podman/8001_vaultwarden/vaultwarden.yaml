@@ -33,6 +33,7 @@ services:
      start_period: 10s
     secrets:
       - vaultwarden_admin_token
+      - vaultwarden_smtp_password
     cpus: ${VAULTWARDEN_CPU_LIMIT}
     mem_limit: ${VAULTWARDEN_MEM_LIMIT}
     security_opt:

@@ -16,7 +16,11 @@ DEPLOYMENT INSTRUCTIONS:
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
     - vaultwarden_admin_token  (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
-      -
+      - sudo dnf install epel-release -y
+      - sudo dnf install argon2 -y
+      - echo -n 'EXAMPLE-PASSWORD' | argon2 "$(openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4
+      - Copy the ENTIRE string including $argon2id$
+        - Replace all $ with $$ to avoid variable inerprolation
     - vaultwarden_smtp_password
       - Create .vaultwarden_smtp_password.txt
       - Paste the password into the text file (By itself)
