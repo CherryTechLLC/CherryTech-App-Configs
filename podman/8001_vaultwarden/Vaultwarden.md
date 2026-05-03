@@ -21,7 +21,10 @@ DEPLOYMENT INSTRUCTIONS:
       - Create .vaultwarden_smtp_password.txt
       - Paste the password into the text file (By itself)
       - Login to that user (sudo -u vaultwarden -i)
-      - Run podman secret create vaultwarden_smtp_password /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
+      - Run podman secret create vaultwarden_smtp_password /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets/.vaultwarden_smtp_password.txt
+    - Protect Secrets (MANDATORY)
+      - sudo chown vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
+      - sudo chmod 700 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
   - Networks and Volumes are automatically created
   - Start the App:
     - Login to app user (sudo -u vaultwarden -i)
