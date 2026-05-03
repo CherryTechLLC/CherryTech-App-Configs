@@ -111,9 +111,9 @@ services:
       - no-new-privileges:true
 
 volumes:
-  nextcloud-app:
   nextcloud-db:
-  nextcloud-redis:
+  nextcloud-valkey:
+  nextcloud-app:
 
 secrets:
   nextcloud_db_password:
