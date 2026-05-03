@@ -7,7 +7,6 @@ DEPLOYMENT INSTRUCTIONS:
     - Values to change:
       - DOMAIN
       - TZ
-      - SMTP Settings
   - Create a new dedicated user for this app
     - sudo useradd -m nextcloud -F
     - sudo loginctl enable-linger nextcloud
