@@ -11,23 +11,26 @@ DEPLOYMENT INSTRUCTIONS:
   - Create a new dedicated user for this app
     - sudo useradd -m vaultwarden -F
     - sudo loginctl enable-linger vaultwarden
-  - Create secrets:
-    - Create directory /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
-    - vaultwarden_admin_token  (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
-      - sudo dnf install epel-release -y
-      - sudo dnf install argon2 -y
-      - echo -n 'EXAMPLE-PASSWORD' | argon2 "$(openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4
-      - Copy the ENTIRE string including $argon2id$
-        - Replace all $ with $$ to avoid variable inerprolation
-    - Protect Secrets (MANDATORY)
-      - sudo chown vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
-      - sudo chmod 700 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
   - Networks and Volumes are automatically created
   - Start the App:
     - Login to app user (sudo -u vaultwarden -i)
     - podman-compose -f vaultwarden.yaml up -d
       - Use -d to detach the app from the terminal
-  - Log in with the password you used to create the argon2 string and add the SMTP email settings so VaultWarden can function properly
+  - Log in to vault.apps.example.com/admin with the token CHANGE-ME
+  - Create secure vaultwarden_admin_token  (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
+      - sudo dnf install epel-release -y
+      - sudo dnf install argon2 -y
+      - echo -n 'EXAMPLE-PASSWORD' | argon2 "$(openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4
+      - Copy the ENTIRE string including $argon2id$ into the "Admin token/Argon2 PHC" section of the general settings
+      - Select save on the bottom
+      - log out (top right)
+      - Enter the password you used to generate the Argon2 string
+  - Configure SMTP: (Simple Mail Transer Protocol, required.)
+    - Enter the hostname for your email server (mail.your-server.de for Hetzner)
+    - Set the email address information will come from (vaulwarden.example.com)
+    - From Name is up to you.
+    - Username is generally the email address. (vaultwarden.example.com)
+    - Password is the SMTP account password.
 
 
 Resource Limits:
