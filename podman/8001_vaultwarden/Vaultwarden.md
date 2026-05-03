@@ -39,8 +39,10 @@ The CentOS cockpit application {{SERVER-IP}}:9090 shows you current usage of the
 
 Docker Hub Link:
   - https://hub.docker.com/r/vaultwarden/server
+
 Wiki Link:
   - https://github.com/dani-garcia/vaultwarden/wiki
+
 Other Good Sources:
   - https://github.com/dani-garcia/vaultwarden/wiki/SMTP-Configuration
   - https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page
