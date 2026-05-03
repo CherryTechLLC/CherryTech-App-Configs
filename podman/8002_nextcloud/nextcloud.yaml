@@ -118,7 +118,7 @@ volumes:
 secrets:
   nextcloud_db_password:
     external: true
-  nextcloud_redis_password:
+  nextcloud_valkey_password:
     external: true
 
 networks:
