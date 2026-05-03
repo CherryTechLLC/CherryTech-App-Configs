@@ -91,11 +91,7 @@ services:
         condition: service_healthy
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:2283/api/server-info/ping >/dev/null || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 60s
+      disable: false
     mem_limit: ${IMMICH_APP_MEM_LIMIT}
     cpus: ${IMMICH_APP_CPU_LIMIT}
     security_opt:
@@ -116,11 +112,7 @@ services:
       - .env
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:3003/ping >/dev/null || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 60s
+      disable: false
     mem_limit: ${IMMICH_MACHINE_LEARNING_MEM_LIMIT}
     cpus: ${IMMICH_MACHINE_LEARNING_CPU_LIMIT}
     security_opt:
