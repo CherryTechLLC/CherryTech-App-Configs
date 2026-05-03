@@ -14,10 +14,10 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo useradd -m vaultwarden -F
     - sudo loginctl enable-linger vaultwarden
   - Create secrets:
+    - Create directory /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
     - vaultwarden_admin_token  (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
       -
     - vaultwarden_smtp_password
-      - Dreate directory /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
       - Create .vaultwarden_smtp_password.txt
       - Paste the password into the text file (By itself)
       - Login to that user (sudo -u vaultwarden -i)
