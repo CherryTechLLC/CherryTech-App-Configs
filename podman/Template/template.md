@@ -15,14 +15,17 @@ DEPLOYMENT INSTRUCTIONS:
     - Files:
       - Create .EXAMPLE_db_password.txt
         - Paste the password into the text file (By itself)
+      - Create EXAMPLE_db_root_password.text
+        - Paste the password into the text file (By itself)
       - Create .EXAMPLE_redis_password.txt
         - Paste the password into the text file (By itself)
     - Protect Secrets (MANDATORY)
-      - sudo chown vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
-      - sudo chmod 700 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
+      - sudo chown EXAMPLE:EXAMPLE /srv/CherryTech-App-Configs/podman/{{PORT}}_EXAMPLE/secrets
+      - sudo chmod 700 /srv/CherryTech-App-Configs/podman/{{PORT}}_EXAMPLE/secrets
     - Generate Secrets
       - Login to app user (sudo -u EXAMPLE -i
       - Run podman secret create EXAMPLE_db_password /srv/CherryTech-App-Configs/podman/{{PORT}}_EXAMPLE/secrets
+      - Run podman secret create EXAMPLE_db_root_password /srv/CherryTech-App-Configs/podman/{{PORT}}_EXAMPLE/secrets
       - Run podman secret create EXAMPLE_redis_password /srv/CherryTech-App-Configs/podman/{{PORT}}_EXAMPLE/secrets
   - Start the App:
     - Login to app user (sudo -u EXAMPLE -i)

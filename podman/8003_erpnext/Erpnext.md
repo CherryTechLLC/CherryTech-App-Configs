@@ -37,11 +37,11 @@ The resource limits provided are intended to prevent full server crashes should 
 The CentOS cockpit application {{SERVER-IP}}:9090 shows you current usage of the app, if the usage is closing in on the limts (from more users) increase the limits.
 
 Docker Hub Link:
-  -
+  - https://hub.docker.com/r/frappe/erpnext
 Wiki Link:
-  -
+  - https://github.com/frappe/frappe_docker/blob/main/docs/getting-started.md
 Other Good Sources:
-  -
+  - https://github.com/frappe/frappe_docker
 
 
 Secrets:
