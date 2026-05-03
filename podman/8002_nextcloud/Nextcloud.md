@@ -1,4 +1,4 @@
-Vaultwarden is a backend for the Bitwarden password manager without the limitations of the official self-hosted bitwarden server. It requires an email account to send details to users. Users will either request an account setup to thier email, or you can disable sign-up (recommended) and invite users manually from the admin panel.
+Nextcloud is a Google Drive and M365 alternative that is open source, fully self hosted, and has a huge library of apps and plugins available to expand its capabilities.
 
 
 DEPLOYMENT INSTRUCTIONS:
@@ -8,24 +8,28 @@ DEPLOYMENT INSTRUCTIONS:
     - Values to change:
       - DOMAIN
       - TZ
-      - SMTP Settingss
-        - https://github.com/dani-garcia/vaultwarden/wiki/SMTP-Configuration
+      - SMTP Settings
   - Create a new dedicated user for this app
-    - sudo useradd -m vaultwarden -F
-    - sudo loginctl enable-linger vaultwarden
+    - sudo useradd -m nextcloud -F
+    - sudo loginctl enable-linger nextcloud
   - Create secrets:
-    - vaultwarden_admin_token  (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
-      -
-    - vaultwarden_smtp_password
-      - Dreate directory /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
-      - Create .vaultwarden_smtp_password.txt
-      - Paste the password into the text file (By itself)
-      - Login to that user (sudo -u vaultwarden -i)
+    - Create directory /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
+    - Files:
+      - Create .nextcloud_db_password.txt
+        - Paste the password into the text file (By itself)
+      - Create .nextcloud_redis_password.txt
+        - Paste the password into the text file (By itself)
+      - Create .nextcloud_smtp_password.txt
+        - Paste the password into the text file (By itself)
+    - Generate Secrets
+      - Login to app user (sudo -u nextcloud -i
+      - Run podman secret create vaultwarden_db_password /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
+      - Run podman secret create vaultwarden_redis_password /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
       - Run podman secret create vaultwarden_smtp_password /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
   - Networks and Volumes are automatically created
   - Start the App:
-    - Login to that user (sudo -u vaultwarden -i)
-    - podman-compose -f EXAMPLE.yaml up -d
+    - Login to that user (sudo -u nextcloud -i)
+    - podman-compose -f nextcloud.yaml up -d
       - Use -d to detach the app from the terminal
 
 
@@ -34,12 +38,11 @@ The resource limits provided are intended to prevent full server crashes should 
 The CentOS cockpit application {{SERVER-IP}}:9090 shows you current usage of the app, if the usage is closing in on the limts (from more users) increase the limits.
 
 Docker Hub Link:
-  - https://hub.docker.com/r/vaultwarden/server
+  - https://hub.docker.com/_/nextcloud/
 Wiki Link:
-  - https://github.com/dani-garcia/vaultwarden/wiki
+  - https://github.com/nextcloud/server/wiki
 Other Good Sources:
-  - https://github.com/dani-garcia/vaultwarden/wiki/SMTP-Configuration
-  - https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page
+  -
 
 
 Secrets:
