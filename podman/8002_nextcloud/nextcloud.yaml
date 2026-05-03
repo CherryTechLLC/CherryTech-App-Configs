@@ -65,9 +65,9 @@ services:
     hostname: nextcloud
     restart: unless-stopped
     depends_on:
-      cloud-db:
+      nextcloud-db:
         condition: service_healthy
-      cloud-redis:
+      nextcloud-redis:
         condition: service_healthy
     networks:
       - nextcloud-net
