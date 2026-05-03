@@ -35,11 +35,5 @@ services:
 volumes:
   vaultwarden-app:
 
-secrets:
-  vaultwarden_admin_token:
-    external: true
-  vaultwarden_smtp_password:
-    external: true
-
 networks:
   vaultwarden-net:
