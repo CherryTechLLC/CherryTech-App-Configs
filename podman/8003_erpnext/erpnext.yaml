@@ -1,3 +1,5 @@
+name: erpnext
+
 services:
   erpnext-create-site:
     image: docker.io/frappe/erpnext:v16.15.0

@@ -5,7 +5,6 @@ DEPLOYMENT INSTRUCTIONS:
   - Configure Environment Variable
     - sudo cp erpnext.env .env
     - Values to change:
-      - DOMAIN
       - TZ
   - Create a new dedicated user for this app
     - sudo useradd -m erpnext -F

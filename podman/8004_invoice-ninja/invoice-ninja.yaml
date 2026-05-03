@@ -1,3 +1,5 @@
+name: invoice-ninja
+
 services:
   invoiceninja-db:
     image: docker.io/library/mariadb:11

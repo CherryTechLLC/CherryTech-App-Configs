@@ -1,3 +1,5 @@
+name: glpi
+
 services:
   glpi-db:
     image: docker.io/mariadb:11

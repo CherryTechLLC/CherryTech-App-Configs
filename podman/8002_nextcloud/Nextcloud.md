@@ -1,6 +1,5 @@
 Nextcloud is a Google Drive and M365 alternative that is open source, fully self hosted, and has a huge library of apps and plugins available to expand its capabilities.
 
-
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Configure Environment Variable
