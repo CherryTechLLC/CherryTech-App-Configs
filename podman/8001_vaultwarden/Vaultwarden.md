@@ -24,7 +24,7 @@ DEPLOYMENT INSTRUCTIONS:
       - Run podman secret create vaultwarden_smtp_password /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
   - Networks and Volumes are automatically created
   - Start the App:
-    - Login to that user (sudo -u vaultwarden -i)
+    - Login to app user (sudo -u vaultwarden -i)
     - podman-compose -f vaultwarden.yaml up -d
       - Use -d to detach the app from the terminal
 
@@ -42,6 +42,4 @@ Other Good Sources:
   - https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page
 
 
-Secrets:
-Secrets ensure confidential information like database and admin passwords are only visible to superusers and the application's dedicated user.
-https://docs.podman.io/en/stable/markdown/podman-secret-create.1.html
+
