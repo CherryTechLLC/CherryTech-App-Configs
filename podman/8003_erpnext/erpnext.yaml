@@ -113,8 +113,8 @@ services:
       MARIADB_PASSWORD_FILE: /run/secrets/erpnext_db_password
       MARIADB_ROOT_PASSWORD_FILE: /run/secrets/erpnext_db_root_password
     secrets:
-      erpnext_db_password
-      erpnext_db_root_password
+      - erpnext_db_password
+      - erpnext_db_root_password
     volumes:
       - erpnext-db:/var/lib/mysql:Z
     mem_limit: ${ERPNEXT_DB_MEM_LIMIT}
