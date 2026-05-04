@@ -2,7 +2,7 @@ name: erpnext
 
 services:
   erpnext-create-site:
-    image: docker.io/frappe/erpnext:v16.15.0
+    image: docker.io/frappe/erpnext:v16
     container_name: erpnext-create-site
     hostname: erpnext-create-site
     networks:
@@ -47,7 +47,7 @@ services:
         --set-default frontend;
 
   erpnext-configurator:
-    image: docker.io/frappe/erpnext:v16.15.0
+    image: docker.io/frappe/erpnext:v16
     container_name: erpnext-configurator
     hostname: erpnext-configurator
     networks:
@@ -76,7 +76,7 @@ services:
       - erpnext-logs:/home/frappe/frappe-bench/logs:Z
 
   erpnext-scheduler:
-    image: frappe/erpnext:v16.15.0
+    image: docker.io/frappe/erpnext:v16
     container_name: erpnext-scheduler
     hostname: erpnext-scheduler
     networks:
@@ -121,7 +121,7 @@ services:
     cpus: ${ERPNEXT_DB_CPU_LIMIT}
 
   erpnext-backend:
-    image: docker.io/frappe/erpnext:v16.15.0
+    image: docker.io/frappe/erpnext:v16
     container_name: erpnext-backend
     hostname: erpnext-backend
     networks:
@@ -144,13 +144,13 @@ services:
     cpus: ${ERPNEXT_BACKEND_CPU_LIMIT}
 
   erpnext-frontend:
-    image: docker.io/frappe/erpnext:v16.15.0
+    image: docker.io/frappe/erpnext:v16
     container_name: erpnext-frontend
     hostname: erpnext-frontend
     networks:
       - erpnext-net
     depends_on:
-      - websocket
+      - erpnext-websocket
     restart: unless-stopped
     command:
       - nginx-entrypoint.sh
@@ -178,7 +178,7 @@ services:
     cpus: ${ERPNEXT_FRONTEND_CPU_LIMIT}
 
   erpnext-queue-short:
-    image: docker.io/frappe/erpnext:v16.15.0
+    image: docker.io/frappe/erpnext:v16
     container_name: erpnext-queue-short
     hostname: erpnext-queue-short
     networks:
@@ -200,7 +200,7 @@ services:
 
 
   erpnext-queue-long:
-    image: docker.io/frappe/erpnext:v16.15.0
+    image: docker.io/frappe/erpnext:v16
     container_name: erpnext-queue-long
     hostname: erpnext-queue-long
     networks:
@@ -254,7 +254,7 @@ services:
 
 
   erpnext-websocket:
-    image: docker.io/frappe/erpnext:v16.15.0
+    image: docker.io/frappe/erpnext:v16
     container_name: erpnext-websocket
     hostname: erpnext-websocket
     networks:
