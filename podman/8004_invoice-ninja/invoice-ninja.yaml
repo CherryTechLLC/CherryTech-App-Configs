@@ -83,7 +83,7 @@ services:
 
       REDIS_HOST: invoiceninja-redis
       REDIS_PORT: 6379
-      REDIS_PASSWORD: ${INVOICENINJA_REDIS_PASSWORD}
+      REDIS_PASSWORD: ${INVOICENINJA_VALKEY_PASSWORD}
 
       REQUIRE_HTTPS: true
       IS_DOCKER: true
