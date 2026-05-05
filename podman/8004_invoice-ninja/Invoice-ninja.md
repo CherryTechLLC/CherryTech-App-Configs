@@ -20,8 +20,8 @@ DEPLOYMENT INSTRUCTIONS:
       - Create .invoice-ninja_redis_password.txt
         - Paste the password into the text file (By itself)
     - Protect Secrets (MANDATORY)
-      - sudo chown vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
-      - sudo chmod 700 /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
+      - sudo chown -R vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
+      - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
     - Generate Secrets
       - Login to app user (sudo -u invoice-ninja -i
       - Run podman secret create invoice-ninja_db_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets

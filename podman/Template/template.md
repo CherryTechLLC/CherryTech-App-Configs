@@ -20,8 +20,8 @@ DEPLOYMENT INSTRUCTIONS:
       - Create .EXAMPLE_redis_password.txt
         - Paste the password into the text file (By itself)
     - Protect Secrets (MANDATORY)
-      - sudo chown EXAMPLE:EXAMPLE /srv/CherryTech-App-Configs/podman/{{PORT}}_EXAMPLE/secrets
-      - sudo chmod 700 /srv/CherryTech-App-Configs/podman/{{PORT}}_EXAMPLE/secrets
+      - sudo chown -R EXAMPLE:EXAMPLE /srv/CherryTech-App-Configs/podman/{{PORT}}_EXAMPLE/secrets
+      - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/{{PORT}}_EXAMPLE/secrets
     - Generate Secrets
       - Login to app user (sudo -u EXAMPLE -i
       - Run podman secret create EXAMPLE_db_password /srv/CherryTech-App-Configs/podman/{{PORT}}_EXAMPLE/secrets
