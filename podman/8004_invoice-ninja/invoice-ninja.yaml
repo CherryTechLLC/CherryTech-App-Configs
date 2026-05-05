@@ -25,8 +25,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 60s
-    mem_limit: ${INVOICE-NINJA_DB_MEMORY_LIMIT}
-    cpus: ${INVOICE-NINJA_DB_CPU_LIMIT}
+    mem_limit: ${INVOICENINJA_DB_MEMORY_LIMIT}
+    cpus: ${INVOICENINJA_DB_CPU_LIMIT}
 
   invoiceninja-app:
     image: docker.io/invoiceninja/invoiceninja-debian:latest
@@ -67,8 +67,8 @@ services:
       - invoiceninja_app_key
     volumes:
       - invoiceninja-app:/var/www/app/storage:Z
-    mem_limit: ${INVOICE-NINJA_APP_MEMORY_LIMIT}
-    cpus: ${INVOICE-NINJA_APP_CPU_LIMIT}
+    mem_limit: ${INVOICENINJA_APP_MEMORY_LIMIT}
+    cpus: ${INVOICENINJA_APP_CPU_LIMIT}
 
 volumes:
   invoiceninja-app:
