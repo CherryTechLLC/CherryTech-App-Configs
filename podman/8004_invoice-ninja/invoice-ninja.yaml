@@ -63,7 +63,7 @@ services:
     depends_on:
       invoiceninja-db:
         condition: service_healthy
-      invoiceninja_redis:
+      invoiceninja-redis:
         condition: service_healthy
     networks:
       - invoiceninja-net
