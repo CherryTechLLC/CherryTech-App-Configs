@@ -100,7 +100,7 @@ services:
     command: >
       sh -c "export DB_PASSWORD=$(cat /run/secrets/invoiceninja_db_password) &&
              export REDIS_PASSWORD=$(cat /run/secrets/invoiceninja_valkey_password) &&
-             apache2-foreground"
+             exec /usr/local/bin/apache2-foreground"
     volumes:
       - invoiceninja-app:/var/www/app/storage:Z
     mem_limit: ${INVOICENINJA_APP_MEMORY_LIMIT}
