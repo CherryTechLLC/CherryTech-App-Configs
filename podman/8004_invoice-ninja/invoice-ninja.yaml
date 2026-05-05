@@ -28,6 +28,33 @@ services:
     mem_limit: ${INVOICENINJA_DB_MEMORY_LIMIT}
     cpus: ${INVOICENINJA_DB_CPU_LIMIT}
 
+  invoiceninja-redis:
+    image: docker.io/valkey/valkey:8-alpine
+    container_name: invoiceninja-redis
+    hostname: invoiceninja-redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "valkey-cli -a \"$$(cat /run/secrets/EXAMPLE_valkey_password)\" ping | grep PONG"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    networks:
+      - invoiceninja-net
+    command: >
+      sh -c 'exec valkey-server
+      --appendonly yes
+      --requirepass "$$(cat /run/secrets/invoiceninja_valkey_password)"'
+    environment:
+      TZ: ${TZ}
+    secrets:
+      - invoiceninja_valkey_password
+    volumes:
+      - invoiceninja-valkey:/data:Z
+    mem_limit: ${INVOICENINJA_VALKEY_MEM_LIMIT}
+    cpus: ${INVOICENINJA_VALKEY_CPU_LIMIT}
+    security_opt:
+      - no-new-privileges:true
+
   invoiceninja-app:
     image: docker.io/invoiceninja/invoiceninja-debian:latest
     container_name: invoiceninja
@@ -50,7 +77,11 @@ services:
       DB_PORT: 3306
       DB_DATABASE: invoiceninja
       DB_USERNAME: invoiceninja
-      DB_PASSWORD_FILE: /run/secrets/invoiceninja_db_password
+      DB_PASSWORD: /run/secrets/invoiceninja_db_password
+
+      REDIS_HOST: invoiceninja-redis
+      REDIS_PASSWORD: /run/secrets/invoiceninja_valkey_password
+      REDIS_PORT: 6375
 
       REQUIRE_HTTPS: true
       IS_DOCKER: true
@@ -78,6 +109,8 @@ secrets:
   invoiceninja_db_password:
     external: true
   invoiceninja_db_root_password:
+    external: true
+  invoiceninja_valkey_password:
     external: true
   invoiceninja_app_key:
     external: true

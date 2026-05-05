@@ -13,20 +13,25 @@ DEPLOYMENT INSTRUCTIONS:
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/_invoice-ninja/secrets
     - Files:
-      - Create .invoice-ninja_db_password.txt
+      - Create .invoiceninja_db_password.txt
         - Paste the password into the text file (By itself)
-      - Create .invoice-ninja_db_root_password.txt
+      - Create .invoiceninja_db_root_password.txt
         - Paste the password into the text file (By itself)
-      - Create .invoice-ninja_redis_password.txt
+      - Create .invoiceninja_valkey_password.text
         - Paste the password into the text file (By itself)
+      - invoiceninja_app_key
+        - podman run --rm invoiceninja/invoiceninja-debian:latest php artisan key:generate --show
+        - Create .invoiceninja_app_key.txt
+        - Paste the entire base64 string into the text file
     - Protect Secrets (MANDATORY)
       - sudo chown -R vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
     - Generate Secrets
       - Login to app user (sudo -u invoice-ninja -i
-      - Run podman secret create invoice-ninja_db_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
-      - Run podman secret create invoice-ninja_db_root_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
-      - Run podman secret create invoice-ninja_redis_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
+      - Run podman secret create invoiceninja_db_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/invoiceninja_db_password
+      - Run podman secret create invoiceninja_db_root_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/invoiceninja_db_root_password
+      - Run podman secret create invoiceninja_valkey_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/invoiceninja_valkey_password
+      - Run podman secret create invoiceninja_app_key /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/invoiceninja_app_key
   - Start the App:
     - Login to app user (sudo -u invoice-ninja -i)
     - podman-compose -f invoice-ninja.yaml up -d
@@ -42,6 +47,7 @@ Wiki Link:
   -
 Other Good Sources:
   - https://github.com/invoiceninja/invoiceninja/blob/master/.env.example
+  - https://invoiceninja.github.io/docs/self-host/env-variables
 
 
 Secrets:
