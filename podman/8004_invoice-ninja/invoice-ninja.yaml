@@ -96,6 +96,7 @@ services:
     secrets:
       - invoiceninja_db_password
       - invoiceninja_app_key
+      - invoiceninja_valkey_password
     command: >
       sh -c "export DB_PASSWORD=$(cat /run/secrets/invoiceninja_db_password) &&
              export REDIS_PASSWORD=$(cat /run/secrets/invoiceninja_valkey_password) &&
