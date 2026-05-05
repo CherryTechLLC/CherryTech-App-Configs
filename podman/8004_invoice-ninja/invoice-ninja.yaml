@@ -104,6 +104,7 @@ services:
 volumes:
   invoiceninja-app:
   invoiceninja-db:
+  invoiceninja-valkey:
 
 secrets:
   invoiceninja_db_password:

@@ -24,7 +24,7 @@ DEPLOYMENT INSTRUCTIONS:
         - Create .invoiceninja_app_key.txt
         - Paste the entire base64 string into the text file
     - Protect Secrets (MANDATORY)
-      - sudo chown -R vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
+      - sudo chown -R invoiceninja:invoiceninja /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
     - Generate Secrets
       - Login to app user (sudo -u invoice-ninja -i
