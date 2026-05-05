@@ -63,7 +63,7 @@ services:
     depends_on:
       invoiceninja-db:
         condition: service_healthy
-      invoiceninja_valkey:
+      invoiceninja_redis:
         condition: service_healthy
     networks:
       - invoiceninja-net
