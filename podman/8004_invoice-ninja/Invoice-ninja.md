@@ -9,7 +9,6 @@ DEPLOYMENT INSTRUCTIONS:
       - TZ
       - Admin Email (Leave as admin@admin.com)
       - Admin Password (Keep Complex, Hard Coded)
-      - Mail Settings (MAIL PASSWORD IS CONFIDENTAIL, CHANGE PERMISSIONS ON .env)
       - Mail, DB, and Redis Password (Same as secrets later) (CHANGE PERMISSIONS ON .env)
   - Create a new dedicated user for this app
     - sudo useradd -m invoice-ninja -F
