@@ -14,15 +14,13 @@ User=vaultwarden
 Environment=DOMAIN=https://${DOMAIN}
 Environment=ADMIN_TOKEN=CHANGE-ME
 Environment=TZ=${TZ}
-Environment=SIGNUPS_ALLOWED=${VAULTWARDEN_SIGN-UPS_ALLOWED}
+Environment=SIGNUPS_ALLOWED=${VAULTWARDEN_SIGNUPS_ALLOWED}
 
 # Env file
 EnvironmentFile=~.config/vaultwarden/.env
 
 # Volume
-Volume=~.data/vaultwarden-app:/data:Z
-
-#
+Volume=~.data/vaultwarden/vaultwarden-app:/data:Z
 
 # Port binding (localhost only)
 PublishPort=127.0.0.1:8001:80

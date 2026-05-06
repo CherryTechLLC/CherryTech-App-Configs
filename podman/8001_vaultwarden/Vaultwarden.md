@@ -11,7 +11,12 @@ DEPLOYMENT INSTRUCTIONS:
   - Create a new dedicated user for this app
     - sudo useradd -m vaultwarden -F
     - sudo loginctl enable-linger vaultwarden
-  - Networks and Volumes are automatically created
+    - export XDG_RUNTIME_DIR="/run/user/$UID"
+      export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+  - Create Networks and Volumes: (sudo -u vaultwarden -i)
+    - mkdir /home/vaultwarden/.config/vaultwarden/
+    - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-app
+    - podman network create vaultwarden-net
   - Start the App:
     - Login to app user (sudo -u vaultwarden -i)
     - podman-compose -f vaultwarden.yaml up -d
