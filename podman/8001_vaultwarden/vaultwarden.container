@@ -1,0 +1,48 @@
+[Unit]
+Description=Vaultwarden Container
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=docker.io/vaultwarden/server:latest
+ContainerName=vaultwarden-app
+HostName=vaultwarden
+Label=io.containers.autoupdate=registry
+User=vaultwarden
+
+# Environment
+Environment=DOMAIN=https://${DOMAIN}
+Environment=ADMIN_TOKEN=CHANGE-ME
+Environment=TZ=${TZ}
+Environment=SIGNUPS_ALLOWED=${VAULTWARDEN_SIGN-UPS_ALLOWED}
+
+# Env file
+EnvironmentFile=~.config/vaultwarden/.env
+
+# Volume
+Volume=~.data/vaultwarden-app:/data:Z
+
+#
+
+# Port binding (localhost only)
+PublishPort=127.0.0.1:8001:80
+
+# Resource limits
+CPUQuota=${VAULTWARDEN_CPU_LIMIT}
+MemoryMax=${VAULTWARDEN_MEM_LIMIT}
+
+# Security
+NoNewPrivileges=true
+
+# Healthcheck
+HealthCmd=/usr/bin/curl -f http://localhost:80/alive
+HealthInterval=30s
+HealthTimeout=10s
+HealthRetries=3
+HealthStartPeriod=10s
+
+# Restart policy
+Restart=always
+
+[Install]
+WantedBy=default.target
