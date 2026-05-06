@@ -7,7 +7,8 @@ DEPLOYMENT INSTRUCTIONS:
     - Values to change:
       - DOMAIN
       - TZ
-      - DB and Redis Password (Same as secrets later) (CHANGE PERMISSIONS ON .env)
+      - Mail Settings (MAIL PASSWORD IS CONFIDENTAIL, CHANGE PERMISSIONS ON .env)
+      - Mail, DB, and Redis Password (Same as secrets later) (CHANGE PERMISSIONS ON .env)
   - Create a new dedicated user for this app
     - sudo useradd -m invoice-ninja -F
     - sudo loginctl enable-linger invoice-ninja
