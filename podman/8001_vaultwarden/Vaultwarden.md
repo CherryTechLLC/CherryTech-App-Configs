@@ -17,10 +17,7 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/vaultwarden/.config/vaultwarden/
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-app
     - podman network create vaultwarden-net
-  - Start the App:
-    - Login to app user (sudo -u vaultwarden -i)
-    - podman-compose -f vaultwarden.yaml up -d
-      - Use -d to detach the app from the terminal
+  - Create SystemD
   - Log in to vault.apps.example.com/admin with the token CHANGE-ME
   - Create secure vaultwarden_admin_token  (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
       - sudo dnf install epel-release -y

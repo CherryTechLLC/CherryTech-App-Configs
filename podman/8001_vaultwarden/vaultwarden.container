@@ -10,36 +10,35 @@ HostName=vaultwarden
 Label=io.containers.autoupdate=registry
 
 # Environment
-Environment=DOMAIN=https://${DOMAIN}
+Environment=DOMAIN=${DOMAIN}
 Environment=ADMIN_TOKEN=CHANGE-ME
 Environment=TZ=${TZ}
 Environment=SIGNUPS_ALLOWED=${VAULTWARDEN_SIGNUPS_ALLOWED}
 
 # Env file
-EnvironmentFile=~.config/vaultwarden/.env
+EnvironmentFile=/home/vaultwarden/.config/vaultwarden/.env
 
 # Volume
-Volume=~.data/vaultwarden/vaultwarden-app:/data:Z
+Volume=/home/vaultwarden/.data/vaultwarden/vaultwarden-app:/data:Z
 
 # Port binding (localhost only)
 PublishPort=127.0.0.1:8001:80
 
+# Security
+NoNewPrivileges=true
+
+
+[Install]
+WantedBy=default.target
+
+[Service]
 # Resource limits
 CPUQuota=${VAULTWARDEN_CPU_LIMIT}
 MemoryMax=${VAULTWARDEN_MEM_LIMIT}
 
-# Security
-NoNewPrivileges=true
-
-# Healthcheck
-HealthCmd=/usr/bin/curl -f http://localhost:80/alive
-HealthInterval=30s
-HealthTimeout=10s
-HealthRetries=3
-HealthStartPeriod=10s
-
 # Restart policy
 Restart=always
 
-[Install]
-WantedBy=default.target
+# User
+User=vaultwarden
+Group=vaultwarden
