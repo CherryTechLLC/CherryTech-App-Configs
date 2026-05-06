@@ -8,7 +8,6 @@ Image=docker.io/vaultwarden/server:latest
 ContainerName=vaultwarden-app
 HostName=vaultwarden
 Label=io.containers.autoupdate=registry
-User=vaultwarden
 
 # Environment
 Environment=DOMAIN=https://${DOMAIN}
