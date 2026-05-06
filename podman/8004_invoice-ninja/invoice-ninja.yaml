@@ -75,6 +75,9 @@ services:
       APP_KEY_FILE: /run/secrets/invoiceninja_app_key
       APP_ENV: production
 
+      IN_USER_EMAIL: ${INVOICENINJA_ADMIN_EMAIL}
+      IN_USER_PASSWORD: ${INVOICENINJA_ADMIN_PASSWORD}
+
       DB_HOST: invoiceninja-db
       DB_PORT: 3306
       DB_DATABASE: invoiceninja
