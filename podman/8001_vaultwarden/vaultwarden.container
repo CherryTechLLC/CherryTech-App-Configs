@@ -24,21 +24,9 @@ Volume=/home/vaultwarden/.data/vaultwarden/vaultwarden-app:/data:Z
 # Port binding (localhost only)
 PublishPort=127.0.0.1:8001:80
 
-# Security
-NoNewPrivileges=true
-
-
 [Install]
 WantedBy=default.target
 
 [Service]
-# Resource limits
-CPUQuota=${VAULTWARDEN_CPU_LIMIT}
-MemoryMax=${VAULTWARDEN_MEM_LIMIT}
-
 # Restart policy
 Restart=always
-
-# User
-User=vaultwarden
-Group=vaultwarden
