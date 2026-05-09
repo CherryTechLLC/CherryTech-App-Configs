@@ -110,25 +110,22 @@ services:
     mem_limit: ${INVOICENINJA_APP_MEMORY_LIMIT}
     cpus: ${INVOICENINJA_APP_CPU_LIMIT}
 
-    nginx:
-      image: docker.io/nginx:alpine
-      container_name: invoiceninja-nginx
-      hostname: invoiceninja-nginx
-      restart: unless-stopped
-      depends_on:
-        invoiceninja-db:
-          condition: service_healthy
-        invoiceninja-redis:
-          condition: service_healthy
-      ports:
-        - "127.0.0.1:8004:80"
-      volumes:
-        - invoiceninja-nginx:/etc/nginx/conf.d:Z
-        - invoiceninja-public:/var/www/html/public:ro
-        - invoiceninja-storage:/var/www/html/storage:ro
-      depends_on:
-        app:
-          condition: service_healthy
+  invoiceninja-nginx:
+    image: docker.io/nginx:alpine
+    container_name: invoiceninja-nginx
+    hostname: invoiceninja-nginx
+    restart: unless-stopped
+    depends_on:
+      invoiceninja-db:
+        condition: service_healthy
+      invoiceninja-redis:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8004:80"
+    volumes:
+      - invoiceninja-nginx:/etc/nginx/conf.d:Z
+      - invoiceninja-public:/var/www/html/public:ro
+      - invoiceninja-storage:/var/www/html/storage:ro
 
 volumes:
   invoiceninja-public:
