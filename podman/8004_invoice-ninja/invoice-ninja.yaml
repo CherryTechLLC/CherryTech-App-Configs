@@ -105,7 +105,7 @@ services:
     secrets:
       - invoiceninja_app_key
     volumes:
-      - invoiceninja-puplic:/var/www/html/public:Z
+      - invoiceninja-public:/var/www/html/public:Z
       - invoiceninja-storage:/var/www/app/storage:Z
     mem_limit: ${INVOICENINJA_APP_MEMORY_LIMIT}
     cpus: ${INVOICENINJA_APP_CPU_LIMIT}
