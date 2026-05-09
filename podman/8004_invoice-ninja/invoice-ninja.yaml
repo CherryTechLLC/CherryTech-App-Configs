@@ -132,7 +132,7 @@ volumes:
   invoiceninja-storage:
   invoiceninja-db:
   invoiceninja-valkey:
-  invoicenina-nginx:
+  invoiceninja-nginx:
 
 secrets:
   invoiceninja_db_password:
