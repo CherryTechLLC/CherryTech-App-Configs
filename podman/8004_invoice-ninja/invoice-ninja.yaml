@@ -72,7 +72,7 @@ services:
     environment:
       TZ: ${TZ}
       APP_URL: https://${DOMAIN}
-      APP_KEY_FILE: /run/secrets/invoiceninja_app_key
+      APP_KEY: ${INVOICENINJA_APP_KEY}
       APP_ENV: production
 
       IN_USER_EMAIL: ${INVOICENINJA_ADMIN_EMAIL}
@@ -84,9 +84,9 @@ services:
       DB_USERNAME: invoiceninja
       DB_PASSWORD: ${INVOICENINJA_DB_PASSWORD}
 
-#      REDIS_HOST: invoiceninja-redis
-#      REDIS_PORT: 6379
-#      REDIS_PASSWORD: ${INVOICENINJA_VALKEY_PASSWORD}
+      REDIS_HOST: invoiceninja-redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${INVOICENINJA_VALKEY_PASSWORD}
 
       REQUIRE_HTTPS: true
       IS_DOCKER: true
