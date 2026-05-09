@@ -74,17 +74,22 @@ services:
       APP_URL: ${DOMAIN}
       APP_KEY: ${INVOICENINJA_APP_KEY}
       APP_ENV: production
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+
+      CACHE_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
 
       IN_USER_EMAIL: ${INVOICENINJA_ADMIN_EMAIL}
       IN_PASSWORD: ${INVOICENINJA_ADMIN_PASSWORD}
 
-      DB_HOST: invoiceninja-db
+      DB_HOST: 127.0.0.1
       DB_PORT: 3306
       DB_DATABASE: invoiceninja
       DB_USERNAME: invoiceninja
       DB_PASSWORD: ${INVOICENINJA_DB_PASSWORD}
 
-      REDIS_HOST: invoiceninja-redis
+      REDIS_HOST: 127.0.0.1
       REDIS_PORT: 6379
       REDIS_PASSWORD: ${INVOICENINJA_VALKEY_PASSWORD}
 
