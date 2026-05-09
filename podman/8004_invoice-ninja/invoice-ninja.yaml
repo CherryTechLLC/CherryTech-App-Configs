@@ -67,8 +67,6 @@ services:
         condition: service_healthy
     networks:
       - invoiceninja-net
-    ports:
-      - "127.0.0.1:8004:80"
     environment:
       TZ: ${TZ}
       APP_URL: ${DOMAIN}
@@ -107,14 +105,37 @@ services:
     secrets:
       - invoiceninja_app_key
     volumes:
-      - invoiceninja-app:/var/www/app/storage:Z
+      - invoiceninja-puplic:/var/www/html/public:Z
+      - invoiceninja-storage:/var/www/app/storage:Z
     mem_limit: ${INVOICENINJA_APP_MEMORY_LIMIT}
     cpus: ${INVOICENINJA_APP_CPU_LIMIT}
 
+    nginx:
+      image: docker.io/nginx:alpine
+      container_name: invoiceninja-nginx
+      hostname: invoiceninja-nginx
+      restart: unless-stopped
+      depends_on:
+        invoiceninja-db:
+          condition: service_healthy
+        invoiceninja-redis:
+          condition: service_healthy
+      ports:
+        - "127.0.0.1:8004:80"
+      volumes:
+        - invoiceninja-nginx:/etc/nginx/conf.d:Z
+        - invoiceninja-public:/var/www/html/public:ro
+        - invoiceninja-storage:/var/www/html/storage:ro
+      depends_on:
+        app:
+          condition: service_healthy
+
 volumes:
-  invoiceninja-app:
+  invoiceninja-public:
+  invoiceninja-storage:
   invoiceninja-db:
   invoiceninja-valkey:
+  invoicenina-nginx:
 
 secrets:
   invoiceninja_db_password:
