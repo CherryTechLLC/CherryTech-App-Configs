@@ -123,7 +123,7 @@ services:
       - "127.0.0.1:8004:80"
     volumes:
       - invoiceninja-nginx:/etc/nginx/conf.d:Z
-      - invoiceninja-public:/var/www/html:ro
+      - invoiceninja-app:/var/www/html:ro
 
 volumes:
   invoiceninja-app:
