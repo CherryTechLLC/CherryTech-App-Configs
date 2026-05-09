@@ -105,8 +105,7 @@ services:
     secrets:
       - invoiceninja_app_key
     volumes:
-      - invoiceninja-public:/var/www/html/public:Z
-      - invoiceninja-storage:/var/www/app/storage:Z
+      - invoiceninja-app:/var/www/html:Z
     mem_limit: ${INVOICENINJA_APP_MEMORY_LIMIT}
     cpus: ${INVOICENINJA_APP_CPU_LIMIT}
 
@@ -124,12 +123,10 @@ services:
       - "127.0.0.1:8004:80"
     volumes:
       - invoiceninja-nginx:/etc/nginx/conf.d:Z
-      - invoiceninja-public:/var/www/html/public:ro
-      - invoiceninja-storage:/var/www/html/storage:ro
+      - invoiceninja-public:/var/www/html:ro
 
 volumes:
-  invoiceninja-public:
-  invoiceninja-storage:
+  invoiceninja-app:
   invoiceninja-db:
   invoiceninja-valkey:
   invoiceninja-nginx:
