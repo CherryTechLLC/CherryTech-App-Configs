@@ -84,9 +84,9 @@ services:
       DB_USERNAME: invoiceninja
       DB_PASSWORD: ${INVOICENINJA_DB_PASSWORD}
 
-      REDIS_HOST: invoiceninja-redis
-      REDIS_PORT: 6379
-      REDIS_PASSWORD: ${INVOICENINJA_VALKEY_PASSWORD}
+#      REDIS_HOST: invoiceninja-redis
+#      REDIS_PORT: 6379
+#      REDIS_PASSWORD: ${INVOICENINJA_VALKEY_PASSWORD}
 
       REQUIRE_HTTPS: true
       IS_DOCKER: true
