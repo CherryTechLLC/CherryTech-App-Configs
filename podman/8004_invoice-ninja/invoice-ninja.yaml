@@ -71,7 +71,7 @@ services:
       - "127.0.0.1:8004:80"
     environment:
       TZ: ${TZ}
-      APP_URL: https://${DOMAIN}
+      APP_URL: ${DOMAIN}
       APP_KEY: ${INVOICENINJA_APP_KEY}
       APP_ENV: production
 
@@ -88,6 +88,7 @@ services:
       REDIS_PORT: 6379
       REDIS_PASSWORD: ${INVOICENINJA_VALKEY_PASSWORD}
 
+      APP_DEBUG: ${DUBUG_MODE}
       REQUIRE_HTTPS: true
       IS_DOCKER: true
       PHANTOMJS_PDF_GENERATION: false
