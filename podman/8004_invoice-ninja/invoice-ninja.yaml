@@ -96,6 +96,11 @@ services:
       IS_DOCKER: true
       PHANTOMJS_PDF_GENERATION: false
       PDF_GENERATOR: snappdf
+      GOOGLE_MAPS_ENABLED: ${USE_GOOGLE_MAPS}
+      REMEMBER_ME_ENABLED: ${REMEMBER_ME_ENABLED}
+      SESSION_EXPIRE_ON_CLOSE: ${SESSION_EXPIRE_ON_CLOSE}
+      AUTO_LOGOUT_SECONDS: ${AUTO_LOGOUT_SECONDS}
+      LOCAL_DOWNLOAD: true
     healthcheck:
       test: ["CMD-SHELL", "pgrep php-fpm >/dev/null || exit 1"]
       interval: 30s
