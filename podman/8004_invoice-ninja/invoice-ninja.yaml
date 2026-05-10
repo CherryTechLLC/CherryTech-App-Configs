@@ -58,7 +58,7 @@ services:
   invoiceninja-app:
     image: docker.io/invoiceninja/invoiceninja-debian:latest
     container_name: invoiceninja-app
-    hostname: invoiceninja
+    hostname: invoiceninja-app
     restart: unless-stopped
     depends_on:
       invoiceninja-db:
