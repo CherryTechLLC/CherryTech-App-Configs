@@ -97,15 +97,13 @@ services:
       PHANTOMJS_PDF_GENERATION: false
       PDF_GENERATOR: snappdf
     healthcheck:
-     test: ["CMD-SHELL", "curl -fsS http://127.0.0.1/ >/dev/null || exit 1"]
-     interval: 30s
-     timeout: 10s
-     retries: 5
-     start_period: 90s
-    secrets:
-      - invoiceninja_app_key
+      test: ["CMD-SHELL", "pgrep php-fpm >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     volumes:
-      - invoiceninja-app:/var/www/html:Z
+      - invoiceninja-public:/var/www/html/public:Z
+      - invoiceninja-storage:/var/www/html/storage:Z
     mem_limit: ${INVOICENINJA_APP_MEMORY_LIMIT}
     cpus: ${INVOICENINJA_APP_CPU_LIMIT}
 
@@ -121,15 +119,22 @@ services:
         condition: service_healthy
     ports:
       - "127.0.0.1:8004:80"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1/ >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
     volumes:
-      - invoiceninja-nginx:/etc/nginx/conf.d:Z
-      - invoiceninja-app:/var/www/html:ro
+      - invoiceninja-public:/var/www/html/public:Z
+      - invoiceninja-storage:/var/www/html/storage:Z
+      - /home/invoice-ninja/.data/invoice-ninja/nginx:/etc/nginx/conf.d:ro
 
 volumes:
-  invoiceninja-app:
   invoiceninja-db:
   invoiceninja-valkey:
-  invoiceninja-nginx:
+  invoiceninja-public:
+  invoiceninja-storage:
 
 secrets:
   invoiceninja_db_password:
@@ -137,8 +142,6 @@ secrets:
   invoiceninja_db_root_password:
     external: true
   invoiceninja_valkey_password:
-    external: true
-  invoiceninja_app_key:
     external: true
 
 networks:
