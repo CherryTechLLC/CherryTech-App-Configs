@@ -92,7 +92,7 @@ services:
       REDIS_PASSWORD: ${INVOICENINJA_VALKEY_PASSWORD}
 
       APP_DEBUG: ${DEBUG_MODE}
-      REQUIRE_HTTPS: true
+      REQUIRE_HTTPS: false
       IS_DOCKER: true
       PHANTOMJS_PDF_GENERATION: false
       PDF_GENERATOR: snappdf
