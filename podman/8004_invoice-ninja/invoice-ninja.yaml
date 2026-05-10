@@ -91,7 +91,7 @@ services:
       REDIS_PORT: 6379
       REDIS_PASSWORD: ${INVOICENINJA_VALKEY_PASSWORD}
 
-      APP_DEBUG: ${DUBUG_MODE}
+      APP_DEBUG: ${DEBUG_MODE}
       REQUIRE_HTTPS: true
       IS_DOCKER: true
       PHANTOMJS_PDF_GENERATION: false
@@ -115,6 +115,8 @@ services:
     depends_on:
       invoiceninja-app:
         condition: service_healthy
+    networks:
+      - invoiceninja-net
     ports:
       - "127.0.0.1:8004:80"
     healthcheck:
