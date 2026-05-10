@@ -126,7 +126,7 @@ services:
     volumes:
       - invoiceninja-public:/var/www/html/public:ro,Z
       - invoiceninja-storage:/var/www/html/storage:ro,Z
-      - /home/invoice-ninja/.data/invoice-ninja/nginx:/etc/nginx/nginx.conf:ro,Z
+      - /home/invoice-ninja/.data/invoice-ninja/nginx:/etc/nginx/conf.d:ro,Z
 
 volumes:
   invoiceninja-db:
