@@ -102,8 +102,8 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - invoiceninja-public:/var/www/html/public:Z
-      - invoiceninja-storage:/var/www/html/storage:Z
+      - invoiceninja-public:/var/www/html/public:z
+      - invoiceninja-storage:/var/www/html/storage:z
     mem_limit: ${INVOICENINJA_APP_MEMORY_LIMIT}
     cpus: ${INVOICENINJA_APP_CPU_LIMIT}
 
@@ -126,8 +126,8 @@ services:
       retries: 5
       start_period: 90s
     volumes:
-      - invoiceninja-public:/var/www/html/public:ro,Z
-      - invoiceninja-storage:/var/www/html/storage:ro,Z
+      - invoiceninja-public:/var/www/html/public:ro,z
+      - invoiceninja-storage:/var/www/html/storage:ro,z
       - /home/invoice-ninja/.data/invoice-ninja/nginx:/etc/nginx/conf.d:ro,Z
 
 volumes:
