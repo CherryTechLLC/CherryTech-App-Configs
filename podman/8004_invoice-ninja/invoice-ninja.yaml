@@ -124,8 +124,8 @@ services:
       retries: 5
       start_period: 90s
     volumes:
-      - invoiceninja-public:/var/www/html/public:Z
-      - invoiceninja-storage:/var/www/html/storage:Z
+      - invoiceninja-public:/var/www/html/public:ro
+      - invoiceninja-storage:/var/www/html/storage:ro
       - /home/invoice-ninja/.data/invoice-ninja/nginx/invoiceninja.conf:/etc/nginx/nginx.conf:ro
 
 volumes:
