@@ -18,7 +18,7 @@ services:
       - invoiceninja_db_password
       - invoiceninja_db_root_password
     volumes:
-      - invoiceninja-db:/var/lib/mysql:Z
+      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-db:/var/lib/mysql:Z
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 30s
@@ -49,7 +49,7 @@ services:
     secrets:
       - invoiceninja_valkey_password
     volumes:
-      - invoiceninja-valkey:/data:Z
+      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-valkey:/data:Z
     mem_limit: ${INVOICENINJA_VALKEY_MEM_LIMIT}
     cpus: ${INVOICENINJA_VALKEY_CPU_LIMIT}
     security_opt:
@@ -102,8 +102,8 @@ services:
       timeout: 10s
       retries: 5
     volumes:
-      - invoiceninja-public:/var/www/html/public:z
-      - invoiceninja-storage:/var/www/html/storage:z
+      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-public:/var/www/html/public:z
+      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-storage:/var/www/html/storage:z
     mem_limit: ${INVOICENINJA_APP_MEMORY_LIMIT}
     cpus: ${INVOICENINJA_APP_CPU_LIMIT}
 
@@ -126,15 +126,9 @@ services:
       retries: 5
       start_period: 90s
     volumes:
-      - invoiceninja-public:/var/www/html/public:ro,z
-      - invoiceninja-storage:/var/www/html/storage:ro,z
+      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-public:/var/www/html/public:ro,z
+      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-storage:/var/www/html/storage:ro,z
       - /home/invoice-ninja/.data/invoice-ninja/nginx:/etc/nginx/conf.d:ro,Z
-
-volumes:
-  invoiceninja-db:
-  invoiceninja-valkey:
-  invoiceninja-public:
-  invoiceninja-storage:
 
 secrets:
   invoiceninja_db_password:
