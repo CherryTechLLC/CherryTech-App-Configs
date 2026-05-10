@@ -2,6 +2,7 @@ Invoice Ninja is an excellent tool for creating and tracking invoices. Self-Host
 
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
+  - cp nginx/ /home/invoice-ninja/.data/invoice-ninja/ -r
   - Configure Environment Variable
     - sudo cp invoice-ninja.env .env
     - Values to change: (CHANGE PERMISSIONS ON .env))

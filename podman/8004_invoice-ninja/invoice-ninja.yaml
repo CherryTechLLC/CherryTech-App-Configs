@@ -57,7 +57,7 @@ services:
 
   invoiceninja-app:
     image: docker.io/invoiceninja/invoiceninja-debian:latest
-    container_name: invoiceninja
+    container_name: invoiceninja-app
     hostname: invoiceninja
     restart: unless-stopped
     depends_on:
@@ -113,9 +113,7 @@ services:
     hostname: invoiceninja-nginx
     restart: unless-stopped
     depends_on:
-      invoiceninja-db:
-        condition: service_healthy
-      invoiceninja-redis:
+      invoiceninja-app:
         condition: service_healthy
     ports:
       - "127.0.0.1:8004:80"
@@ -128,7 +126,7 @@ services:
     volumes:
       - invoiceninja-public:/var/www/html/public:Z
       - invoiceninja-storage:/var/www/html/storage:Z
-      - /home/invoice-ninja/.data/invoice-ninja/nginx:/etc/nginx/conf.d:ro
+      - /home/invoice-ninja/.data/invoice-ninja/nginx/:/etc/nginx/:ro
 
 volumes:
   invoiceninja-db:
