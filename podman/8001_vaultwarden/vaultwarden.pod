@@ -1,0 +1,8 @@
+# vaultwarden.pod
+
+[Pod]
+PublishPort=8001:80
+UserNS=keep-id
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,22 @@
+# vaultwarden.container
+
+[Unit]
+Description=Vaultwarden Container
+Requires=vaultwarden-db.service
+After=vaultwarden-db.service
+
+[Container]
+Image=docker.io/vaultwarden/server:latest
+ContainerName=vaultwarden-app
+Pod=vaultwarden.pod
+Volume=/home/vaultwarden/.data/vaultwarden/vaultwarden-app:/data:Z
+EnvironmentFile=/home/vaultwarden/.config/containers.systemd/.env
+AutoUpdate=registry
+Group=0
+User=0
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

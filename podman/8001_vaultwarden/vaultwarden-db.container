@@ -1,0 +1,18 @@
+# vaultwarden-db.container
+
+[Unit]
+Description=Vaultwarden Database
+
+[Container]
+Image=docker.io/library/postgres:17-alpine
+ContainerName=vaultwarden-db
+Pod=vaultwarden.pod
+Volume=/home/vaultwarden/.data/vaultwarden/vaultwarden-db:/var/lib/postgresql/data:Z
+EnvironmentFile=/home/vaultwarden/.config/containers.systemd/.env
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
