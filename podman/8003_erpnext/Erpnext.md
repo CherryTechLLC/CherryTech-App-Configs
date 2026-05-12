@@ -20,7 +20,7 @@ DEPLOYMENT INSTRUCTIONS:
         - Paste the password into the text file (By itself)
     - Protect Secrets (MANDATORY)
       - sudo chown -R vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
-      - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
+      - sudo chmod -R 600 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
     - Generate Secrets
       - Login to app user (sudo -u erpnext -i
       - Run podman secret create erpnext_db_password /srv/CherryTech-App-Configs/podman/{8003_erpnext/secrets/.erpnext_db_password.txt

@@ -19,7 +19,7 @@ DEPLOYMENT INSTRUCTIONS:
         - Paste the password into the text file (By itself)
     - Protect Secrets (MANDATORY)
       - sudo chown -R immich:immich /srv/CherryTech-App-Configs/podman/8006_immich/secrets
-      - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8006_immich/secrets
+      - sudo chmod -R 600 /srv/CherryTech-App-Configs/podman/8006_immich/secrets
     - Generate Secrets
       - Login to app user (sudo -u immich -i
       - Run podman secret create immich_db_password /srv/CherryTech-App-Configs/podman/8006_immich/secrets
