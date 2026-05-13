@@ -12,7 +12,6 @@ EnvironmentFile=/srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
 AutoUpdate=registry
 
 #Health Check
-[Container]
 HealthCmd=pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
 HealthInterval=30s
 HealthTimeout=5s
