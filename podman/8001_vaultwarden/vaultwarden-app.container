@@ -19,8 +19,7 @@ HealthInterval=120s
 HealthTimeout=45s
 HealthRetries=10
 HealthStartPeriod=40s
-MemoryMax=${APP_MEM}
-CPUQuota=${APP_CPU}
+PodmanArgs=--memory=2g --cpus=2.0
 
 [Service]
 Restart=always

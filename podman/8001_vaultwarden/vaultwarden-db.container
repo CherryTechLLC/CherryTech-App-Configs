@@ -15,8 +15,7 @@ HealthCmd=/usr/bin/pg_isready -q -d vaultwarden -U vaultwarden
 HealthInterval=120s
 HealthRetries=10
 HealthTimeout=45s
-MemoryMax=${DB_MEM}
-CPUQuota=${DB_CPU}
+PodmanArgs=--memory=2g --cpus=2.0
 
 [Service]
 Restart=always
