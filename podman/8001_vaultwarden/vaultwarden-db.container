@@ -11,17 +11,6 @@ Volume=/home/vaultwarden/.data/vaultwarden/vaultwarden-db:/var/lib/postgresql/da
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
 AutoUpdate=registry
 
-#Health Check
-HealthCmd=/usr/bin/pg_isready -q -d vaultwarden -U vaultwarden
-HealthInterval=30s
-HealthTimeout=5s
-HealthRetries=5
-HealthStartPeriod=20s
-
-#Resource Limits
-Memory=${DB_MEM}
-CPUQuota=${DB_CPU}
-PidsLimit=256
 
 [Service]
 Restart=always
