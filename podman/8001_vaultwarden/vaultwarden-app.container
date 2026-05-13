@@ -23,8 +23,8 @@ HealthRetries=10
 HealthStartPeriod=40s
 
 #Resource Limits
-Memory=${APP_MEM}
-CPUQuota=${APP_CPU}
+Memory=1g
+CPUQuota=150%
 PidsLimit=256
 
 [Service]

@@ -19,8 +19,8 @@ HealthRetries=5
 HealthStartPeriod=20s
 
 #Resource Limits
-Memory=${DB_MEM}
-CPUQuota=${DB_CPU}
+Memory=512m
+CPUQuota=100%
 PidsLimit=256
 
 [Service]
