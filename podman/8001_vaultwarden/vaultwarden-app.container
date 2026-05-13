@@ -19,7 +19,7 @@ HealthInterval=120s
 HealthTimeout=45s
 HealthRetries=10
 HealthStartPeriod=40s
-PodmanArgs=--memory=2g --cpus=2.0
+Memory=2g
 
 [Service]
 Restart=always
