@@ -53,6 +53,7 @@ Other Good Sources:
   - https://github.com/dani-garcia/vaultwarden/wiki/SMTP-Configuration
   - https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page
   - https://www.nite07.com/en/posts/quadlet-vaultwarden/#option-2-postgresql-pod
+  - https://github.com/dani-garcia/vaultwarden/wiki/Using-Podman
 
 
 

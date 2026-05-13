@@ -12,14 +12,12 @@ Pod=vaultwarden.pod
 Volume=/home/vaultwarden/.data/vaultwarden/vaultwarden-app:/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
 AutoUpdate=registry
-Group=0
-User=0
 
 #Health Check
-HealthCmd=/usr/bin/wget --spider -q http://127.0.0.1/alive || exit 1
-HealthInterval=30s
-HealthTimeout=5s
-HealthRetries=3
+HealthCmd=/healthcheck.sh
+HealthInterval=120s
+HealthTimeout=45s
+HealthRetries=10
 HealthStartPeriod=40s
 
 #Resource Limits
