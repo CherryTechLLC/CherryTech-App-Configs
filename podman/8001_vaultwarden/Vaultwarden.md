@@ -14,7 +14,7 @@ DEPLOYMENT INSTRUCTIONS:
   - Create a new dedicated user for this app
     - sudo useradd -m vaultwarden -F
     - sudo loginctl enable-linger vaultwarden
-  - Create Networks and Volumes: (sudo -u vaultwarden -i)
+  - Create storage directories: (sudo -u vaultwarden -i)
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-app
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db
   - Create SystemD Quadlet
