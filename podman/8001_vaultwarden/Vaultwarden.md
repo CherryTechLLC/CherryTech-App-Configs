@@ -4,20 +4,24 @@ Vaultwarden is a backend for the Bitwarden password manager without the limitati
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Configure Environment Variable
-    - sudo cp example.env .env
-    - Values to change:
+    - sudo cp /srv/CherryTech-App-Configs/podman/8001_vaultwarden/example.env /srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
+    - sudo chown vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
+    - sudo chmod 600 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
+    - Values to change: (ADMIN_TOKEN stays as CHANGE-ME)
       - DOMAIN
       - TZ
+      - POSTGRES_PASSWORD
   - Create a new dedicated user for this app
     - sudo useradd -m vaultwarden -F
     - sudo loginctl enable-linger vaultwarden
-    - export XDG_RUNTIME_DIR="/run/user/$UID"
-      export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
   - Create Networks and Volumes: (sudo -u vaultwarden -i)
-    - mkdir /home/vaultwarden/.config/vaultwarden/
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-app
-    - podman network create vaultwarden-net
-  - Create SystemD
+    - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db
+  - Create SystemD Quadlet
+    - sudo -u vaultwarden -i
+    - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+    - cd /srv/CherryTech-App-Configs/podman/8001_vaultwarden
+    - podman quadlet install -r --reload-systemd vaultwarden-app.container vaultwarden-db.container vaultwarden.pod
   - Log in to vault.apps.example.com/admin with the token CHANGE-ME
   - Create secure vaultwarden_admin_token  (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
       - sudo dnf install epel-release -y
@@ -48,6 +52,7 @@ Wiki Link:
 Other Good Sources:
   - https://github.com/dani-garcia/vaultwarden/wiki/SMTP-Configuration
   - https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page
+  - https://www.nite07.com/en/posts/quadlet-vaultwarden/#option-2-postgresql-pod
 
 
 

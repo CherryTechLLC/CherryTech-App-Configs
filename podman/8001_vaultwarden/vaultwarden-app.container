@@ -15,6 +15,18 @@ AutoUpdate=registry
 Group=0
 User=0
 
+#Health Check
+HealthCmd=/usr/bin/wget --spider -q http://127.0.0.1/alive || exit 1
+HealthInterval=30s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=40s
+
+#Resource Limits
+Memory=${APP_MEM}
+CPUQuota=${APP_CPU}
+PidsLimit=256
+
 [Service]
 Restart=always
 
