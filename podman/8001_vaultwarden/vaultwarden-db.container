@@ -16,7 +16,7 @@ HealthInterval=120s
 HealthRetries=10
 HealthTimeout=45s
 Memory=${DB_MEM}
-CPUQuota=${DB_CPU}
+PodmanArgs=--cpus=${DB_CPU}
 
 [Service]
 Restart=always
