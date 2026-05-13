@@ -13,6 +13,17 @@ Volume=/home/vaultwarden/.data/vaultwarden/vaultwarden-app:/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
 AutoUpdate=registry
 
+#Health Check
+HealthCmd=/healthcheck.sh
+HealthInterval=120s
+HealthTimeout=45s
+HealthRetries=10
+HealthStartPeriod=40s
+
+#Resource Limits
+Memory=${APP_MEM}
+CPUQuota=${APP_CPU}
+PidsLimit=256
 
 [Service]
 Restart=always
