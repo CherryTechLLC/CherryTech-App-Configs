@@ -15,9 +15,6 @@ HealthInterval=30s
 HealthTimeout=5s
 HealthRetries=5
 HealthStartPeriod=20s
-Memory=512m
-CPUQuota=100%
-PidsLimit=256
 
 [Service]
 Restart=always
