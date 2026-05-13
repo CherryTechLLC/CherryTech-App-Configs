@@ -15,11 +15,11 @@ HealthCmd=/usr/bin/pg_isready -q -d vaultwarden -U vaultwarden
 HealthInterval=120s
 HealthRetries=10
 HealthTimeout=45s
+MemoryMax=${DB_MEM}
+CPUQuota=${DB_CPU}
 
 [Service]
 Restart=always
-MemoryMax=${DB_MEM}
-CPUQuota=${DB_CPU}
 
 [Install]
 WantedBy=default.target

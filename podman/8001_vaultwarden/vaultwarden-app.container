@@ -19,11 +19,11 @@ HealthInterval=120s
 HealthTimeout=45s
 HealthRetries=10
 HealthStartPeriod=40s
+MemoryMax=${APP_MEM}
+CPUQuota=${APP_CPU}
 
 [Service]
 Restart=always
-MemoryMax=${APP_MEM}
-CPUQuota=${APP_CPU}
 
 [Install]
 WantedBy=default.target
