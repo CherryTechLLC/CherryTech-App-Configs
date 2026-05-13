@@ -4,17 +4,20 @@
 Description=Vaultwarden Database
 
 [Container]
-Image=docker.io/library/postgres:17-alpine
+Image=docker.io/library/postgres:17
 ContainerName=vaultwarden-db
 Pod=vaultwarden.pod
 Volume=/home/vaultwarden/.data/vaultwarden/vaultwarden-db:/var/lib/postgresql/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
 AutoUpdate=registry
+EnvironmentFile=/home/vaultwarden/vaultwarden/vaultwarden-db.env
 HealthCmd=/usr/bin/pg_isready -q -d vaultwarden -U vaultwarden
-HealthInterval=30s
-HealthTimeout=5s
-HealthRetries=5
-HealthStartPeriod=20s
+HealthInterval=120s
+HealthRetries=10
+HealthTimeout=45s
+Memory=512m
+CPUQuota=100%
+PidsLimit=256
 
 [Service]
 Restart=always
