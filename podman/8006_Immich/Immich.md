@@ -39,6 +39,8 @@ Wiki Link:
   - https://docs.immich.app/install/docker-compose/
 Other Good Sources:
   - https://docs.immich.app/install/environment-variables - Compose Options
+  - https://github.com/jbtrystram/immich-podman-systemd/tree/main
+
 
 
 Secrets:

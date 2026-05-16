@@ -14,18 +14,11 @@ services:
       start_period: 30s
     networks:
       - immich-net
-    environment:
-      TZ: ${TZ}
-      POSTGRES_DB: immich
-      POSTGRES_USER: immich
-      POSTGRES_PASSWORD_FILE: /run/secrets/immich_db_password
-      POSTGRES_INITDB_ARGS: '--data-checksum'
-    secrets:
-      - immich_db_password
+    env_file: /srv/CherryTech-App-Configs/podman/8006_immich/.env
     volumes:
-      - immich-db:/var/lib/postgresql/data:Z
-    mem_limit: ${IMMICH_DB_MEM_LIMIT}
-    cpus: ${IMMICH_DB_CPU_LIMIT}
+      - /home/immich/.data/immich/immich-db-backups:/var/db-backups/backups:Z
+      - /home/immich/.data/immich/immich-db-backups:/var/lib/postgresql/data:Z
+    mem_limit: 2g
     security_opt:
       - no-new-privileges:true
 
@@ -41,8 +34,7 @@ services:
       retries: 3
     networks:
       - immich-net
-    environment:
-      TZ: ${TZ}
+    env_file: /srv/CherryTech-App-Configs/podman/8006_immich/.env
     secrets:
       - immich_valkey_password
     volumes:
@@ -51,8 +43,7 @@ services:
       sh -c 'exec valkey-server
       --appendonly yes
       --requirepass "$$(cat /run/secrets/immich_valkey_password)"'
-    mem_limit: ${IMMICH_VALKEY_MEM_LIMIT}
-    cpus: ${IMMICH_VALKEY_CPU_LIMIT}
+    mem_limit: 2g
     security_opt:
       - no-new-privileges:true
 
@@ -71,19 +62,7 @@ services:
       - .env
     ports:
       - '127.0.0.1:8006:2283'
-    environment:
-      TZ: ${TZ}
-      IMMICH_TRUSTED_PROXIES: ${ALLOWED_PROXIES}
-      DB_USERNAME: immich
-      DB_PORT: 5432
-      DB_PASSWORD_FILE: /run/secrets/immich_db_password
-      DB_HOSTNAME: immich-db
-      REDIS_PORT: 6379
-      REDIS_HOSTNAME: immich-redis
-      REDIS_PASSWORD_FILE: /run/secrets/immich_valkey_password
-    secrets:
-      - immich_valkey_password
-      - immich_db_password
+    env_file: /srv/CherryTech-App-Configs/podman/8006_immich/.env
     depends_on:
       immich-db:
         condition: service_healthy
@@ -92,8 +71,7 @@ services:
     restart: always
     healthcheck:
       disable: false
-    mem_limit: ${IMMICH_APP_MEM_LIMIT}
-    cpus: ${IMMICH_APP_CPU_LIMIT}
+    mem_limit: 3g
     security_opt:
       - no-new-privileges:true
 
@@ -113,21 +91,9 @@ services:
     restart: always
     healthcheck:
       disable: false
-    mem_limit: ${IMMICH_MACHINE_LEARNING_MEM_LIMIT}
-    cpus: ${IMMICH_MACHINE_LEARNING_CPU_LIMIT}
+    mem_limit: 2g
     security_opt:
       - no-new-privileges:true
-
-volumes:
-  immich-db:
-  immich-valkey:
-  immich-model-cache:
-
-secrets:
-  immich_db_password:
-    external: true
-  immich_valkey_password:
-    external: true
 
 networks:
   immich-net:

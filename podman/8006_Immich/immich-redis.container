@@ -1,0 +1,18 @@
+#immich-redis.container
+
+[Container]
+Image=docker.io/valkey/valkey:9@sha256:3b55fbaa0cd93cf0d9d961f405e4dfcc70efe325e2d84da207a0a8e6d8fde4f9
+ContainerName=immich_redis
+Pod=immich.pod
+Volume=/home/immich/.data/immich/immich-valkey:/data:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
+ExecStart="sh -c 'exec valkey-server --appendonly yes --requirepass "${REDIS_PASSWORD}"'
+HealthCmd="/usr/local/bin/redis-cli ping || exit 1"
+HealthStartPeriod=30s
+HealthInterval=10s
+HealthTimeout=5s
+HealthRetries=5
+Notify=healthy
+
+[Service]
+Restart=always
