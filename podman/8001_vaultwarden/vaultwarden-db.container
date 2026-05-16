@@ -18,6 +18,7 @@ HealthTimeout=45s
 HealthStartPeriod=40s
 Memory=2g
 NoNewPrivileges=true
+Secret=vaultwarden-db-password,type=env,target=POSTGRES_PASSWORD
 
 [Service]
 Restart=always

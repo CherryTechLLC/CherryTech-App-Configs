@@ -20,6 +20,8 @@ services:
       - /home/vaultwarden/.data/vaultwarden/vaultwarden-db:/var/lib/postgresql/data:Z
       - /home/vaultwarden/.data/vaultwarden/vaultwarden-db-backups:/var/db-backups/backups:Z
     mem_limit: 2g
+    secrets:
+      - vaultwarden-db-password
     security_opt:
       - no-new-privileges:true
 
@@ -48,6 +50,12 @@ services:
     mem_limit: 2g
     security_opt:
       - no-new-privileges:true
+
+secrets:
+  vaultwarden-db-password:
+    external: true
+    type: env
+    target: POSTGRES_PASSWORD
 
 networks:
   vaultwarden-net:
