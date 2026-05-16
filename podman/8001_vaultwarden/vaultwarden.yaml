@@ -48,6 +48,8 @@ services:
      retries: 10
      start_period: 40s
     mem_limit: 2g
+    secrets:
+      - vaultwarden-db-password
     security_opt:
       - no-new-privileges:true
 
