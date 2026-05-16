@@ -9,7 +9,7 @@ After=vaultwarden-db.service
 Image=docker.io/vaultwarden/server:latest
 ContainerName=vaultwarden-app
 Pod=vaultwarden.pod
-Volume=/home/vaultwarden/.data/vaultwarden/vaultwarden-app:/data:Z
+Volume=/home/vaultwarden/.data/vaultwarden/vaultwarden-app:/data:Z,ro
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
 AutoUpdate=registry
 Group=0
@@ -20,6 +20,7 @@ HealthTimeout=45s
 HealthRetries=10
 HealthStartPeriod=40s
 Memory=2g
+NoNewPrivileges=true
 
 [Service]
 Restart=always

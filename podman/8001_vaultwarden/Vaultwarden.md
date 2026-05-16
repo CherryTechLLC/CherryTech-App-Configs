@@ -17,6 +17,7 @@ DEPLOYMENT INSTRUCTIONS:
   - Create storage directories: (sudo -u vaultwarden -i)
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-app
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db
+    - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db-backups
   - Create SystemD Quadlet
     - sudo -u vaultwarden -i
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
