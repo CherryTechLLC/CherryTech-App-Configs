@@ -8,7 +8,7 @@ After=immich-redis.service immich-database.service immich-machine-learning.servi
 Image=ghcr.io/immich-app/immich-server:v2.7.5
 ContainerName=immich-server
 Pod=immich.pod
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_Immich/.env
 Secret=immich-db-password,type=env,target=POSTGRES_PASSWORD
 Secret=immich-db-password,type=env,target=REDIS_PASSWORD
 Volume=/etc/localtime:/etc/localtime:ro

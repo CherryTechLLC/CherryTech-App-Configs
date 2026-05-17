@@ -19,7 +19,7 @@ DEPLOYMENT INSTRUCTIONS:
         - Paste the password into the text file (By itself)
     - Protect Secrets (MANDATORY)
       - sudo chown -R immich:immich /srv/CherryTech-App-Configs/podman/8006_immich/secrets
-      - sudo chmod -R 600 /srv/CherryTech-App-Configs/podman/8006_immich/secrets
+      - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8006_immich/secrets
     - Generate Secrets
       - Login to app user (sudo -u immich -i)
       - Run podman secret create immich_db_password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/immich_db_password
@@ -29,8 +29,10 @@ DEPLOYMENT INSTRUCTIONS:
       - Grant Root user all priviledges on share
       - On NFS share set CentOS server IP as allowed host and Mapall to Root. (All access from that IP is given the root account tag)
       - sudo mkdir /mnt/immich
+      - sudo dnf install nfs-utils -y
       - sudo nano /etc/fstab
-        - {{NAS IP}}:/mnt/{{share-name}}/immich /mnt/immich nfs defaults,_netdev 0 0
+        - {{NAS IP}}:/mnt/{{share-name}}/Immich /mnt/immich nfs defaults,_netdev 0 0
+      - sudo systemctl daemon-reload
       - sudo mkdir /mnt/immich
       - sudo mount -a
     - mkdir /home/immich/.data/immich/immich-db
