@@ -5,8 +5,6 @@ DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Configure Environment Variable
     - sudo cp /srv/CherryTech-App-Configs/podman/8001_vaultwarden/example.env /srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
-    - sudo chown vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
-    - sudo chmod 600 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
     - Values to change: (ADMIN_TOKEN stays as CHANGE-ME)
       - DOMAIN
       - TZ
