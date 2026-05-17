@@ -6,7 +6,7 @@ After=immich-redis.service immich-database.service immich-machine-learning.servi
 
 [Container]
 Image=ghcr.io/immich-app/immich-server:v2.7.5
-ContainerName=immich-server
+ContainerName=immich-app
 Pod=immich.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
 Secret=immich-db-password,type=env,target=POSTGRES_PASSWORD

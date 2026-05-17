@@ -6,7 +6,7 @@ ContainerName=immich-redis
 Pod=immich.pod
 Volume=/home/immich/.data/immich/immich-valkey:/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
-Secret=immich-db-password,type=env,target=REDIS_PASSWORD
+Secret=immich-redis-password,type=env,target=REDIS_PASSWORD
 ExecStart="sh -c 'exec valkey-server --appendonly yes --requirepass "${REDIS_PASSWORD}"'
 HealthCmd="/usr/local/bin/redis-cli ping || exit 1"
 HealthStartPeriod=30s
