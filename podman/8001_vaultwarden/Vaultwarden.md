@@ -10,10 +10,20 @@ DEPLOYMENT INSTRUCTIONS:
     - Values to change: (ADMIN_TOKEN stays as CHANGE-ME)
       - DOMAIN
       - TZ
-      - POSTGRES_PASSWORD
   - Create a new dedicated user for this app
     - sudo useradd -m vaultwarden -F
     - sudo loginctl enable-linger vaultwarden
+  - Create secrets:
+    - Create directory /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
+    - Files:
+      - Create .vaultwarden_db_password.txt
+        - Paste the password into the text file (By itself)
+    - Protect Secrets (MANDATORY)
+      - sudo chown -R vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
+      - sudo chmod -R 600 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
+    - Generate Secrets
+      - Login to app user (sudo -u vaultwarden -i)
+      - Run podman secret create vaultwarden_db_password /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets/vaultwarden_db_password
   - Create storage directories: (sudo -u vaultwarden -i)
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-app
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db
