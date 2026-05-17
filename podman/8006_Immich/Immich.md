@@ -3,7 +3,7 @@ Briefly explain the app and key notes here.
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Configure Environment Variable
-    - sudo cp immich.env .env
+    - sudo cp /srv/CherryTech-App-Configs/podman/8006_immich/example.env /srv/CherryTech-App-Configs/podman/8006_immich/.env
     - Values to change:
       - DOMAIN
       - TZ
@@ -15,19 +15,33 @@ DEPLOYMENT INSTRUCTIONS:
     - Files:
       - Create .immich_db_password.txt
         - Paste the password into the text file (By itself)
-      - Create .immich_valkey_password.txt
+      - Create .immich_redis_password.txt
         - Paste the password into the text file (By itself)
     - Protect Secrets (MANDATORY)
       - sudo chown -R immich:immich /srv/CherryTech-App-Configs/podman/8006_immich/secrets
       - sudo chmod -R 600 /srv/CherryTech-App-Configs/podman/8006_immich/secrets
     - Generate Secrets
-      - Login to app user (sudo -u immich -i
-      - Run podman secret create immich_db_password /srv/CherryTech-App-Configs/podman/8006_immich/secrets
-      - Run podman secret create immich_valkey_password /srv/CherryTech-App-Configs/podman/8006_immich/secrets
-  - Start the App:
-    - Login to app user (sudo -u immich -i)
-    - podman-compose -f immich.yaml up -d
-      - Use -d to detach the app from the terminal
+      - Login to app user (sudo -u immich -i)
+      - Run podman secret create immich_db_password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/immich_db_password
+      - Run podman secret create immich_redis_password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/immich_redis_password
+  - Create storage directories: (sudo -u immich -i)
+    - Set up NFS on NAS
+      - Grant Root user all priviledges on share
+      - On NFS share set CentOS server IP as allowed host and Mapall to Root. (All access from that IP is given the root account tag)
+      - sudo mkdir /mnt/immich
+      - sudo nano /etc/fstab
+        - {{NAS IP}}:/mnt/{{share-name}}/immich /mnt/immich nfs defaults,_netdev 0 0
+      - sudo mkdir /mnt/immich
+      - sudo mount -a
+    - mkdir /home/immich/.data/immich/immich-db
+    - mkdir /home/immich/.data/immich/immich-db-backups
+    - mkdir /home/immich/.data/immich/immich-model-cache
+    - mkdir /home/immich/.data/immich/immich-valkey
+  - Create SystemD Quadlet
+    - sudo -u immich -i
+    - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+    - cd /srv/CherryTech-App-Configs/podman/8006_immich
+    - podman quadlet install -r --reload-systemd immich-app.container vaultwarden-db.container immich-machine-learning.container immich-redis.container immich.pod
 
 Resource Limits:
 The resource limits provided are intended to prevent full server crashes should an app have a resource management issues. The provided values are for 5-10 users roughly, if you have more users you may have to increase the limits.
@@ -40,8 +54,6 @@ Wiki Link:
 Other Good Sources:
   - https://docs.immich.app/install/environment-variables - Compose Options
   - https://github.com/jbtrystram/immich-podman-systemd/tree/main
-
-
 
 Secrets:
 Secrets ensure confidential information like database and admin passwords are only visible to superusers and the application's dedicated user.

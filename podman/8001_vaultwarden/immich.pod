@@ -1,0 +1,8 @@
+# immich.pod
+
+[Pod]
+PublishPort=8006:80
+UserNS=keep-id
+
+[Install]
+WantedBy=default.target
