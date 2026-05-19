@@ -16,7 +16,8 @@ Notify=healthy
 AutoUpdate=registry
 Memory=2g
 NoNewPrivileges=true
-Environment=REDIS_ARGS=--requirepass $REDIS_PASSWORD --appendonly yes
+Environment=REDIS_PASSWORD=${REDIS_PASSWORD}
+Exec=valkey-server --appendonly yes --requirepass ${REDIS_PASSWORD}
 
 [Service]
 Restart=always
