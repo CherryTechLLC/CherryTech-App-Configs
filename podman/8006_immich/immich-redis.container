@@ -16,6 +16,7 @@ Notify=healthy
 AutoUpdate=registry
 Memory=2g
 NoNewPrivileges=true
+Environment=REDIS_ARGS=--requirepass $REDIS_PASSWORD --appendonly yes
 
 [Service]
 Restart=always
