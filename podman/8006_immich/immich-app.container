@@ -5,7 +5,7 @@ Requires=immich-redis.service immich-db.service immich-machine-learning.service
 After=immich-redis.service immich-db.service immich-machine-learning.service
 
 [Container]
-Image=ghcr.io/immich-app/immich-server:latest
+Image=ghcr.io/immich-app/immich-server:release
 ContainerName=immich-app
 Pod=immich.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
