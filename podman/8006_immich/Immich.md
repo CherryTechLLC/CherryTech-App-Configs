@@ -13,17 +13,17 @@ DEPLOYMENT INSTRUCTIONS:
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/8006_immich/secrets
     - Files:
-      - Create .immich_db_password.txt
+      - Create .immich-db-password.txt
         - Paste the password into the text file (By itself)
-      - Create .immich_redis_password.txt
+      - Create .immich-redis-password.txt
         - Paste the password into the text file (By itself)
     - Protect Secrets (MANDATORY)
       - sudo chown -R immich:immich /srv/CherryTech-App-Configs/podman/8006_immich/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8006_immich/secrets
     - Generate Secrets
       - Login to app user (sudo -u immich -i)
-      - Run podman secret create immich_db_password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/immich_db_password
-      - Run podman secret create immich_redis_password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/immich_redis_password
+      - Run podman secret create immich-db-password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/immich-db-password
+      - Run podman secret create immich-redis-password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/immich-redis-password
   - Create storage directories: (sudo -u immich -i)
     - Set up NFS on NAS
       - Grant Root user all priviledges on share
