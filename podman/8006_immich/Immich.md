@@ -15,30 +15,27 @@ DEPLOYMENT INSTRUCTIONS:
     - Files:
       - Create .immich-db-password.txt
         - Paste the password into the text file (By itself)
-      - Create .immich-redis-password.txt
-        - Paste the password into the text file (By itself)
     - Protect Secrets (MANDATORY)
       - sudo chown -R immich:immich /srv/CherryTech-App-Configs/podman/8006_immich/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8006_immich/secrets
     - Generate Secrets
       - Login to app user (sudo -u immich -i)
       - Run podman secret create immich-db-password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/immich-db-password
-      - Run podman secret create immich-redis-password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/immich-redis-password
-  - Create storage directories: (sudo -u immich -i)
-    - Set up NFS on NAS
-      - Grant Root user all priviledges on share
-      - On NFS share set CentOS server IP as allowed host and Mapall to Root. (All access from that IP is given the root account tag)
-      - sudo mkdir /mnt/immich
-      - sudo dnf install nfs-utils -y
-      - sudo nano /etc/fstab
-        - {{NAS IP}}:/mnt/{{share-name}}/Immich /mnt/immich nfs defaults,_netdev 0 0
-      - sudo systemctl daemon-reload
-      - sudo mkdir /mnt/immich
-      - sudo mount -a
+
     - mkdir /home/immich/.data/immich/immich-db
     - mkdir /home/immich/.data/immich/immich-db-backups
     - mkdir /home/immich/.data/immich/immich-model-cache
     - mkdir /home/immich/.data/immich/immich-valkey
+    - mkdir /home/immich/.data/immich/immich-uploads
+  - Create storage directories: (sudo -u immich -i)
+    - OPTIONAL: Set up NFS on NAS
+      - Grant Root user all priviledges on share
+      - On NFS share set CentOS server IP as allowed host and Mapall to Root. (All access from that IP is given the root account tag)
+      - sudo dnf install nfs-utils -y
+      - sudo nano /etc/fstab
+        - {{NAS IP}}:/mnt/{{share-name}}/Immich /home/immich/.data/immich/immich-uploads nfs defaults,_netdev 0 0
+      - sudo systemctl daemon-reload
+      - sudo mount -a
   - Create SystemD Quadlet
     - sudo -u immich -i
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"

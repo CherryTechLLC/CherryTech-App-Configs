@@ -11,7 +11,7 @@ Pod=immich.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
 Secret=immich-db-password,type=env,target=DB_PASSWORD
 Volume=/etc/localtime:/etc/localtime:ro
-Volume=/home/immich/.data/immich/immich-uploads::/data:Z
+Volume=/home/immich/.data/immich/immich-uploads:/data:Z
 HealthCmd=/bin/bash immich-healthcheck
 HealthStartPeriod=3m
 HealthInterval=120s
