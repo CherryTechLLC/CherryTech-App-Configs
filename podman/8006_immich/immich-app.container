@@ -10,7 +10,6 @@ ContainerName=immich-app
 Pod=immich.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
 Secret=immich-db-password,type=env,target=DB_PASSWORD
-Secret=immich-redis-password,type=env,target=REDIS_PASSWORD
 Volume=/etc/localtime:/etc/localtime:ro
 Volume=/home/immich/.data/immich/immich-uploads::/data:Z
 HealthCmd=/bin/bash immich-healthcheck
