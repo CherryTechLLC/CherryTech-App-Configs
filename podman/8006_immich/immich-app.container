@@ -1,8 +1,8 @@
 #immch-app.container
 
 [Unit]
-Requires=immich-redis.service immich-db.service immich-machine-learning.service
-After=immich-redis.service immich-db.service immich-machine-learning.service
+Requires=immich-redis.service immich-db.service
+After=immich-redis.service immich-db.service
 
 [Container]
 Image=ghcr.io/immich-app/immich-server:release
@@ -13,7 +13,7 @@ Secret=immich-db-password,type=env,target=DB_PASSWORD
 Volume=/etc/localtime:/etc/localtime:ro
 Volume=/home/immich/.data/immich/immich-uploads:/data:Z
 HealthCmd=/bin/bash immich-healthcheck
-HealthStartPeriod=3m
+HealthStartPeriod=30
 HealthInterval=120s
 HealthTimeout=30s
 HealthRetries=10

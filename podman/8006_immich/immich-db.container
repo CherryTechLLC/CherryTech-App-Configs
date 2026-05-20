@@ -9,7 +9,7 @@ Volume=/home/immich/.data/immich/immich-db:/var/lib/postgresql/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
 Secret=immich-db-password,type=env,target=POSTGRES_PASSWORD
 HealthCmd=/usr/bin/pg_isready -q -d immich -U immich
-HealthStartPeriod=5m
+HealthStartPeriod=30s
 HealthInterval=130s
 HealthTimeout=15s
 HealthRetries=10
