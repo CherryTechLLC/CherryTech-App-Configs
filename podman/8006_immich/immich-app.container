@@ -1,8 +1,8 @@
 #immch-app.container
 
 [Unit]
-Requires=immich-redis.service immich-db.service
-After=immich-redis.service immich-db.service
+Requires=immich-redis.service immich-db.service immich-machine-learning.service
+After=immich-redis.service immich-db.service immich-machine-learning.service
 
 [Container]
 Image=ghcr.io/immich-app/immich-server:release
@@ -24,7 +24,6 @@ NoNewPrivileges=true
 
 [Service]
 # give some time to the database to start
-ExecStartPre=sleep 30
 Restart=always
 
 [Install]
