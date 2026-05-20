@@ -13,7 +13,7 @@ Secret=immich-db-password,type=env,target=DB_PASSWORD
 Volume=/etc/localtime:/etc/localtime:ro
 Volume=/home/immich/.data/immich/immich-uploads:/data:Z
 HealthCmd=/bin/bash immich-healthcheck
-HealthStartPeriod=30
+HealthStartPeriod=30s
 HealthInterval=120s
 HealthTimeout=30s
 HealthRetries=10
