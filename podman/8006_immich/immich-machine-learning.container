@@ -1,7 +1,7 @@
 #immich-machine-learning.container
 
 [Container]
-Image=ghcr.io/immich-app/immich-machine-learning:2-release
+Image=ghcr.io/immich-app/immich-machine-learning:release
 ContainerName=immich-machine-learning
 Pod=immich.pod
 Volume=/home/immich/.data/immich/immich-model-cache:/cache
