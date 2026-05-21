@@ -6,6 +6,10 @@ sudo dnf copr enable @caddy/caddy
 
 sudo dnf install caddy (Will delete, sets up service and user and everything)
 
+sudo nano /etc/dnf/dnf.conf
+
+Add the line:
+exclude=caddy
 
 CHECK FOR NEW CADDY VERSION BEFORE RUNNING THIS NEXT COMMAND
 
