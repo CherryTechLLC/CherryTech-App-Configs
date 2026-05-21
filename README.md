@@ -6,3 +6,8 @@ These configurations are not sufficient for internet exposed instances. The conf
 
 # AI Policy
 CherryTech LLC. does not use generative AI or other models for creating production facing code or configurations. AI may be used for non-production work or research.
+
+# Get Started!
+Create a new folder and use git to make a copy of these files and get started!
+
+git clone https://github.com/CherryTechLLC/CherryTech-App-Configs.git
