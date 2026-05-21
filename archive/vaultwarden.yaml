@@ -15,7 +15,7 @@ services:
     networks:
       - vaultwarden-net
     env_file:
-     - /srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
+     - vaultwarden.env
     volumes:
       - /home/vaultwarden/.data/vaultwarden/vaultwarden-db:/var/lib/postgresql/data:Z
       - /home/vaultwarden/.data/vaultwarden/vaultwarden-db-backups:/var/db-backups/backups:Z
@@ -33,7 +33,7 @@ services:
     networks:
       - vaultwarden-net
     env_file:
-     - /srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
+     - vaultwarden.env
     volumes:
       - /home/vaultwarden/.data/vaultwarden/vaultwarden-app:/data:Z
     ports:
