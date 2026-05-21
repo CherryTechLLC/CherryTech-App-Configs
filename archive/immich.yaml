@@ -14,7 +14,7 @@ services:
       start_period: 30s
     networks:
       - immich-net
-    env_file: /srv/CherryTech-App-Configs/podman/8006_immich/.env
+    env_file: immich.env
     volumes:
       - /home/immich/.data/immich/immich-db-backups:/var/db-backups/backups:Z
       - /home/immich/.data/immich/immich-db-backups:/var/lib/postgresql/data:Z
@@ -34,15 +34,9 @@ services:
       retries: 3
     networks:
       - immich-net
-    env_file: /srv/CherryTech-App-Configs/podman/8006_immich/.env
-    secrets:
-      - immich_valkey_password
+    env_file: immich.env
     volumes:
       - immich-valkey:/data:Z
-    command: >
-      sh -c 'exec valkey-server
-      --appendonly yes
-      --requirepass "$$(cat /run/secrets/immich_valkey_password)"'
     mem_limit: 2g
     security_opt:
       - no-new-privileges:true
@@ -55,13 +49,13 @@ services:
     #   file: hwaccel.transcoding.yml
     #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
     volumes:
-      - /mnt/immich:/data
+      - /home/immich/.data/immich/immich-uploads:/data
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     ports:
       - '127.0.0.1:8006:2283'
-    env_file: /srv/CherryTech-App-Configs/podman/8006_immich/.env
+    env_file: immich.env
     depends_on:
       immich-db:
         condition: service_healthy
