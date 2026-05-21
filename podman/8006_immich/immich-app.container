@@ -1,11 +1,10 @@
 #immch-app.container
 
 [Unit]
-Requires=immich-redis.service immich-db.service immich-machine-learning.service
-After=immich-redis.service immich-db.service immich-machine-learning.service
+Requires=immich-redis.service immich-db.service
 
 [Container]
-Image=ghcr.io/immich-app/immich-server:release
+Image=ghcr.io/immich-app/immich-server:v2
 ContainerName=immich-app
 Pod=immich.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
@@ -13,7 +12,7 @@ Secret=immich-db-password,type=env,target=DB_PASSWORD
 Volume=/etc/localtime:/etc/localtime:ro
 Volume=/home/immich/.data/immich/immich-uploads:/data:Z
 HealthCmd=/bin/bash immich-healthcheck
-HealthStartPeriod=30s
+HealthStartPeriod=3m
 HealthInterval=120s
 HealthTimeout=30s
 HealthRetries=10
@@ -23,8 +22,9 @@ Memory=3g
 NoNewPrivileges=true
 
 [Service]
-# give some time to the database to start
 Restart=always
+TimeoutStartSec=900
+ExecStartPre=sleep 30
 
 [Install]
 WantedBy=default.target

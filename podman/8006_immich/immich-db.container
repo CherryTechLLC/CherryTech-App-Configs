@@ -4,13 +4,13 @@
 Image=ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
 ContainerName=immich-db
 Pod=immich.pod
-Volume=/home/immich/.data/immich/immich-db-backups:/var/db-backups/backups:Z
+Volume=/home/immich/.data/immich/immich-db-backups:/var/db-backups/:Z
 Volume=/home/immich/.data/immich/immich-db:/var/lib/postgresql/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
 Secret=immich-db-password,type=env,target=POSTGRES_PASSWORD
 HealthCmd=/usr/bin/pg_isready -q -d immich -U immich
-HealthStartPeriod=30s
-HealthInterval=130s
+HealthStartPeriod=5m
+HealthInterval=60s
 HealthTimeout=15s
 HealthRetries=10
 Notify=healthy
@@ -20,6 +20,7 @@ NoNewPrivileges=true
 
 [Service]
 Restart=always
+TimeoutStartSec=900
 
 [Install]
 WantedBy=default.target

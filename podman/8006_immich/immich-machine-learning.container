@@ -1,11 +1,10 @@
 #immich-machine-learning.container
 
 [Container]
-Image=ghcr.io/immich-app/immich-machine-learning:release
+Image=ghcr.io/immich-app/immich-machine-learning:v2
 ContainerName=immich-machine-learning
 Pod=immich.pod
 Volume=/home/immich/.data/immich/immich-model-cache:/cache
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
 HealthCmd=/bin/bash -c 'exec 5<>/dev/tcp/127.0.0.1/3003'
 HealthStartPeriod=30s
 HealthInterval=120s
@@ -14,10 +13,10 @@ HealthRetries=10
 Notify=healthy
 AutoUpdate=registry
 Memory=2g
-NoNewPrivileges=true
 
 [Service]
 Restart=always
+TimeoutStartSec=900
 
 [Install]
 WantedBy=default.target
