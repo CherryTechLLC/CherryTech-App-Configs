@@ -21,15 +21,14 @@ DEPLOYMENT INSTRUCTIONS:
     - Generate Secrets
       - Login to app user (sudo -u immich -i)
       - Run podman secret create immich-db-password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/immich-db-password
-
+   - Create storage directories: (sudo -u immich -i)
     - mkdir /home/immich/.data/immich/immich-db
     - mkdir /home/immich/.data/immich/immich-db-backups
     - mkdir /home/immich/.data/immich/immich-model-cache
     - mkdir /home/immich/.data/immich/immich-valkey
     - mkdir /home/immich/.data/immich/immich-uploads
-  - Create storage directories: (sudo -u immich -i)
     - OPTIONAL: Set up NFS on NAS
-      - Grant Root user all priviledges on share
+      - Grant Root user all priviledges on share (on NAS)
       - On NFS share set CentOS server IP as allowed host and Mapall to Root. (All access from that IP is given the root account tag)
       - sudo dnf install nfs-utils -y
       - sudo nano /etc/fstab
