@@ -2,6 +2,7 @@
 
 [Unit]
 Requires=immich-redis.service immich-db.service
+After=immich-redis.service immich-db.service
 
 [Container]
 Image=ghcr.io/immich-app/immich-server:v2

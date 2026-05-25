@@ -1,0 +1,10 @@
+# invoice-ninja.pod
+# Invoice Ninja Quadlet
+
+[Pod]
+PodName=invoice-ninja
+PublishPort=127.0.0.1:8006:80
+UserNS=keep-id
+
+[Install]
+WantedBy=default.target

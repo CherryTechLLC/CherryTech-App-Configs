@@ -1,3 +1,4 @@
+#Invoiceninja YAML File Docker/Podman Compose
 name: invoice-ninja
 
 services:
@@ -8,25 +9,19 @@ services:
     restart: unless-stopped
     networks:
       - invoiceninja-net
-    environment:
-      TZ: ${TZ}
-      MYSQL_DATABASE: invoiceninja
-      MYSQL_USER: invoiceninja
-      MYSQL_PASSWORD_FILE: /run/secrets/invoiceninja_db_password
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/invoiceninja_db_root_password
-    secrets:
-      - invoiceninja_db_password
-      - invoiceninja_db_root_password
+    env_file: immich.env
     volumes:
+      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-db-backups:/var/db-backups:Z
       - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-db:/var/lib/mysql:Z
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-      interval: 30s
+      interval: 120s
       timeout: 10s
-      retries: 5
+      retries: 15
       start_period: 60s
-    mem_limit: ${INVOICENINJA_DB_MEMORY_LIMIT}
-    cpus: ${INVOICENINJA_DB_CPU_LIMIT}
+    mem_limit: 2g
+    security_opt:
+      - no-new-privileges:true
 
   invoiceninja-redis:
     image: docker.io/valkey/valkey:8-alpine
@@ -34,24 +29,16 @@ services:
     hostname: invoiceninja-redis
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "valkey-cli -a \"$$(cat /run/secrets/invoiceninja_valkey_password)\" ping | grep PONG"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
+      test: ["CMD-SHELL", "valkey-cli -a ping | grep PONG"]
+      interval: 120s
+      timeout: 15s
+      retries: 5
     networks:
       - invoiceninja-net
-    command: >
-      sh -c 'exec valkey-server
-      --appendonly yes
-      --requirepass "$$(cat /run/secrets/invoiceninja_valkey_password)"'
-    environment:
-      TZ: ${TZ}
-    secrets:
-      - invoiceninja_valkey_password
+    env_file: immich.env
     volumes:
       - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-valkey:/data:Z
-    mem_limit: ${INVOICENINJA_VALKEY_MEM_LIMIT}
-    cpus: ${INVOICENINJA_VALKEY_CPU_LIMIT}
+    mem_limit: 2g
     security_opt:
       - no-new-privileges:true
 
@@ -65,52 +52,20 @@ services:
         condition: service_healthy
       invoiceninja-redis:
         condition: service_healthy
+    env_file: immich.env
     networks:
       - invoiceninja-net
-    environment:
-      TZ: ${TZ}
-      APP_URL: ${DOMAIN}
-      APP_KEY: ${INVOICENINJA_APP_KEY}
-      APP_ENV: production
-      TRUSTED_PROXIES: ${TRUSTED_PROXIES}
-
-      CACHE_DRIVER: redis
-      QUEUE_CONNECTION: redis
-      SESSION_DRIVER: redis
-
-      IN_USER_EMAIL: ${INVOICENINJA_ADMIN_EMAIL}
-      IN_PASSWORD: ${INVOICENINJA_ADMIN_PASSWORD}
-
-      DB_HOST: invoiceninja-db
-      DB_PORT: 3306
-      DB_DATABASE: invoiceninja
-      DB_USERNAME: invoiceninja
-      DB_PASSWORD: ${INVOICENINJA_DB_PASSWORD}
-
-      REDIS_HOST: invoiceninja-redis
-      REDIS_PORT: 6379
-      REDIS_PASSWORD: ${INVOICENINJA_VALKEY_PASSWORD}
-
-      APP_DEBUG: ${DEBUG_MODE}
-      REQUIRE_HTTPS: false
-      IS_DOCKER: true
-      PHANTOMJS_PDF_GENERATION: false
-      PDF_GENERATOR: snappdf
-      GOOGLE_MAPS_ENABLED: ${USE_GOOGLE_MAPS}
-      REMEMBER_ME_ENABLED: ${REMEMBER_ME_ENABLED}
-      SESSION_EXPIRE_ON_CLOSE: ${SESSION_EXPIRE_ON_CLOSE}
-      AUTO_LOGOUT_SECONDS: ${AUTO_LOGOUT_SECONDS}
-      LOCAL_DOWNLOAD: true
     healthcheck:
       test: ["CMD-SHELL", "pgrep php-fpm >/dev/null || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+      interval: 120s
+      timeout: 15s
+      retries: 15
     volumes:
       - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-public:/var/www/html/public:z
       - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-storage:/var/www/html/storage:z
-    mem_limit: ${INVOICENINJA_APP_MEMORY_LIMIT}
-    cpus: ${INVOICENINJA_APP_CPU_LIMIT}
+    mem_limit: 2g
+    security_opt:
+      - no-new-privileges:true
 
   invoiceninja-nginx:
     image: docker.io/nginx:alpine
@@ -126,22 +81,18 @@ services:
       - "127.0.0.1:8004:80"
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://127.0.0.1/ >/dev/null || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+      interval: 120s
+      timeout: 15s
+      retries: 15
       start_period: 90s
+    env_file: immich.env
     volumes:
       - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-public:/var/www/html/public:ro,z
       - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-storage:/var/www/html/storage:ro,z
       - /home/invoice-ninja/.data/invoice-ninja/nginx:/etc/nginx/conf.d:ro,Z
-
-secrets:
-  invoiceninja_db_password:
-    external: true
-  invoiceninja_db_root_password:
-    external: true
-  invoiceninja_valkey_password:
-    external: true
+    mem_limit: 2g
+    security_opt:
+      - no-new-privileges:true
 
 networks:
   invoiceninja-net:
