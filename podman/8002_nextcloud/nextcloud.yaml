@@ -8,24 +8,17 @@ services:
     restart: unless-stopped
     networks:
       - nextcloud-net
-    environment:
-      TZ: ${TZ}
-      POSTGRES_DB: nextcloud
-      POSTGRES_USER: nextcloud
-      POSTGRES_PASSWORD_FILE: /run/secrets/nextcloud_db_password
-      PGDATA: /var/lib/postgresql/data/pgdata
     secrets:
       - nextcloud_db_password
     volumes:
-      - nextcloud-db:/var/lib/postgresql/data:Z
+      - /home/nextcloud/.data/nextcloud/nextcloud-db:/var/lib/postgresql/data:Z
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U nextcloud -d nextcloud"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
+      interval: 120s
+      timeout: 15s
+      retries: 15
       start_period: 30s
-    mem_limit: ${NEXTCLOUD_DB_MEMORY_LIMIT}
-    cpus: ${NEXTCLOUD_DB_CPU_LIMIT}
+    mem_limit: 2g
     pids_limit: 256
     security_opt:
       - no-new-privileges:true
@@ -41,20 +34,18 @@ services:
       sh -c 'exec valkey-server
       --appendonly yes
       --requirepass "$$(cat /run/secrets/nextcloud_valkey_password)"'
-    environment:
-      TZ: ${TZ}
+
     secrets:
       - nextcloud_valkey_password
     volumes:
-      - nextcloud-valkey:/data:Z
+      - /home/nextcloud/.data/nextcloud/nextcloud-valkey:/data:Z
     healthcheck:
       test: ["CMD-SHELL", "valkey-cli -a \"$$(cat /run/secrets/nextcloud_valkey_password)\" ping | grep PONG"]
       interval: 30s
       timeout: 5s
       retries: 5
       start_period: 15s
-    mem_limit: ${NEXTCLOUD_VALKEY_MEMORY_LIMIT}
-    cpus: ${NEXTCLOUD_VALKEY_CPU_LIMIT}
+    mem_limit: 2g
     pids_limit: 128
     security_opt:
       - no-new-privileges:true
@@ -102,9 +93,8 @@ services:
       - nextcloud_db_password
       - nextcloud_valkey_password
     volumes:
-      - nextcloud-app:/var/www/html:Z
-    mem_limit: ${NEXTCLOUD_APP_MEMORY_LIMIT}
-    cpus: ${NEXTCLOUD_APP_CPU_LIMIT}
+      - /home/nextcloud/.data/nextcloud/nextcloud-app:/var/www/html:Z
+    mem_limit: 3g
     pids_limit: 512
     security_opt:
       - no-new-privileges:true
