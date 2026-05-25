@@ -28,10 +28,10 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets
   - Generate Secrets
     - Login to app user (sudo -u invoice-ninja -i
-    - Run podman secret create invoiceninja_db_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/invoiceninja_db_password
-    - Run podman secret create invoiceninja_db_root_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/invoiceninja_db_root_password
-    - Run podman secret create invoiceninja_app_key /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/invoiceninja_app_key
-    - Run podman secret create invoiceninja_valkey_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/invoiceninja_admin_password
+    - Run podman secret create invoiceninja_db_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/.invoiceninja_db_password
+    - Run podman secret create invoiceninja_db_root_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/.invoiceninja_db_root_password
+    - Run podman secret create invoiceninja_app_key /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/.invoiceninja_app_key
+    - Run podman secret create invoiceninja_admin_password /srv/CherryTech-App-Configs/podman/8004_invoice-ninja/secrets/.invoiceninja_admin_password
   - Prepare Bind Mounts
     - Login to app user (sudo -u invoice-ninja -i)
     - Build directory structure
