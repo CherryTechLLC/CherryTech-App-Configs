@@ -15,7 +15,7 @@ Secret=invoice-ninja-app-key,type=env,target=APP_KEY
 Volume=/home/invoice-ninja/.data/invoice-ninja/invoiceninja-public:/var/www/html/public:z
 Volume=/home/invoice-ninja/.data/invoice-ninja/invoiceninja-storage:/var/www/html/storage:z
 HealthCmd=/bin/bash -c 'pgrep php-fpm >/dev/null || exit 1'
-HealthStartPeriod=60
+HealthStartPeriod=60s
 HealthInterval=120s
 HealthTimeout=30s
 HealthRetries=10
