@@ -7,8 +7,8 @@ Pod=invoice-ninja.pod
 Volume=/home/invoice-ninja/.data/invoice-ninja/invoiceninja-db-backups:/var/db-backups:Z
 Volume=/home/invoice-ninja/.data/invoice-ninja/invoiceninja-db:/var/lib/mysql:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8004_invoice-ninja/.env
-Secret=invoiceninja-db-password,type=env,target=MYSQL_PASSWORD
-Secret=invoiceninja-db-root-password,type=env,target=MYSQL_ROOT_PASSWORD
+Secret=invoice-ninja-db-password,type=env,target=MYSQL_PASSWORD
+Secret=invoice-ninja-db-root-password,type=env,target=MYSQL_ROOT_PASSWORD
 HealthCmd=/bin/bash -c 'healthcheck.sh --connect --innodb_initialized'
 HealthStartPeriod=60s
 HealthInterval=60s
