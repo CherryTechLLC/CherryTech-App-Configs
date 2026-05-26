@@ -1,11 +1,11 @@
-#invoice-ninja-redis.container
+#invoiceninja-redis.container
 
 [Container]
 Image=docker.io/valkey/valkey:9
-ContainerName=invoice-ninja-redis
-Pod=invoice-ninja.pod
-Volume=/home/invoice-ninja/.data/invoice-ninja/invoiceninja-valkey:/data:Z
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/8004_invoice-ninja/.env
+ContainerName=invoiceninja-redis
+Pod=invoiceninja.pod
+Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-valkey:/data:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8004_invoiceninja/.env
 HealthCmd=valkey-cli ping
 HealthStartPeriod=30s
 HealthInterval=120s

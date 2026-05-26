@@ -1,5 +1,5 @@
 #Invoiceninja YAML File Docker/Podman Compose
-name: invoice-ninja
+name: invoiceninja
 
 services:
   invoiceninja-db:
@@ -11,8 +11,8 @@ services:
       - invoiceninja-net
     env_file: immich.env
     volumes:
-      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-db-backups:/var/db-backups:Z
-      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-db:/var/lib/mysql:Z
+      - /home/invoiceninja/.data/invoiceninja/invoiceninja-db-backups:/var/db-backups:Z
+      - /home/invoiceninja/.data/invoiceninja/invoiceninja-db:/var/lib/mysql:Z
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 120s
@@ -37,7 +37,7 @@ services:
       - invoiceninja-net
     env_file: immich.env
     volumes:
-      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-valkey:/data:Z
+      - /home/invoiceninja/.data/invoiceninja/invoiceninja-valkey:/data:Z
     mem_limit: 2g
     security_opt:
       - no-new-privileges:true
@@ -61,8 +61,8 @@ services:
       timeout: 15s
       retries: 15
     volumes:
-      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-public:/var/www/html/public:z
-      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-storage:/var/www/html/storage:z
+      - /home/invoiceninja/.data/invoiceninja/invoiceninja-public:/var/www/html/public:z
+      - /home/invoiceninja/.data/invoiceninja/invoiceninja-storage:/var/www/html/storage:z
     mem_limit: 2g
     security_opt:
       - no-new-privileges:true
@@ -87,9 +87,9 @@ services:
       start_period: 90s
     env_file: immich.env
     volumes:
-      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-public:/var/www/html/public:ro,z
-      - /home/invoice-ninja/.data/invoice-ninja/invoiceninja-storage:/var/www/html/storage:ro,z
-      - /home/invoice-ninja/.data/invoice-ninja/nginx:/etc/nginx/conf.d:ro,Z
+      - /home/invoiceninja/.data/invoiceninja/invoiceninja-public:/var/www/html/public:ro,z
+      - /home/invoiceninja/.data/invoiceninja/invoiceninja-storage:/var/www/html/storage:ro,z
+      - /home/invoiceninja/.data/invoiceninja/nginx:/etc/nginx/conf.d:ro,Z
     mem_limit: 2g
     security_opt:
       - no-new-privileges:true
