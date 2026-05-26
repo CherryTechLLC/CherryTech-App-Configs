@@ -5,7 +5,7 @@ Requires=invoice-ninja-redis.service invoice-ninja-db.service
 After=invoice-ninja-redis.service invoice-ninja-db.service
 
 [Container]
-Image=docker.io/invoiceninja/invoiceninja-debian:5.12
+Image=docker.io/invoiceninja/invoiceninja-debian:5
 ContainerName=invoice-ninja-app
 Pod=invoice-ninja.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8004_invoice-ninja/.env
