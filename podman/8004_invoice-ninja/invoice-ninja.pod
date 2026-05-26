@@ -3,7 +3,7 @@
 
 [Pod]
 PodName=invoice-ninja
-PublishPort=127.0.0.1:8006:80
+PublishPort=127.0.0.1:8004:80
 UserNS=keep-id
 
 [Install]
