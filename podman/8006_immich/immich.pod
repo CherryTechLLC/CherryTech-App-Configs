@@ -1,4 +1,4 @@
-# immich.po
+# immich.pod
 # Immich Quadlet
 
 [Pod]
