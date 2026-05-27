@@ -1,0 +1,26 @@
+# activepieces-db.container
+
+[Container]
+Image=docker.io/pgvector/pgvector:0.8.0-pg14
+ContainerName=activepieces-db
+Pod=activepieces.pod
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_activepieces/.env
+Secret=activepieces-db-password,type=env,target=POSTGRES_PASSWORD
+Volume=/home/activepieces/.data/activepieces/activepieces-db:/var/lib/postgresql/data:Z
+HealthCmd=/usr/bin/pg_isready -q -d activepieces -U activepieces
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+ExecStartPre=sleep 30
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,31 @@
+# activepieces-worker.container
+
+[Unit]
+Requires=activepieces-db.service activepieces-redis.service activepieces-app.service
+After=activepieces-db.service activepieces-redis.service activepieces-app.service
+
+[Container]
+Image=ghcr.io/activepieces/activepieces:0.83.0
+ContainerName=activepieces-worker
+Pod=activepieces.pod
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_activepieces/.env
+Environment="AP_CONTAINER_TYPE=WORKER"
+Secret=activepieces-db-password,type=env,target=AP_POSTGRES_PASSWORD
+Volume=/home/activepieces/.data/activepieces/activepieces-cache:/usr/src/app/cache:z
+HealthCmd=pgrep -f "dist/packages/server/api" || exit 1
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+ExecStartPre=sleep 30
+
+[Install]
+WantedBy=default.target

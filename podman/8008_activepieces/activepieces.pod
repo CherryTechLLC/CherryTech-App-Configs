@@ -1,0 +1,10 @@
+# activepieces.pod
+# Activepieces Quadlet
+
+[Pod]
+PodName=activepieces
+PublishPort=127.0.0.1:8008:8008
+UserNS=keep-id
+
+[Install]
+WantedBy=default.target

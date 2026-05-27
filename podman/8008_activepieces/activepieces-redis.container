@@ -1,0 +1,24 @@
+#activepieces-redis.container
+
+[Container]
+Image=docker.io/valkey/valkey:9@sha256:3b55fbaa0cd93cf0d9d961f405e4dfcc70efe325e2d84da207a0a8e6d8fde4f9
+ContainerName=activepieces-redis
+Pod=activepieces.pod
+Volume=/home/activepieces/.data/activepieces/activepieces-valkey:/data:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_activepieces/.env
+HealthCmd=HealthCmd=valkey-cli ping | grep PONG || exit 1
+HealthStartPeriod=30s
+HealthInterval=120s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=2g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target
