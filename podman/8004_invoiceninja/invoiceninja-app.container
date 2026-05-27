@@ -14,7 +14,7 @@ Secret=invoiceninja-admin-password,type=env,target=IN_PASSWORD
 Secret=invoiceninja-app-key,type=env,target=APP_KEY
 Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-public:/var/www/html/public:z
 Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-storage:/var/www/html/storage:z
-HealthCmd=pgrep -f php-fpm
+HealthCmd=php-fpm
 HealthStartPeriod=3m
 HealthInterval=120s
 HealthTimeout=30s

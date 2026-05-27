@@ -17,7 +17,7 @@ DEPLOYMENT INSTRUCTIONS:
       - Create .invoiceninja_admin_password.text
         - Paste the password into the text file (By itself)
       - App Key:
-        - podman run --rm invoiceninja/invoiceninja-debian:latest php artisan key:generate --show
+        - sudo podman run --rm invoiceninja/invoiceninja-debian:latest php artisan key:generate --show
         - Create .invoiceninja_app_key.text
         - Paste the key into the text file including "base65:" at the start and "=" at the end.
   - Create a new dedicated user for this app
@@ -28,10 +28,10 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets
   - Generate Secrets
     - Login to app user (sudo -u invoiceninja -i
-    - Run podman secret create invoiceninja_db_password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja_db_password
-    - Run podman secret create invoiceninja_db_root_password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja_db_root_password
-    - Run podman secret create invoiceninja_app_key /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja_app_key
-    - Run podman secret create invoiceninja_admin_password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja_admin_password
+    - Run podman secret create invoiceninja-db-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-db-password.txt
+    - Run podman secret create invoiceninja_db-root-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-db-root-password.txt
+    - Run podman secret create invoiceninja-app-key /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-app_key.txt
+    - Run podman secret create invoiceninja-admin-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-admin-password.txt
   - Prepare Bind Mounts
     - Login to app user (sudo -u invoiceninja -i)
     - Build directory structure
@@ -47,7 +47,7 @@ DEPLOYMENT INSTRUCTIONS:
   Create SystemD Quadlet
     - sudo -u invoiceninja -i
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
-    - cd /srv/CherryTech-App-Configs/podman/8004_invoic-eninja
+    - cd /srv/CherryTech-App-Configs/podman/8004_invoiceninja
     - podman quadlet install -r --reload-systemd invoiceninja-app.container invoiceninja-db.container invoiceninja-nginx.container invoiceninja-redis.container invoiceninja.pod
 
 Resource Limits:
