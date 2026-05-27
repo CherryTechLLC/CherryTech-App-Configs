@@ -7,6 +7,7 @@ Pod=activepieces.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_activepieces/.env
 Secret=activepieces-db-password,type=env,target=POSTGRES_PASSWORD
 Volume=/home/activepieces/.data/activepieces/activepieces-db:/var/lib/postgresql/data:Z
+Volume=/home/activepieces/.data/activepieces/activepieces-db-backups:/var/db-backups/:Z
 HealthCmd=/usr/bin/pg_isready -q -d activepieces -U activepieces
 HealthStartPeriod=3m
 HealthInterval=120s

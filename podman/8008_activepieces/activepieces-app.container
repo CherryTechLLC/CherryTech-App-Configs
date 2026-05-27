@@ -11,6 +11,9 @@ Pod=activepieces.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_activepieces/.env
 Environment="AP_CONTAINER_TYPE=APP"
 Secret=activepieces-db-password,type=env,target=AP_POSTGRES_PASSWORD
+Secret=activepieces-api-key,type=env,target=AP_API_KEY
+Secret=activepieces-encryption-key,type=env,target=AP_ENCRYPTION_KEY
+Secret=activepieces-jwt-secret,type=env,target=AP_JWT_SECRET
 Volume=/home/activepieces/.data/activepieces/activepieces-cache:/usr/src/app/cache:z
 HealthCmd=curl -fsS http://127.0.0.1:3000/api/v1/health || exit 1
 HealthStartPeriod=3m
