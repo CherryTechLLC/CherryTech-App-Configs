@@ -6,7 +6,7 @@ ContainerName=activepieces-redis
 Pod=activepieces.pod
 Volume=/home/activepieces/.data/activepieces/activepieces-valkey:/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_activepieces/.env
-HealthCmd=HealthCmd=valkey-cli ping | grep PONG || exit 1
+HealthCmd=HealthCmd=valkey-cli ping
 HealthStartPeriod=30s
 HealthInterval=120s
 HealthTimeout=15s
