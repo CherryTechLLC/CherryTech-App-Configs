@@ -28,15 +28,13 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets
   - Generate Secrets
     - Login to app user (sudo -u invoiceninja -i
-    - Run podman secret create invoiceninja-db-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-db-password.txt
-    - Run podman secret create invoiceninja_db-root-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-db-root-password.txt
-    - Run podman secret create invoiceninja-app-key /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-app_key.txt
-    - Run podman secret create invoiceninja-admin-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-admin-password.txt
+    - podman secret create invoiceninja-db-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-db-password.txt
+    - podman secret create invoiceninja_db-root-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-db-root-password.txt
+    - podman secret create invoiceninja-app-key /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-app_key.txt
+    - podman secret create invoiceninja-admin-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-admin-password.txt
   - Prepare Bind Mounts
     - Login to app user (sudo -u invoiceninja -i)
     - Build directory structure
-      - mkdir /home/invoiceninja/.data
-      - mkdir /home/invoiceninja/.data/invoiceninja
       - mkdir /home/invoiceninja/.data/invoiceninja/invoiceninja-public
       - mkdir /home/invoiceninja/.data/invoiceninja/invoiceninja-storage
       - mkdir /home/invoiceninja/.data/invoiceninja/invoiceninja-valkey

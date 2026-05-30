@@ -22,7 +22,6 @@ HealthRetries=10
 Notify=healthy
 AutoUpdate=registry
 Memory=3g
-NoNewPrivileges=true
 
 [Service]
 Restart=always
