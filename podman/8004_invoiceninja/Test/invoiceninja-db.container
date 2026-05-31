@@ -7,8 +7,6 @@ Pod=invoiceninja.pod
 Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-db-backups:/var/db-backups:Z
 Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-db:/var/lib/mysql:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8004_invoiceninja/.env
-Secret=invoiceninja-db-password,type=env,target=MARIADB_PASSWORD
-Secret=invoiceninja-db-root-password,type=env,target=MARIADB_ROOT_PASSWORD
 HealthCmd=/bin/bash -c 'healthcheck.sh --connect --innodb_initialized'
 HealthStartPeriod=60s
 HealthInterval=60s
