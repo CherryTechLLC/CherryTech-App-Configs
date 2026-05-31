@@ -5,14 +5,13 @@ Requires=invoiceninja-redis.service invoiceninja-db.service
 After=invoiceninja-redis.service invoiceninja-db.service
 
 [Container]
-UIDMap=+%U:@%U
 Image=docker.io/invoiceninja/invoiceninja-debian:5
 ContainerName=invoiceninja-app
 Pod=invoiceninja.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8004_invoiceninja/.env
-Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-public:/var/www/html/public:z,U
-Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-storage:/var/www/html/storage:z,U
-Tmpfs=/tmp
+Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-public:/var/www/html/public:z,U,rw
+Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-storage:/var/www/html/storage:z,U,rw
+Tmpfs=/tmp:Z
 HealthCmd=pgrep php-fpm
 HealthStartPeriod=3m
 HealthInterval=120s
