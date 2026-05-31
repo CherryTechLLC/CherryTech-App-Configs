@@ -1,0 +1,27 @@
+#invoiceninja-db.container
+
+[Container]
+Image=docker.io/library/mariadb:11
+ContainerName=invoiceninja-db
+Pod=invoiceninja.pod
+Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-db-backups:/var/db-backups:Z
+Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-db:/var/lib/mysql:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8004_invoiceninja/.env
+Secret=invoiceninja-db-password,type=env,target=MARIADB_PASSWORD
+Secret=invoiceninja-db-root-password,type=env,target=MARIADB_ROOT_PASSWORD
+HealthCmd=/bin/bash -c 'healthcheck.sh --connect --innodb_initialized'
+HealthStartPeriod=60s
+HealthInterval=60s
+HealthTimeout=10s
+HealthRetries=15
+Notify=healthy
+AutoUpdate=registry
+Memory=2g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

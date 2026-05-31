@@ -1,0 +1,31 @@
+#invoiceninja-app.container
+
+[Unit]
+Requires=invoiceninja-redis.service invoiceninja-db.service
+After=invoiceninja-redis.service invoiceninja-db.service
+
+[Container]
+Image=docker.io/invoiceninja/invoiceninja-debian:5
+ContainerName=invoiceninja-app
+Pod=invoiceninja.pod
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8004_invoiceninja/.env
+Secret=invoiceninja-db-password,type=env,target=DB_PASSWORD
+Secret=invoiceninja-admin-password,type=env,target=IN_PASSWORD
+Secret=invoiceninja-app-key,type=env,target=APP_KEY
+Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-public:/var/www/html/public:z,U
+Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-storage:/var/www/html/storage:z,U
+HealthCmd=pgrep php-fpm
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target
