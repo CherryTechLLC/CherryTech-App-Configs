@@ -4,7 +4,6 @@
 [Pod]
 PodName=invoiceninja
 PublishPort=127.0.0.1:8004:80
-UserNS=keep-id
 
 [Install]
 WantedBy=default.target
