@@ -3,6 +3,7 @@ Vaultwarden is a backend for the Bitwarden password manager without the limitati
 
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
+  - Ensure Caddy Reverse Proxy is set up to display this app
   - Configure Environment Variable
     - sudo cp /srv/CherryTech-App-Configs/podman/8001_vaultwarden/example.env /srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
     - Values to change: (ADMIN_TOKEN stays as CHANGE-ME, we set that later)
@@ -31,6 +32,7 @@ DEPLOYMENT INSTRUCTIONS:
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - cd /srv/CherryTech-App-Configs/podman/8001_vaultwarden
     - podman quadlet install -r --reload-systemd vaultwarden-app.container vaultwarden-db.container vaultwarden.pod
+  - Full app initialization can take 5-10 minutes before the app will display
   - Log in to vault.apps.example.com/admin with the token CHANGE-ME
   - Create secure vaultwarden_admin_token  (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
       - sudo dnf install epel-release -y

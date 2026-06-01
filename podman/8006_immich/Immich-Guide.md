@@ -2,6 +2,7 @@ Briefly explain the app and key notes here.
 
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
+  - Ensure Caddy Reverse Proxy is set up to display this app
   - Configure Environment Variable
     - sudo cp /srv/CherryTech-App-Configs/podman/8006_immich/example.env /srv/CherryTech-App-Configs/podman/8006_immich/.env
     - Values to change:
@@ -41,6 +42,7 @@ DEPLOYMENT INSTRUCTIONS:
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - cd /srv/CherryTech-App-Configs/podman/8006_immich
     - podman quadlet install -r --reload-systemd immich-app.container immich-db.container immich-machine-learning.container immich-redis.container immich.pod
+  - Full app initialization can take 5-10 minutes before the app will display
 
 Resource Limits:
 The resource limits provided are intended to prevent full server crashes should an app have a resource management issues. The provided values are for 5-10 users roughly, if you have more users you may have to increase the limits.

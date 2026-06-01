@@ -2,6 +2,7 @@ Invoice Ninja is an excellent tool for creating and tracking invoices. Self-Host
 
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
+  - Ensure Caddy Reverse Proxy is set up to display this app
   - Configure Environment Variables
     - sudo cp invoiceninja.env .env
     - Values to change:
@@ -40,9 +41,12 @@ DEPLOYMENT INSTRUCTIONS:
       - cp /srv/CherryTech-App-Configs/podman/8004_invoiceninja/nginx /home/invoiceninja/.data/invoiceninja/ -r
   - Create SystemD Quadlet
     - sudo -u invoiceninja -i
-    - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - cd /srv/CherryTech-App-Configs/podman/8004_invoiceninja
-    - podman quadlet install -r --reload-systemd invoiceninja-app.container invoiceninja-db.container invoiceninja-nginx.container invoiceninja-redis.container invoiceninja.pod
+    - podman quadlet install invoiceninja-app.container invoiceninja-db.container invoiceninja-nginx.container invoiceninja-redis.container invoiceninja.pod
+    - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+    - systemctl --user daemon-reload
+    - systemctl --user start invoiceninja-pod.service
+  - Full system intialization can take 5-10 minutes before the app will display
   - Login with admin@admin.com and password invoiceninja, change to your email and a long secure password
 
 Resource Limits:
