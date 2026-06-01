@@ -4,6 +4,7 @@
 [Pod]
 PodName=immich
 PublishPort=127.0.0.1:8006:2283
+UserNS=keep-id
 
 [Install]
 WantedBy=default.target

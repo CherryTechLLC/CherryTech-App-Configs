@@ -2,6 +2,7 @@
 # VaultWarden Quadlet
 
 [Pod]
+PodName=vaultwarden
 PublishPort=172.0.0.18001:80
 UserNS=keep-id
 
