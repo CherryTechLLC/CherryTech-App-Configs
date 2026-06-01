@@ -14,8 +14,6 @@ DEPLOYMENT INSTRUCTIONS:
         - Paste the password into the text file (By itself)
       - Create .invoiceninja_db_root_password.txt
         - Paste the password into the text file (By itself)
-      - Create .invoiceninja_admin_password.text
-        - Paste the password into the text file (By itself)
       - App Key:
         - sudo podman run --rm invoiceninja/invoiceninja-debian:latest php artisan key:generate --show
         - Create .invoiceninja_app_key.text
@@ -31,7 +29,6 @@ DEPLOYMENT INSTRUCTIONS:
     - podman secret create invoiceninja-db-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-db-password.txt
     - podman secret create invoiceninja_db-root-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-db-root-password.txt
     - podman secret create invoiceninja-app-key /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-app_key.txt
-    - podman secret create invoiceninja-admin-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-admin-password.txt
   - Prepare Bind Mounts
     - Login to app user (sudo -u invoiceninja -i)
     - Build directory structure
@@ -41,12 +38,12 @@ DEPLOYMENT INSTRUCTIONS:
       - mkdir /home/invoiceninja/.data/invoiceninja/invoiceninja-db
       - mkdir /home/invoiceninja/.data/invoiceninja/invoiceninja-db-backups
       - cp /srv/CherryTech-App-Configs/podman/8004_invoiceninja/nginx /home/invoiceninja/.data/invoiceninja/ -r
-    - chmod 770 -R /home/invoiceninja/.data
-  Create SystemD Quadlet
+  - Create SystemD Quadlet
     - sudo -u invoiceninja -i
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - cd /srv/CherryTech-App-Configs/podman/8004_invoiceninja
     - podman quadlet install -r --reload-systemd invoiceninja-app.container invoiceninja-db.container invoiceninja-nginx.container invoiceninja-redis.container invoiceninja.pod
+  - Login with admin@admin.com and password invoiceninja, change to your email and a long secure password
 
 Resource Limits:
 The resource limits provided are intended to prevent full server crashes should an app have a resource management issues. The provided values are for 5-10 users roughly, if you have more users you may have to increase the limits.
