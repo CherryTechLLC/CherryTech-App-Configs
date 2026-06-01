@@ -12,6 +12,8 @@ EnvironmentFile=/srv/CherryTech-App-Configs/podman/8004_invoiceninja/.env
 Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-public:/var/www/html/public:z,U,rw
 Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-storage:/var/www/html/storage:z,U,rw
 Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-tmp:/tmp:Z,U,rw
+Environment=PUID=1008
+Environment=PGID=1008
 HealthCmd=pgrep php-fpm
 HealthStartPeriod=3m
 HealthInterval=120s
