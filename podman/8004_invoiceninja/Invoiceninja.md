@@ -21,7 +21,7 @@ DEPLOYMENT INSTRUCTIONS:
         - Create .invoiceninja_app_key.text
         - Paste the key into the text file including "base65:" at the start and "=" at the end.
   - Create a new dedicated user for this app
-    - sudo useradd -m invoiceninja -F
+    - sudo useradd -m invoiceninja -F -u 8004
     - sudo loginctl enable-linger invoiceninja
   - Protect Secrets (MANDATORY)
     - sudo chown -R invoiceninja:invoiceninja /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets
