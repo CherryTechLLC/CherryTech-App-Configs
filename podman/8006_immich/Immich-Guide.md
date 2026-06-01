@@ -8,7 +8,7 @@ DEPLOYMENT INSTRUCTIONS:
       - DOMAIN
       - TZ
   - Create a new dedicated user for this app
-    - sudo useradd -m immich -F
+    - sudo useradd -m immich -F -u 8006
     - sudo loginctl enable-linger immich
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/8006_immich/secrets
@@ -21,7 +21,7 @@ DEPLOYMENT INSTRUCTIONS:
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8006_immich/secrets
     - Generate Secrets
       - Login to app user (sudo -u immich -i)
-      - Run podman secret create immich-db-password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/.immich-db-password
+      - podman secret create immich-db-password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/.immich-db-password.txt
   - Create storage directories: (sudo -u immich -i)
     - mkdir /home/immich/.data/immich/immich-db
     - mkdir /home/immich/.data/immich/immich-db-backups

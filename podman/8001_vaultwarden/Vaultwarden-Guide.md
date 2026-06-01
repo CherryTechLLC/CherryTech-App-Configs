@@ -5,23 +5,23 @@ DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Configure Environment Variable
     - sudo cp /srv/CherryTech-App-Configs/podman/8001_vaultwarden/example.env /srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
-    - Values to change: (ADMIN_TOKEN stays as CHANGE-ME)
+    - Values to change: (ADMIN_TOKEN stays as CHANGE-ME, we set that later)
       - DOMAIN
       - TZ
   - Create a new dedicated user for this app
-    - sudo useradd -m vaultwarden -F
+    - sudo useradd -m vaultwarden -F -u 8001
     - sudo loginctl enable-linger vaultwarden
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
     - Files:
-      - Create .vaultwarden_db_password.txt
+      - Create .vaultwarden-db-password.txt
         - Paste the password into the text file (By itself)
     - Protect Secrets (MANDATORY)
       - sudo chown -R vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
     - Generate Secrets
       - Login to app user (sudo -u vaultwarden -i)
-      - Run podman secret create vaultwarden_db_password /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets/vaultwarden_db_password
+      - podman secret create vaultwarden-db-password /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets/vaultwarden-db-password.txt
   - Create storage directories: (sudo -u vaultwarden -i)
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-app
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db
@@ -35,7 +35,7 @@ DEPLOYMENT INSTRUCTIONS:
   - Create secure vaultwarden_admin_token  (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
       - sudo dnf install epel-release -y
       - sudo dnf install argon2 -y
-      - echo -n 'EXAMPLE-PASSWORD' | argon2 "$(openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4
+      - echo -n 'REPLACE-THIS-PASSWORD' | argon2 "$(openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4
       - Copy the ENTIRE string including $argon2id$ into the "Admin token/Argon2 PHC" section of the general settings
       - Select save on the bottom
       - log out (top right)
