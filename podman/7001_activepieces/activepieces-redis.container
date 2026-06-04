@@ -5,7 +5,7 @@ Image=docker.io/valkey/valkey:9@sha256:3b55fbaa0cd93cf0d9d961f405e4dfcc70efe325e
 ContainerName=activepieces-redis
 Pod=activepieces.pod
 Volume=/home/activepieces/.data/activepieces/activepieces-valkey:/data:Z
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_activepieces/.env
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/7001_activepieces/.env
 HealthCmd=HealthCmd=valkey-cli ping
 HealthStartPeriod=30s
 HealthInterval=120s

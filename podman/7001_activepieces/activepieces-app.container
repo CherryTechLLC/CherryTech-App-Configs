@@ -8,7 +8,7 @@ After=activepieces-db.service activepieces-redis.service
 Image=ghcr.io/activepieces/activepieces:0.83.0
 ContainerName=activepieces-app
 Pod=activepieces.pod
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_activepieces/.env
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/7001_activepieces/.env
 Environment="AP_CONTAINER_TYPE=APP"
 Secret=activepieces-db-password,type=env,target=AP_POSTGRES_PASSWORD
 Secret=activepieces-api-key,type=env,target=AP_API_KEY

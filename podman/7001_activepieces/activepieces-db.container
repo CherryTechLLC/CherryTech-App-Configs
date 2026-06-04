@@ -4,7 +4,7 @@
 Image=docker.io/pgvector/pgvector:0.8.0-pg14
 ContainerName=activepieces-db
 Pod=activepieces.pod
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_activepieces/.env
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/7001_activepieces/.env
 Secret=activepieces-db-password,type=env,target=POSTGRES_PASSWORD
 Volume=/home/activepieces/.data/activepieces/activepieces-db:/var/lib/postgresql/data:Z
 Volume=/home/activepieces/.data/activepieces/activepieces-db-backups:/var/db-backups:Z
