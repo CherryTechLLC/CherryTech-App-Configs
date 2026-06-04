@@ -1,0 +1,66 @@
+name: glpi
+
+services:
+  glpi-db:
+    image: docker.io/mariadb:11
+    container_name: glpi-db
+    hostname: glpi-db
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --innodb-buffer-pool-size=512M
+    networks:
+      - glpi-net
+    env_file: glpi.env
+    volumes:
+      - home/glpi/.data/glpi/glpi-db:/var/lib/mysql:Z
+    secrets:
+      - glpi_db_password
+      - glpi_db_root_password
+    mem_limit: 2g
+
+  glpi-redis:
+    image: docker.io/redis:7-alpine
+    container_name: glpi-redis
+    hostname: glpi-redis
+    restart: unless-stopped
+    networks:
+      - glpi-net
+    env_file: glpi.env
+    volumes:
+      - home/glpi/.data/glpi/glpi-redis:/data:Z
+    mem_limit: 2g
+
+  glpi-app:
+    image: docker.io/glpi/glpi:latest
+    container_name: glpi-app
+    hostname: glpi
+    restart: unless-stopped
+    depends_on:
+      - glpi-db
+      - glpi-redis
+    networks:
+      - glpi-net
+    env_file: glpi.env
+    ports:
+      - "127.0.0.1:8005:80"
+    volumes:
+      - home/glpi/.data/glpi/glpi-app:/var/glpi:Z
+      - home/glpi/.data/glpi/glpi-marketplace:/var/www/glpi/marketplace:Z
+    secrets:
+      - glpi_db_password
+    mem_limit: 3g
+
+secrets:
+  glpi_db_password:
+    external: true
+  glpi_db_root_password:
+    external: true
+  glpi_redis_password:
+    external: true
+
+networks:
+  glpi-net:
+    name: glpi-net
+    driver: bridge
