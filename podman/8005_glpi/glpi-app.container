@@ -8,7 +8,7 @@ After=glpi-redis.service glpi-db.service
 Description=GLPI App
 
 [Container]
-Image=docker.io/glpi/glpi:11
+Image=docker.io/glpi/glpi:11.0
 ContainerName=glpi-app
 Pod=glpi.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8005_glpi/.env
