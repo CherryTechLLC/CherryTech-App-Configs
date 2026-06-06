@@ -10,8 +10,8 @@ DEPLOYMENT INSTRUCTIONS:
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/8005_glpi/secrets
     - Files: (Paste text into file by itself)
-      - nano .glpi_db_password.txt
-      - nano .glpi_db_root_password.txt
+      - nano .glpi-db-password.txt
+      - nano .glpi-db-root_password.txt
   - Create a new dedicated user for this app
     - sudo useradd -m glpi -F -u 8005
     - sudo loginctl enable-linger glpi
@@ -21,21 +21,21 @@ DEPLOYMENT INSTRUCTIONS:
   - Generate Secrets
     - Login to app user (sudo -u glpi -i
     - podman secret create glpi-db-password /srv/CherryTech-App-Configs/podman/8005_glpi/secrets/.glpi-db-password.txt
-    - podman secret create glpi_db-root-password /srv/CherryTech-App-Configs/podman/8005_glpi/secrets/.glpi-db-root-password.txt
+    - podman secret create glpi-db-root-password /srv/CherryTech-App-Configs/podman/8005_glpi/secrets/.glpi-db-root-password.txt
   - Prepare Bind Mounts
-    - Login to app user (sudo -u invoiceninja -i)
+    - Login to app user (sudo -u glpi -i)
     - Build directory structure
-      - mkdir /home/invoiceninja/.data/invoiceninja/invoiceninja-app
+      - mkdir /home/glpi/.data/glpi/glpi-app
       - mkdir /home/glpi/.data/glpi/glpi-valkey
       - mkdir /home/glpi/.data/glpi/glpi-db
       - mkdir /home/glpi/.data/glpi/glpi-db-backups
   - Create SystemD Quadlet
-    - sudo -u invoiceninja -i
-    - cd /srv/CherryTech-App-Configs/podman/8005_invoiceninja
-    - podman quadlet install invoiceninja-app.container invoiceninja-db.container invoiceninja-nginx.container invoiceninja-redis.container invoiceninja.pod
+    - sudo -u glpi -i
+    - cd /srv/CherryTech-App-Configs/podman/8005_glpi
+    - podman quadlet install glpi-app.container glpi-db.container glpi-redis.container glpi.pod
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - systemctl --user daemon-reload
-    - systemctl --user start invoiceninja-pod.service
+    - systemctl --user start glpi-pod.service
   - Full system intialization can take 5-10 minutes before the app will display
   - Login and configure
     - App url

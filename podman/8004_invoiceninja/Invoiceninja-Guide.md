@@ -9,12 +9,10 @@ DEPLOYMENT INSTRUCTIONS:
       - APP_URL
       - TZ
   - Create secrets:
-    - Create directory /srv/CherryTech-App-Configs/podman/_invoiceninja/secrets
-    - Files:
-      - Create .invoiceninja_db_password.txt
-        - Paste the password into the text file (By itself)
-      - Create .invoiceninja_db_root_password.txt
-        - Paste the password into the text file (By itself)
+    - Create directory /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets
+    - Files: (Paste text into file by itself)
+      - nano .invoiceninja_db_password.txt
+      - nano .invoiceninja_db_root_password.txt
       - App Key:
         - sudo podman run --rm invoiceninja/invoiceninja-debian:latest php artisan key:generate --show
         - Create .invoiceninja_app_key.text
