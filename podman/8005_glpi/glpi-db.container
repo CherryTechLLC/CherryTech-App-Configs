@@ -4,7 +4,7 @@
 Description=GLPI Database
 
 [Container]
-Image=docker.io/library/mariadb@sha256:6806837b7fc13e97722544d2c369eb278bac71997b69a2f7b6ff4ab8c9fada8c
+Image=docker.io/library/mariadb@sha256:be1ef4fe5f14589325c08a41c76334097ce66c86264b75e1d28342c742782a61
 ContainerName=glpi-db
 Pod=glpi.pod
 Volume=/home/glpi/.data/glpi/glpi-db-backups:/var/db-backups:Z
@@ -18,7 +18,6 @@ HealthInterval=60s
 HealthTimeout=10s
 HealthRetries=15
 Notify=healthy
-AutoUpdate=registry
 Memory=2g
 NoNewPrivileges=true
 
