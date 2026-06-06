@@ -1,0 +1,10 @@
+# glpi.pod
+# GLPI Quadlet
+
+[Pod]
+PodName=glpi
+PublishPort=127.0.0.1:8005:80
+UserNS=keep-id
+
+[Install]
+WantedBy=default.target

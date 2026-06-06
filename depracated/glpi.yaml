@@ -14,7 +14,7 @@ services:
       - glpi-net
     env_file: glpi.env
     volumes:
-      - home/glpi/.data/glpi/glpi-db:/var/lib/mysql:Z
+      - /home/glpi/.data/glpi/glpi-db:/var/lib/mysql:Z
     secrets:
       - glpi_db_password
       - glpi_db_root_password
@@ -29,7 +29,7 @@ services:
       - glpi-net
     env_file: glpi.env
     volumes:
-      - home/glpi/.data/glpi/glpi-redis:/data:Z
+      - /home/glpi/.data/glpi/glpi-redis:/data:Z
     mem_limit: 2g
 
   glpi-app:
@@ -46,8 +46,8 @@ services:
     ports:
       - "127.0.0.1:8005:80"
     volumes:
-      - home/glpi/.data/glpi/glpi-app:/var/glpi:Z
-      - home/glpi/.data/glpi/glpi-marketplace:/var/www/glpi/marketplace:Z
+      - /home/glpi/.data/glpi/glpi-app:/var/glpi:Z
+      - /home/glpi/.data/glpi/glpi-marketplace:/var/www/glpi/marketplace:Z
     secrets:
       - glpi_db_password
     mem_limit: 3g

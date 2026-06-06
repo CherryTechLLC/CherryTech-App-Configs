@@ -1,0 +1,32 @@
+#glpi-app.container
+
+[Unit]
+Requires=glpi-redis.service glpi-db.service
+After=glpi-redis.service glpi-db.service
+
+[Unit]
+Description=GLPI App
+
+[Container]
+Image=docker.io/glpi/glpi:11
+ContainerName=glpi-app
+Pod=glpi.pod
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8005_glpi/.env
+Secret=glpi-db-password,type=env,target=GLPI_DB_PASSWORD
+Volume=/home/glpi/.data/glpi/glpi-app:/var/glpi:Z
+HealthCmd=curl -f http://127.0.0.1/ || exit 1
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,27 @@
+#glpi-redis.container
+
+[Unit]
+Description=GLPI Redis
+
+[Container]
+Image=docker.io/valkey/valkey:9.1-alpine
+ContainerName=glpi-redis
+Pod=glpi.pod
+Volume=/home/glpi/.data/glpi/glpi-valkey:/data:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8005_glpi/.env
+HealthCmd=/bin/sh -c 'valkey-cli ping | grep PONG'
+HealthStartPeriod=30s
+HealthInterval=120s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=1g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target
