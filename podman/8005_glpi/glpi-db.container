@@ -4,7 +4,7 @@
 Description=GLPI Database
 
 [Container]
-Image=docker.io/library/mariadb:11.8-ubi9@sha256:6806837b7fc13e97722544d2c369eb278bac71997b69a2f7b6ff4ab8c9fada8c
+Image=docker.io/library/mariadb@sha256:6806837b7fc13e97722544d2c369eb278bac71997b69a2f7b6ff4ab8c9fada8c
 ContainerName=glpi-db
 Pod=glpi.pod
 Volume=/home/glpi/.data/glpi/glpi-db-backups:/var/db-backups:Z
