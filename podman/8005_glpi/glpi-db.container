@@ -20,6 +20,8 @@ HealthRetries=15
 Notify=healthy
 Memory=2g
 NoNewPrivileges=true
+User=8005
+Group=8005
 
 [Service]
 Restart=always

@@ -26,6 +26,7 @@ DEPLOYMENT INSTRUCTIONS:
     - Login to app user (sudo -u glpi -i)
     - Build directory structure
       - mkdir /home/glpi/.data/glpi/glpi-app
+      - mkdir /home/glpi/.data/glpi/glpi-marketplace
       - mkdir /home/glpi/.data/glpi/glpi-valkey
       - mkdir /home/glpi/.data/glpi/glpi-db
       - mkdir /home/glpi/.data/glpi/glpi-db-backups
