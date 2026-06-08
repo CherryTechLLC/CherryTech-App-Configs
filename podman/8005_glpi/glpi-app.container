@@ -13,8 +13,8 @@ ContainerName=glpi-app
 Pod=glpi.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8005_glpi/.env
 Secret=glpi-db-password,type=env,target=GLPI_DB_PASSWORD
-Volume=/home/glpi/.data/glpi/glpi-app:/var/glpi:z
-Volume=/home/glpi/.data/glpi/glpi-marketplace:/var/www/glpi/marketplace:z
+Volume=/home/glpi/.data/glpi/glpi-app:/var/glpi:Z,U
+Volume=/home/glpi/.data/glpi/glpi-marketplace:/var/www/glpi/marketplace:Z,U
 HealthCmd=curl -f http://127.0.0.1/ || exit 1
 HealthStartPeriod=3m
 HealthInterval=120s
@@ -23,7 +23,6 @@ HealthRetries=10
 Notify=healthy
 AutoUpdate=registry
 Memory=3g
-NoNewPrivileges=true
 
 [Service]
 Restart=always
