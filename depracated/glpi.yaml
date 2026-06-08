@@ -52,14 +52,6 @@ services:
       - glpi_db_password
     mem_limit: 3g
 
-secrets:
-  glpi_db_password:
-    external: true
-  glpi_db_root_password:
-    external: true
-  glpi_redis_password:
-    external: true
-
 networks:
   glpi-net:
     name: glpi-net
