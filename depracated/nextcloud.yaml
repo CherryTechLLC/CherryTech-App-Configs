@@ -72,7 +72,6 @@ services:
     security_opt:
       - no-new-privileges:true
 
-
 networks:
   nextcloud-net:
     name: nextcloud-net
