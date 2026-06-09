@@ -13,8 +13,9 @@ EnvironmentFile=/srv/CherryTech-App-Configs/podman/0000_EXAMPLE/.env
 Secret=EXAMPLE-db-password,type=env,target=DB_PASSWORD
 Volume=/etc/localtime:/etc/localtime:ro
 Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app:/data:Z
-Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-public:/var/www/html/public:z
-Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-storage:/var/www/html/storage:z
+Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app:/var/www/html:Z
+Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-public:/var/www/html/public:Z
+Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-storage:/var/www/html/storage:Z
 HealthCmd=
 HealthStartPeriod=3m
 HealthInterval=120s
