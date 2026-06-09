@@ -63,6 +63,7 @@ NOTES TO DEVELOPER:
   - Declare a source, default is docker.io/
   - Use :latest or decalare a version.
   - Add a Caddy Entry so apps get exposed
+  - Stuff you may not need has been added by default becuase deleting is easier than adding
   - In the .pod file UserNS=keep-id can cause permission but otherwise is important
 
   - Check if you need to decalare TRUSTED_PROXIES for Reverse Proxy Config per app.
