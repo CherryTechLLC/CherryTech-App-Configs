@@ -15,7 +15,7 @@ DEPLOYMENT INSTRUCTIONS:
       - nano .invoiceninja_db_root_password.txt
       - App Key:
         - sudo podman run --rm invoiceninja/invoiceninja-debian:latest php artisan key:generate --show
-        - Create .invoiceninja_app_key.text
+        - Create .invoiceninja_app_key.txt
         - Paste the key into the text file including "base65:" at the start and "=" at the end.
   - Create a new dedicated user for this app
     - sudo useradd -m invoiceninja -F -u 8004
@@ -25,9 +25,9 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets
   - Generate Secrets
     - Login to app user (sudo -u invoiceninja -i
-    - podman secret create invoiceninja-db-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-db-password.txt
-    - podman secret create invoiceninja_db-root-password /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-db-root-password.txt
-    - podman secret create invoiceninja-app-key /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets/.invoiceninja-app_key.txt
+    - podman secret create invoiceninja-db-password .invoiceninja-db-password.txt
+    - podman secret create invoiceninja_db-root-password .invoiceninja-db-root-password.txt
+    - podman secret create invoiceninja-app-key .invoiceninja-app_key.txt
   - Prepare Bind Mounts
     - Login to app user (sudo -u invoiceninja -i)
     - Build directory structure

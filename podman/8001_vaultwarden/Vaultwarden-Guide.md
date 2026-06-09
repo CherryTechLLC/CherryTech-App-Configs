@@ -14,9 +14,8 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo loginctl enable-linger vaultwarden
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
-    - Files:
-      - Create .vaultwarden-db-password.txt
-        - Paste the password into the text file (By itself)
+    -Files: (Paste text into file by itself)
+      - nano .vaultwarden-db-password.txt
     - Protect Secrets (MANDATORY)
       - sudo chown -R vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
@@ -29,9 +28,11 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db-backups
   - Create SystemD Quadlet
     - sudo -u vaultwarden -i
-    - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - cd /srv/CherryTech-App-Configs/podman/8001_vaultwarden
-    - podman quadlet install -r --reload-systemd vaultwarden-app.container vaultwarden-db.container vaultwarden.pod
+    - podman quadlet install vaultwarden-app.container vaultwarden-db.container vaultwarden.pod
+    - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+    - systemctl --user daemon-reload
+    - systemctl --user start vaultwarden-pod.service
   - Full app initialization can take 5-10 minutes before the app will display
   - Log in to vault.apps.example.com/admin with the token CHANGE-ME
   - Create secure vaultwarden_admin_token  (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)

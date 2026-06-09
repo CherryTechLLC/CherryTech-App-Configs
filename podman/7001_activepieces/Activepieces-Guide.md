@@ -13,10 +13,10 @@ DEPLOYMENT INSTRUCTIONS:
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/7001_activepieces/secrets
     - Files: (Unless Otherwise Mentioned, Paste the password into the text file (By itself))
-      - Create .activepieces-db-password.txt
-      - Create .activepieces-redis-password.txt
-      - Create .activepieces-api-key.text
-      - Create .activepieces-encryption-key.txt
+      - nano .activepieces-db-password.txt
+      - nano .activepieces-redis-password.txt
+      - nano .activepieces-api-key.text
+      - nano .activepieces-encryption-key.txt
         - sudo openssl rand -hex 32
       - Create .activepieces-jwt-secret.txt
         - sudo openssl rand -hex 32
@@ -25,11 +25,11 @@ DEPLOYMENT INSTRUCTIONS:
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/7001_activepieces/secrets
     - Generate Secrets
       - Login to app user (sudo -u activepieces -i
-      - podman secret create activepieces-db-password /srv/CherryTech-App-Configs/podman/7001_activepieces/secrets/.activepieces-db-password.txt
-      - podman secret create activepieces-redis-password /srv/CherryTech-App-Configs/podman/7001_activepieces/secrets/.activepieces-redis-password.txt
-      - podman secret create activepieces-api-key /srv/CherryTech-App-Configs/podman/7001_activepieces/secrets/.activepieces_api-key.txt
-      - podman secret create activepieces-encryption-key /srv/CherryTech-App-Configs/podman/7001_activepieces/secrets/.activepieces-encryption-key.txt
-      - podman secret create activepieces-jwt-secrets /srv/CherryTech-App-Configs/podman/7001_activepieces/secrets/.activepieces-jwt-secret.txt
+      - podman secret create activepieces-db-password .activepieces-db-password.txt
+      - podman secret create activepieces-redis-password .activepieces-redis-password.txt
+      - podman secret create activepieces-api-key .activepieces_api-key.txt
+      - podman secret create activepieces-encryption-key .activepieces-encryption-key.txt
+      - podman secret create activepieces-jwt-secrets .activepieces-jwt-secret.txt
   - Create storage directories: (sudo -u immich -i)
     - mkdir /home/activepieces/.data/activepieces/activepieces-cache
     - mkdir /home/activepieces/.data/activepieces/activepieces-db
@@ -37,9 +37,12 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/activepieces/.data/activepieces/activepieces-valkey
   - Create SystemD Quadlet
     - sudo -u activepieces -i
-    - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - cd /srv/CherryTech-App-Configs/podman/7001_activepieces
-    - podman quadlet install -r --reload-systemd activepieces-app.container activepieces-worker.container activepieces-db.container activepieces-redis.container activepieces.pod
+    - podman quadlet install activepieces-app.container activepieces-worker.container activepieces-db.container activepieces-redis.container activepieces.pod
+    - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+    - systemctl --user daemon-reload
+    - systemctl --user start activepieces-pod.service
+  - Full system initialization can take 5-10 minutes before the app will display
 
 Resource Limits:
 The resource limits provided are intended to prevent full server crashes should an app have a resource management issues. The provided values are for 5-10 users roughly, if you have more users you may have to increase the limits.

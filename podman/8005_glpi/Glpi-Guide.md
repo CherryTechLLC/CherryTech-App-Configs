@@ -20,8 +20,8 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8005_glpi/secrets
   - Generate Secrets
     - Login to app user (sudo -u glpi -i)
-    - podman secret create glpi-db-password /srv/CherryTech-App-Configs/podman/8005_glpi/secrets/.glpi-db-password.txt
-    - podman secret create glpi-db-root-password /srv/CherryTech-App-Configs/podman/8005_glpi/secrets/.glpi-db-root-password.txt
+    - podman secret create glpi-db-password .glpi-db-password.txt
+    - podman secret create glpi-db-root-password .glpi-db-root-password.txt
   - Prepare Bind Mounts
     - Login to app user (sudo -u glpi -i)
     - Build directory structure

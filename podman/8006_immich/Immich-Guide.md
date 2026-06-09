@@ -13,16 +13,15 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo loginctl enable-linger immich
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/8006_immich/secrets
-    - Files:
+    - Files: (Paste text into file by itself)
       - Create .immich-db-password.txt
-        - Paste the password into the text file (By itself)
         - Password must be all letters (no numbers or special charactors)
     - Protect Secrets (MANDATORY)
       - sudo chown -R immich:immich /srv/CherryTech-App-Configs/podman/8006_immich/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8006_immich/secrets
     - Generate Secrets
       - Login to app user (sudo -u immich -i)
-      - podman secret create immich-db-password /srv/CherryTech-App-Configs/podman/8006_immich/secrets/.immich-db-password.txt
+      - podman secret create immich-db-password .immich-db-password.txt
   - Create storage directories: (sudo -u immich -i)
     - mkdir /home/immich/.data/immich/immich-db
     - mkdir /home/immich/.data/immich/immich-db-backups
@@ -39,9 +38,11 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo mount -a
   - Create SystemD Quadlet
     - sudo -u immich -i
-    - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - cd /srv/CherryTech-App-Configs/podman/8006_immich
-    - podman quadlet install -r --reload-systemd immich-app.container immich-db.container immich-machine-learning.container immich-redis.container immich.pod
+    - podman quadlet install immich-app.container immich-db.container immich-machine-learning.container immich-redis.container immich.pod
+    - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+    - systemctl --user daemon-reload
+    - systemctl --user start immich-pod.service
   - Full app initialization can take 5-10 minutes before the app will display
 
 Resource Limits:

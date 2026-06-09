@@ -3,7 +3,7 @@
 
 [Pod]
 PodName=vaultwarden
-PublishPort=172.0.0.18001:80
+PublishPort=172.0.0.1:8001:80
 UserNS=keep-id
 
 [Install]

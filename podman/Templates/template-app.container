@@ -1,0 +1,35 @@
+#immch-app.container
+
+[Unit]
+Description=EXAMPLE App
+Requires=EXAMPLE-redis.service EXAMPLE-db.service
+After=EXAMPLE-redis.service EXAMPLE-db.service
+
+[Container]
+Image=ghcr.io/EXAMPLE-app/EXAMPLE-server:0.0.0
+ContainerName=EXAMPLE-app
+Pod=EXAMPLE.pod
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/0000_EXAMPLE/.env
+Secret=EXAMPLE-db-password,type=env,target=DB_PASSWORD
+Volume=/etc/localtime:/etc/localtime:ro
+Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app:/data:Z
+Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-public:/var/www/html/public:z
+Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-storage:/var/www/html/storage:z
+HealthCmd=
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+NoNewPrivileges=true
+#AddCapability=CAP_NET_BIND_SERVICE    -     Bind to port 80??
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+#ExecStartPre=sleep 30
+
+[Install]
+WantedBy=default.target
