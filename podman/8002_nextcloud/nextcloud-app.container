@@ -1,0 +1,31 @@
+#immch-app.container
+
+[Unit]
+Description=Nextcloud App
+Requires=nextcloud-redis.service nextcloud-db.service
+After=nextcloud-redis.service nextcloud-db.service
+
+[Container]
+Image=ghcr.io/nextcloud-app/nextcloud-server:33.0-apache
+ContainerName=nextcloud-app
+Pod=nextcloud.pod
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8002_nextcloud/.env
+Secret=nextcloud-db-password,type=env,target=POSTGRES_PASSWORD
+Volume=/home/nextcloud/.data/nextcloud/nextcloud-app:/var/www/html:Z
+HealthCmd=curl -sSf 'http://localhost/status.php' | grep '"installed":true' | grep '"maintenance":false' | grep '"needsDbUpgrade":false' || exit 1
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+NoNewPrivileges=true
+AddCapability=CAP_NET_BIND_SERVICE
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

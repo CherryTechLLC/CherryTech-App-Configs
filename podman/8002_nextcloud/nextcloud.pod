@@ -1,0 +1,10 @@
+# nextcloud.pod
+# Nextcloud Quadlet
+
+[Pod]
+PodName=nextcloud
+PublishPort=127.0.0.1:8002:80
+UserNS=keep-id
+
+[Install]
+WantedBy=default.target

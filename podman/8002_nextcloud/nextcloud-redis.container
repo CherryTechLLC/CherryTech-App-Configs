@@ -1,0 +1,27 @@
+#nextcloud-redis.container
+
+[Unit]
+Description=Nextcloud Redis
+
+[Container]
+Image=docker.io/valkey/valkey:9.1-alpine
+ContainerName=nextcloud-redis
+Pod=nextcloud.pod
+Volume=/home/nextcloud/.data/nextcloud/nextcloud-valkey:/data:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8002_nextcloud/.env
+HealthCmd=valkey-cli ping | grep pong
+HealthStartPeriod=30s
+HealthInterval=120s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=1g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target
