@@ -17,7 +17,6 @@ HealthInterval=60s
 HealthTimeout=15s
 HealthRetries=10
 Notify=healthy
-AutoUpdate=registry
 Memory=2g
 NoNewPrivileges=true
 
