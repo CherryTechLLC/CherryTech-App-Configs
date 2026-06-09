@@ -65,8 +65,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-    secrets:
-      - nextcloud_db_password
     volumes:
       - /home/nextcloud/.data/nextcloud/nextcloud-app:/var/www/html:Z
     mem_limit: 3g
