@@ -1,9 +1,9 @@
-# immich.pod
-# Immich Quadlet
+# EXAMPLE.pod
+# EXAMPLE Quadlet
 
 [Pod]
-PodName=immich
-PublishPort=127.0.0.1:8006:2283
+PodName=EXAMPLE
+PublishPort=127.0.0.1:0000:2283
 UserNS=keep-id
 
 [Install]

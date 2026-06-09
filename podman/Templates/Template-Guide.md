@@ -63,6 +63,7 @@ NOTES TO DEVELOPER:
   - Declare a source, default is docker.io/
   - Use :latest or decalare a version.
   - Add a Caddy Entry so apps get exposed
+  - In the .pod file UserNS=keep-id can cause permission but otherwise is important
 
   - Check if you need to decalare TRUSTED_PROXIES for Reverse Proxy Config per app.
   - SMTP (Simple mail transfer protocol) is used to allow applications to send emails. The standard port is 587 on modern servers with starttls for security, each app has different environment variables to set.
