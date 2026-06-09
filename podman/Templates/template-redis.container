@@ -16,7 +16,7 @@ HealthTimeout=15s
 HealthRetries=10
 Notify=healthy
 AutoUpdate=registry
-Memory=2g
+Memory=1g
 NoNewPrivileges=true
 
 [Service]
