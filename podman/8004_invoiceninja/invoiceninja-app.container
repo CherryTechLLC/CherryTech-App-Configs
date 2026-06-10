@@ -1,6 +1,7 @@
 #invoiceninja-app.container
 
 [Unit]
+Description=InvoiceNinja App
 Requires=invoiceninja-redis.service invoiceninja-db.service
 After=invoiceninja-redis.service invoiceninja-db.service
 

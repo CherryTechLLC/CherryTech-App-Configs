@@ -1,7 +1,10 @@
 #invoiceninja-db.container
 
+[Unit]
+Description=InvoiceNinja Database
+
 [Container]
-Image=docker.io/library/mariadb:11
+Image=docker.io/library/mariadb:11.8.8@sha256:be1ef4fe5f14589325c08a41c76334097ce66c86264b75e1d28342c742782a61
 ContainerName=invoiceninja-db
 Pod=invoiceninja.pod
 Volume=/home/invoiceninja/.data/invoiceninja/invoiceninja-db-backups:/var/db-backups:Z
@@ -15,7 +18,6 @@ HealthInterval=60s
 HealthTimeout=10s
 HealthRetries=15
 Notify=healthy
-AutoUpdate=registry
 Memory=2g
 NoNewPrivileges=true
 

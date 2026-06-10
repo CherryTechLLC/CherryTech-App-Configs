@@ -1,6 +1,7 @@
 # activepieces-app.container
 
 [Unit]
+Description=ActivePieces App
 Requires=activepieces-db.service activepieces-redis.service
 After=activepieces-db.service activepieces-redis.service
 

@@ -58,6 +58,7 @@ Wiki Link:
 Other Good Sources:
   - https://github.com/invoiceninja/invoiceninja/blob/master/.env.example
   - https://invoiceninja.github.io/docs/self-host/env-variables
+  - https://hub.docker.com/_/nginx
 
 
 Secrets:

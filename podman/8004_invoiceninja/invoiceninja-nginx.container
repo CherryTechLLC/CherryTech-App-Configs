@@ -1,11 +1,12 @@
 #invoiceninja-nginx.container
 
 [Unit]
+Description=InvoiceNinja Nginx
 Requires=invoiceninja-app.service invoiceninja-redis.service invoiceninja-db.service
 After=invoiceninja-app.service invoiceninja-redis.service invoiceninja-db.service
 
 [Container]
-Image=docker.io/nginx:alpine
+Image=docker.io/nginx:1.31-alpine
 ContainerName=invoiceninja-nginx
 Pod=invoiceninja.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8004_invoiceninja/.env

@@ -1,7 +1,10 @@
 #immich-redis.container
 
+[Unit]
+Description=Immich Redis
+
 [Container]
-Image=docker.io/valkey/valkey:9@sha256:3b55fbaa0cd93cf0d9d961f405e4dfcc70efe325e2d84da207a0a8e6d8fde4f9
+Image=docker.io/valkey/valkey:9.1-alpine
 ContainerName=immich-redis
 Pod=immich.pod
 Volume=/home/immich/.data/immich/immich-valkey:/data:Z
@@ -13,7 +16,7 @@ HealthTimeout=15s
 HealthRetries=10
 Notify=healthy
 AutoUpdate=registry
-Memory=2g
+Memory=1g
 NoNewPrivileges=true
 
 [Service]

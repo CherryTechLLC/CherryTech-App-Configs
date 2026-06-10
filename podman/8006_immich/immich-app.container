@@ -1,6 +1,7 @@
 #immch-app.container
 
 [Unit]
+Description=Immich App
 Requires=immich-redis.service immich-db.service
 After=immich-redis.service immich-db.service
 

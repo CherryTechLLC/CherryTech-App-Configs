@@ -1,5 +1,8 @@
 # activepieces-db.container
 
+[Unit]
+Description=ActivePieces Database
+
 [Container]
 Image=docker.io/pgvector/pgvector:0.8.0-pg14
 ContainerName=activepieces-db

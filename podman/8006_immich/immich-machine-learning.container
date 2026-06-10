@@ -1,5 +1,8 @@
 #immich-machine-learning.container
 
+[Unit]
+Description=Immich Machine Learning Container
+
 [Container]
 Image=ghcr.io/immich-app/immich-machine-learning:v2
 ContainerName=immich-machine-learning

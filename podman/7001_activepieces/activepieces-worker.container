@@ -1,6 +1,7 @@
 # activepieces-worker.container
 
 [Unit]
+Description=ActivePieces Worker
 Requires=activepieces-db.service activepieces-redis.service activepieces-app.service
 After=activepieces-db.service activepieces-redis.service activepieces-app.service
 

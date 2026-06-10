@@ -1,26 +1,25 @@
 # vaultwarden.container
 
 [Unit]
-Description=Vaultwarden Container
+Description=Vaultwarden App
 Requires=vaultwarden-db.service
 After=vaultwarden-db.service
 
 [Container]
-Image=docker.io/vaultwarden/server:latest
+Image=docker.io/vaultwarden/server:1.36.0-alpine@sha256:d3531610b486905943706b235e97159331801c6856e1367a93a5905e2b40f204
 ContainerName=vaultwarden-app
 Pod=vaultwarden.pod
 Volume=/home/vaultwarden/.data/vaultwarden/vaultwarden-app:/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
 AutoUpdate=registry
-Group=0
-User=0
-HealthCmd=/healthcheck.sh
+HealthCmd=healthcheck.sh
 HealthInterval=120s
 HealthTimeout=45s
 HealthRetries=10
 HealthStartPeriod=40s
-Memory=2g
+Memory=3g
 NoNewPrivileges=true
+AddCapability=CAP_NET_BIND_SERVICE
 Secret=vaultwarden-db-password,type=env,target=POSTGRES_PASSWORD
 
 [Service]
