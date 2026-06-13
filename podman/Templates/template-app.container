@@ -6,7 +6,7 @@ Requires=EXAMPLE-redis.service EXAMPLE-db.service
 After=EXAMPLE-redis.service EXAMPLE-db.service
 
 [Container]
-Image=ghcr.io/EXAMPLE-app/EXAMPLE-server:0.0.0
+Image=docker.io/EXAMPLE-app/EXAMPLE-server:0.0.0
 ContainerName=EXAMPLE-app
 Pod=EXAMPLE.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/0000_EXAMPLE/.env
