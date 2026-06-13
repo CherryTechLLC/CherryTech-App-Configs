@@ -8,6 +8,9 @@ DEPLOYMENT INSTRUCTIONS:
     - Values to change:
       - DOMAIN
       - TZ
+      - NEXTCLOUD_TRUSTED_DOMAINS
+      - OVERWRITEHOST
+      - OVERWRITECLIURL
   - Create a new dedicated user for this app
     - sudo useradd -m nextcloud -F -u 8002
     - sudo loginctl enable-linger nextcloud
