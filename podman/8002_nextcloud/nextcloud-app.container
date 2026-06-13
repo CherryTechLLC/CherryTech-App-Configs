@@ -6,7 +6,7 @@ Requires=nextcloud-redis.service nextcloud-db.service
 After=nextcloud-redis.service nextcloud-db.service
 
 [Container]
-Image=docker.io/library/nextcloud:33.0-apache
+Image=docker.io/nextcloud:33.0-apache
 ContainerName=nextcloud-app
 Pod=nextcloud.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8002_nextcloud/.env
