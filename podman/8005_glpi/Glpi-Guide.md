@@ -39,8 +39,18 @@ DEPLOYMENT INSTRUCTIONS:
     - systemctl --user start glpi-pod.service
   - Full system intialization can take 5-10 minutes before the app will display
   - Login and configure
+    - Login with
+      - u: glpi
+      - p: glpi
     - App url
-    - Redis URL
+      - glpi.apps.{{YOUR-DOMAIN}}
+    - Configure Long and complex random passwords
+      - glpi
+      - post-only
+      - tech
+      - normal
+    - Redis Setup
+      - podman exec glpi-app php bin/console glpi:cache:configure --context=core --dsn=redis://glpi-redis:6379/0
 
 Resource Limits:
 The resource limits provided are intended to prevent full server crashes should an app have a resource management issues. The provided values are for 5-10 users roughly, if you have more users you may have to increase the limits.
