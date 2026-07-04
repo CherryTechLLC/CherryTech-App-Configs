@@ -207,7 +207,7 @@ budget.{env.DOMAIN} {
     resolvers 1.1.1.1
     }
 
-    reverse_proxy localhost:5006
+    reverse_proxy 127.0.0.1:8015
 
     encode zstd gzip
 
