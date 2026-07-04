@@ -31,3 +31,4 @@ Wiki Link:
   - https://actualbudget.org/docs/
 Other Good Sources:
   - https://github.com/actualbudget/actual/tree/master
+  - https://github.com/actualbudget/actual/blob/master/packages/sync-server/docker-compose.yml
