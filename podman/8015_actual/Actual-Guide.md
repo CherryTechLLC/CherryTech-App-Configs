@@ -32,3 +32,4 @@ Wiki Link:
 Other Good Sources:
   - https://github.com/actualbudget/actual/tree/master
   - https://github.com/actualbudget/actual/blob/master/packages/sync-server/docker-compose.yml
+  - https://actualbudget.org/docs/config/reverse-proxies/
