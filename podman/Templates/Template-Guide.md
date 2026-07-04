@@ -15,7 +15,7 @@ DEPLOYMENT INSTRUCTIONS:
     - Create directory /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
     - Files: (Paste text into file by itself)
       - nano .EXAMPLE-db-password.txt
-      - nano .EXAMPLE-db-root-password.text
+      - nano .EXAMPLE-db-root-password.txt
     - Protect Secrets (MANDATORY)
       - sudo chown -R EXAMPLE:EXAMPLE /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
