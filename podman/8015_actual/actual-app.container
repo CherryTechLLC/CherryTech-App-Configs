@@ -1,0 +1,29 @@
+#actual-app.container
+
+[Unit]
+Description=Actual App
+
+[Container]
+Image=docker.io/actualbudget/actual-server:26.7.0
+ContainerName=actual-app
+Volume=/home/actual/.data/actual/actual-app:/data:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8015_actual/.env
+HealthCmd=curl --fail http://localhost:5006/ || exit 1
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+NoNewPrivileges=true
+PublishPort=127.0.0.1:8015:5006
+Environment=TZ=America/Detroit
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+#ExecStartPre=sleep 30
+
+[Install]
+WantedBy=default.target
