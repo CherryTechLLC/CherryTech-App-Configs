@@ -3,7 +3,7 @@
 
 [Pod]
 PodName=EXAMPLE
-PublishPort=127.0.0.1:0000:2283
+PublishPort=127.0.0.1:0000:0000
 UserNS=keep-id
 
 [Install]
