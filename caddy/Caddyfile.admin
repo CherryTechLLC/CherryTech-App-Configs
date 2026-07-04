@@ -1,0 +1,35 @@
+{
+
+#  acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+
+  #Must disable Caddy API on a multi-user system as it is locally accesable to ALL users
+
+  admin off
+
+}
+
+#ACTIVEPIECES - 7001
+
+automation.{env.DOMAIN} {
+
+  tls {
+    dns hetzner {env.HETZNER_API_TOKEN}
+    propagation_delay 30s
+    resolvers 1.1.1.1
+  }
+
+  encode gzip zstd
+
+  reverse_proxy 127.0.0.1:7001
+
+  header {
+      Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+      X-Content-Type-Options nosniff
+      X-Frame-Options SAMEORIGIN
+      Referrer-Policy strict-origin-when-cross-origin
+  }
+
+  request_body {
+      max_size 100MB
+  }
+}
