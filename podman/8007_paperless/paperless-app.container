@@ -1,0 +1,38 @@
+#paperless-app.container
+
+[Unit]
+Description=Paperless App
+Requires=paperless-redis.service paperless-db.service
+After=paperless-redis.service paperless-db.service
+
+[Container]
+Image=ghcr.io/paperless-ngx/paperless-ngx:latest
+ContainerName=paperless-app
+Pod=paperless.pod
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8007_paperless/.env
+Secret=paperless-admin-password,type=env,target=PAPERLESS_ADMIN_PASSWORD
+Secret=paperless-db-password,type=env,target=PAPERLESS_DB_PASSWORD
+Secret=paperless-secret-key,type=env,target=PAPERLESS_SECRET_KEY
+Tmpfs=/tmp:rw,mode=1777
+Volume=/home/paperless/.data/paperless/paperless-data:/usr/src/paperless/data:Z
+Volume=/home/paperless/.data/paperless/paperless-media:/usr/src/paperless/media:Z
+Volume=/home/paperless/.data/paperless/paperless-export:/usr/src/paperless/export:Z
+Volume=/home/paperless/.data/paperless/paperless-consume:/usr/src/paperless/consume:Z
+User: 8007:8007
+HealthCmd=
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+#ExecStartPre=sleep 30
+
+[Install]
+WantedBy=default.target

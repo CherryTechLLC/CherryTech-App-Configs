@@ -1,0 +1,27 @@
+#paperless-redis.container
+
+[Unit]
+Description=Paperless Redis
+
+[Container]
+Image=docker.io/valkey/valkey:9.1-alpine
+ContainerName=paperless-redis
+Pod=paperless.pod
+Volume=/home/paperless/.data/paperless/paperless-valkey:/data:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8007_paperless/.env
+HealthCmd=/bin/sh -c 'valkey-cli ping | grep PONG'
+HealthStartPeriod=30s
+HealthInterval=120s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=1g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

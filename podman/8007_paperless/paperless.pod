@@ -1,0 +1,10 @@
+# paperless.pod
+# paperless Quadlet
+
+[Pod]
+PodName=paperless
+PublishPort=127.0.0.1:8007:8000
+UserNS=keep-id
+
+[Install]
+WantedBy=default.target
