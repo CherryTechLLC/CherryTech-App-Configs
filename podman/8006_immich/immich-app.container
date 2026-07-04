@@ -6,7 +6,7 @@ Requires=immich-redis.service immich-db.service
 After=immich-redis.service immich-db.service
 
 [Container]
-Image=ghcr.io/immich-app/immich-server:v2
+Image=ghcr.io/immich-app/immich-server:v3
 ContainerName=immich-app
 Pod=immich.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
