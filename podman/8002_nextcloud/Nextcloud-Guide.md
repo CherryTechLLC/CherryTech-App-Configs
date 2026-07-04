@@ -29,6 +29,9 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/nextcloud/.data/nextcloud/nextcloud-db-backups
     - mkdir /home/nextcloud/.data/nextcloud/nextcloud-valkey
     - mkdir /home/nextcloud/.data/nextcloud/nextcloud-app
+    - mkdir /home/nextcloud/.data/nextcloud/nextcloud-custom_apps
+    - mkdir /home/nextcloud/.data/nextcloud/nextcloud-config
+    - mkdir /home/nextcloud/.data/nextcloud/nextcloud-data
   - Create SystemD Quadlet
     - sudo -u nextcloud -i
     - cd /srv/CherryTech-App-Configs/podman/8002_nextcloud

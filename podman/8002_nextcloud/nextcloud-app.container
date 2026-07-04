@@ -12,6 +12,9 @@ Pod=nextcloud.pod
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8002_nextcloud/.env
 Secret=nextcloud-db-password,type=env,target=POSTGRES_PASSWORD
 Volume=/home/nextcloud/.data/nextcloud/nextcloud-app:/var/www/html:Z
+Volume=/home/nextcloud/.data/nextcloud/nextcloud-custom_apps:/var/www/html/custom_apps:Z
+Volume=/home/nextcloud/.data/nextcloud/nextcloud-config:/var/www/html/config:Z
+Volume=/home/nextcloud/.data/nextcloud/nextcloud-data:/var/www/html/data:Z
 HealthCmd=curl -sSf 'http://localhost/status.php' | grep '"installed":true' | grep '"maintenance":false' | grep '"needsDbUpgrade":false' || exit 1
 HealthStartPeriod=3m
 HealthInterval=120s
