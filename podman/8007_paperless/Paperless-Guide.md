@@ -7,7 +7,6 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo cp /srv/CherryTech-App-Configs/podman/8007_paperless/paperless.env .env
     - Values to change:
       - PAPERLESS_URL
-      - PAPERLESS_TRUSTED_PROXIES
       - TZ
       - PAPERLESS_ADMIN_MAIL
   - Create a new dedicated user for this app
