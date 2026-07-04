@@ -18,7 +18,7 @@ DEPLOYMENT INSTRUCTIONS:
       - nano .paperless-db-password.txt
       - nano .paperless-admin-password.txt
       - nano .paperless-secret-key.txt
-        - openssl rand -base64 128
+        - sudo openssl rand -base64 128
     - Protect Secrets (MANDATORY)
       - sudo chown -R paperless:paperless /srv/CherryTech-App-Configs/podman/8007_paperless/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8007_paperless/secrets

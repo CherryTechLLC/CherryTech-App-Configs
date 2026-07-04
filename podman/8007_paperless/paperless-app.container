@@ -18,8 +18,8 @@ Volume=/home/paperless/.data/paperless/paperless-data:/usr/src/paperless/data:Z
 Volume=/home/paperless/.data/paperless/paperless-media:/usr/src/paperless/media:Z
 Volume=/home/paperless/.data/paperless/paperless-export:/usr/src/paperless/export:Z
 Volume=/home/paperless/.data/paperless/paperless-consume:/usr/src/paperless/consume:Z
-User: 8007:8007
-HealthCmd=
+User=8007:8007
+HealthCmd=curl -fsS http://127.0.0.1:8000/api/health/ || exit 1
 HealthStartPeriod=3m
 HealthInterval=120s
 HealthTimeout=30s
