@@ -1,4 +1,4 @@
-#immch-app.container
+#EXAMPLE-app.container
 
 [Unit]
 Description=EXAMPLE App
