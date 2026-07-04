@@ -198,3 +198,13 @@ automation.{env.DOMAIN} {
       max_size 100MB
   }
 }
+
+budget.{env.DOMAIN} {
+    reverse_proxy localhost:5006
+
+    encode zstd gzip
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    }
+}
