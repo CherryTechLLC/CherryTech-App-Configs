@@ -32,6 +32,7 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/paperless/.data/paperless/paperless-db-backups
     - mkdir /home/paperless/.data/paperless/paperless-valkey
     - mkdir /home/paperless/.data/paperless/paperless-data
+    - mkdir /home/paperless/.data/paperless/paperless-media
     - mkdir /home/paperless/.data/paperless/paperless-export
     - mkdir /home/paperless/.data/paperless/paperless-consume
   - Create SystemD Quadlet
