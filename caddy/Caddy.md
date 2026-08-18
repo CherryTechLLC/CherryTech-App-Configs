@@ -1,5 +1,9 @@
 These instructions walk through setting up Caddy with Hetzner DNS
 
+In order for the domains you assign to applications to work you must create a DNS A record in the DNS server. I recommend something simple like *.apps.example.com and then in Caddy you assign your-app.app.example.com.
+
+ON CENTOS:
+
 sudo dnf install go
 
 sudo dnf copr enable @caddy/caddy
@@ -11,11 +15,16 @@ sudo nano /etc/dnf/dnf.conf
 Add the line:
 exclude=caddy
 
+ON DEBIAN
+
+sudo apt-get install caddy (Will delete, sets up service and user and everything)
+
+
 CHECK FOR NEW CADDY VERSION BEFORE RUNNING THIS NEXT COMMAND
 
 cd /tmp
 
-wget https://github.com/caddyserver/xcaddy/releases/download/v0.4.5/xcaddy_0.4.5_linux_amd64.tar.gz
+wget https://github.com/caddyserver/xcaddy/releases/download/v0.4.7/xcaddy_0.4.7_linux_amd64.tar.gz
 
 tar xvf xcaddy_0.4.5_linux_amd64.tar.gz xcaddy
 
