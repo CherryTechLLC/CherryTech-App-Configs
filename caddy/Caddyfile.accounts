@@ -8,9 +8,9 @@
 
 }
 
-#VAULTWARDEN - 8001
+#VAULTWARDEN - 6001
 
-vault.{env.DOMAIN} {
+accounts.{env.DOMAIN} {
 
   tls {
     dns hetzner {env.HETZNER_API_TOKEN}
@@ -21,7 +21,7 @@ vault.{env.DOMAIN} {
 
   encode zstd gzip
 
-  reverse_proxy 127.0.0.1:8001 {
+  reverse_proxy 127.0.0.1:6001 {
     header_up X-Real-IP {remote_host}
   }
 
@@ -31,191 +31,3 @@ vault.{env.DOMAIN} {
   }
 }
 
-
-#NEXTCLOUD - 8002
-
-cloud.{env.DOMAIN} {
-
-  tls {
-    dns hetzner {env.HETZNER_API_TOKEN}
-    propagation_delay 30s
-    resolvers 1.1.1.1
-  }
-
-  encode zstd gzip
-
-  reverse_proxy 127.0.0.1:8002 {
-    header_up X-Real-IP {remote_host}
-    header_up X-Forewarded-For {remote_host}
-    header_up Host {host}
-  }
-
-  header {
-    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-    Referrer-Policy "no-referrer"
-    X-Contact-Type-Options "nosniff"
-    X-Frame-Options "SAMEORIGIN"
-    X-Robots-Tag "noindex, nofollow"
-  }
-
-  request_body {
-    max_size 16GB
-  }
-
-}
-
-
-#ERPNEXT - 8003
-
-erp.{env.DOMAIN} {
-
-  tls {
-    dns hetzner {env.HETZNER_API_TOKEN}
-    propagation_delay 30s
-    resolvers 1.1.1.1
-  }
-
-  encode zstd gzip
-
-  reverse_proxy 127.0.0.1:8003 {
-    header_up X-Real-IP {remote_host}
-    header_up X-Forewarded-For {remote_host}
-    header_up Host {host}
-  }
-
-  request_body {
-    max_size 16GB
-  }
-
-}
-
-
-#INVOICE-NINJA - 8004
-
-invoice.{env.DOMAIN} {
-
-  tls {
-    dns hetzner {env.HETZNER_API_TOKEN}
-    propagation_delay 30s
-    resolvers 1.1.1.1
-  }
-
-  encode zstd gzip
-
-  reverse_proxy 127.0.0.1:8004 {
-    header_up X-Real-IP {remote_host}
-    header_up X-Forewarded-For {remote_host}
-    header_up Host {host}
-  }
-
-}
-
-
-#GLPI - 8005
-
-glpi.{env.DOMAIN} {
-
-  tls {
-    dns hetzner {env.HETZNER_API_TOKEN}
-    propagation_delay 30s
-    resolvers 1.1.1.1
-  }
-
-  encode zstd gzip
-
-  reverse_proxy 127.0.0.1:8005 {
-    header_up X-Real-IP {remote_host}
-    header_up X-Forewarded-For {remote_host}
-    header_up Host {host}
-  }
-
-  header {
-    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-    Referrer-Policy "no-referrer"
-    X-Contact-Type-Options "nosniff"
-    X-Frame-Options "SAMEORIGIN"
-  }
-
-  request_body {
-    max_size 16GB
-  }
-
-}
-
-#IMMICH - 8006
-
-immich.{env.DOMAIN} {
-
-  tls {
-    dns hetzner {env.HETZNER_API_TOKEN}
-    propagation_delay 30s
-    resolvers 1.1.1.1
-  }
-
-  encode zstd gzip
-
-  reverse_proxy 127.0.0.1:8006 {
-    header_up X-Real-IP {remote_host}
-    header_up X-Forewarded-For {remote_host}
-    header_up Host {host}
-  }
-
-  header {
-    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-    Referrer-Policy strict-origin-when-cross-origin
-    X-Contact-Type-Options "nosniff"
-    X-Frame-Options "SAMEORIGIN"
-  }
-
-  request_body {
-    max_size 500GB
-  }
-
-}
-
-#ACTIVEPIECES - 8008
-
-automation.{env.DOMAIN} {
-
-  tls {
-    dns hetzner {env.HETZNER_API_TOKEN}
-    propagation_delay 30s
-    resolvers 1.1.1.1
-  }
-
-  encode gzip zstd
-
-  reverse_proxy 127.0.0.1:8008
-
-  header {
-      Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-      X-Content-Type-Options nosniff
-      X-Frame-Options SAMEORIGIN
-      Referrer-Policy strict-origin-when-cross-origin
-  }
-
-  request_body {
-      max_size 100MB
-  }
-}
-
-budget.{env.DOMAIN} {
-
-    tls {
-    dns hetzner {env.HETZNER_API_TOKEN}
-    propagation_delay 30s
-    resolvers 1.1.1.1
-    }
-
-    reverse_proxy 127.0.0.1:8015 {
-      header_up X-Real-IP {remote_host}
-      header_up Host {host}
-    }
-
-    encode zstd gzip
-
-    header {
-        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-        X-Frame-Options SAMEORIGIN
-    }
-}
