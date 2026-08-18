@@ -17,7 +17,7 @@ exclude=caddy
 
 ON DEBIAN
 
-sudo apt-get install caddy (Will delete, sets up service and user and everything)
+sudo apt-get install caddy golang (Will delete, sets up service and user and everything)
 
 
 CHECK FOR NEW CADDY VERSION BEFORE RUNNING THIS NEXT COMMAND

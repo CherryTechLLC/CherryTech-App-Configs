@@ -1,9 +1,19 @@
-Briefly explain the app and key notes here.
+Authentik is a tool designed to provide strong user account control (UAC) for internally hosted applications.
 
 DEPLOYMENT INSTRUCTIONS:
-  - Follow guide to clone repo from Github
-  - Ensure Caddy Reverse Proxy is set up to display this app
-  - Configure Environment Variable
+  - Create a fresh installation of Ubuntu Server
+    - Ensure you have a very strong password
+    - Update system
+      - sudo apt update
+      - sudo apt dist-upgrade
+      - sudo apt autoremove
+  - Install required packages
+    - sudo apt-get install qemu-guest-agent git
+      - Skip qemu-guest-agent if not using proxmox
+  - Set up automatic updates
+    - 
+  - Follow Caddy set up guide
+  - Configure Environment Variables
     - sudo cp /srv/CherryTech-App-Configs/podman/6002_authentik/authentik.env .env
     - Values to change:
       - DOMAIN
