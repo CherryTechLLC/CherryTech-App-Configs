@@ -1,0 +1,28 @@
+#authentik-db.container
+
+[Unit]
+Description=Authentik Database
+
+[Container]
+Image=docker.io/library/postgres:16-alpine@sha256:44c4ee9810eff91f7eab4d822642e01115b1a9eccce4bcbdde7604752d68eac6
+ContainerName=authentik-db
+Pod=authentik.pod
+Volume=/home/authentik/.data/authentik/authentik-db-backups:/var/db-backups/:Z
+Volume=/home/authentik/.data/authentik/authentik-db:/var/lib/postgresql/data:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/6002_authentik/.env
+Secret=authentik-db-password,type=env,target=POSTGRES_PASSWORD
+HealthCmd=/usr/bin/pg_isready -q -d authentik -U authentik
+HealthStartPeriod=5m
+HealthInterval=60s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+Memory=2g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

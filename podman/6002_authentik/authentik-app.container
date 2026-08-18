@@ -1,0 +1,35 @@
+#authentik-app.container
+
+[Unit]
+Description=Authentik App
+Requires=authentik-db.service
+After=authentik-db.service
+
+[Container]
+Image=ghcr.io/goauthentik/server:2026.5.6
+ContainerName=authentik-app
+Pod=authentik.pod
+Exec=server
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/6002_authentik/.env
+Secret=authentik-db-password,type=env,target=AUTHENTIK_POSTGRESQL__PASSWORD
+Secret=authentik-secret-key,type=env,target=AUTHENTIK_SECRET_KEY
+Volume=/home/authentik/.data/authentik/authentik-app:/data:Z
+Volume=/home/authentik/.data/authentik/authentik-custom-templates:/templates:Z
+HealthCmd=curl -fsS http://127.0.0.1:9000/-/health/live/
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+NoNewPrivileges=true
+ShmSize=512m
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+#ExecStartPre=sleep 30
+
+[Install]
+WantedBy=default.target
