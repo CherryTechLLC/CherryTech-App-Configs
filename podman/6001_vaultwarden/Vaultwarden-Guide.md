@@ -5,30 +5,30 @@ DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Ensure Caddy Reverse Proxy is set up to display this app
   - Configure Environment Variable
-    - sudo cp /srv/CherryTech-App-Configs/podman/8001_vaultwarden/example.env /srv/CherryTech-App-Configs/podman/8001_vaultwarden/.env
+    - sudo cp /srv/CherryTech-App-Configs/podman/6001_vaultwarden/example.env /srv/CherryTech-App-Configs/podman/6001_vaultwarden/.env
     - Values to change: (ADMIN_TOKEN stays as CHANGE-ME, we set that later)
       - DOMAIN
       - TZ
   - Create a new dedicated user for this app
-    - sudo useradd -m vaultwarden -F -u 8001
+    - sudo useradd -m vaultwarden -F -u 6001
     - sudo loginctl enable-linger vaultwarden
   - Create secrets:
-    - Create directory /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
+    - Create directory /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets
     -Files: (Paste text into file by itself)
       - nano .vaultwarden-db-password.txt
     - Protect Secrets (MANDATORY)
-      - sudo chown -R vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
-      - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets
+      - sudo chown -R vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets
+      - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets
     - Generate Secrets
       - Login to app user (sudo -u vaultwarden -i)
-      - podman secret create vaultwarden-db-password /srv/CherryTech-App-Configs/podman/8001_vaultwarden/secrets/vaultwarden-db-password.txt
+      - podman secret create vaultwarden-db-password /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets/vaultwarden-db-password.txt
   - Create storage directories: (sudo -u vaultwarden -i)
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-app
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db-backups
   - Create SystemD Quadlet
     - sudo -u vaultwarden -i
-    - cd /srv/CherryTech-App-Configs/podman/8001_vaultwarden
+    - cd /srv/CherryTech-App-Configs/podman/6001_vaultwarden
     - podman quadlet install vaultwarden-app.container vaultwarden-db.container vaultwarden.pod
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - systemctl --user daemon-reload
@@ -47,7 +47,7 @@ DEPLOYMENT INSTRUCTIONS:
     - Enter the hostname for your email server (mail.your-server.de for Hetzner)
     - Set the email address information will come from (vaulwarden.example.com)
     - From Name is up to you.
-    - Username is generally the email address. (vaultwarden.example.com)
+    - Username is generally the email address. (vaultwarden@example.com)
     - Password is the SMTP account password.
 
 
