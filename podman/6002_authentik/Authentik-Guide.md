@@ -8,7 +8,7 @@ DEPLOYMENT INSTRUCTIONS:
       - sudo apt dist-upgrade
       - sudo apt autoremove
   - Install required packages
-    - sudo apt-get install qemu-guest-agent git
+    - sudo apt-get install qemu-guest-agent git podman
       - Skip qemu-guest-agent if not using proxmox
   - Set up automatic updates
     - 
@@ -16,10 +16,9 @@ DEPLOYMENT INSTRUCTIONS:
   - Configure Environment Variables
     - sudo cp /srv/CherryTech-App-Configs/podman/6002_authentik/authentik.env .env
     - Values to change:
-      - DOMAIN
-      - TZ
+      - AUTHENTIK_HOST
   - Create a new dedicated user for this app
-    - sudo useradd -m authentik -F -u 6002
+    - sudo useradd authentik -m -F -u 6002
     - sudo loginctl enable-linger authentik
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/6002_authentik/secrets
@@ -42,7 +41,7 @@ DEPLOYMENT INSTRUCTIONS:
   - Create SystemD Quadlet
     - sudo -u authentik -i
     - cd /srv/CherryTech-App-Configs/podman/6002_authentik
-    - podman quadlet install authentik-app.container authentik-db.container authentik-redis.container authentik.pod
+    - podman quadlet install authentik-app.container authentik-db.container authentik-worker.container authentik.pod
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - systemctl --user daemon-reload
     - systemctl --user start authentik-pod.service
@@ -64,34 +63,3 @@ Secrets:
 Secrets ensure confidential information like database and admin passwords are only visible to superusers and the application's dedicated user.
 Most Postgres and MariaDB passwords can be long random passwords. Some systems however require specific charactors sets and requirements
 https://docs.podman.io/en/stable/markdown/podman-secret-create.1.html
-
-
-
-
-NOTES TO DEVELOPER:
-
-  - Use official app images only!
-  - Declare a source, default is docker.io/
-  - Use :latest or decalare a version.
-  - Add a Caddy Entry so apps get exposed
-  - Stuff you may not need has been added by default becuase deleting is easier than adding
-  - In the .pod file UserNS=keep-id can cause permission but otherwise is important
-
-  - Check if you need to decalare TRUSTED_PROXIES for Reverse Proxy Config per app.
-  - SMTP (Simple mail transfer protocol) is used to allow applications to send emails. The standard port is 587 on modern servers with starttls for security, each app has different environment variables to set.
-
-  - Use Redis when supported and recommended to improve performance.
-    - Redis is closed source now, but Valkey is equivilent and doesnt have the 50mb limit. That image is used on the redis container.
-  - Use PostGresSQL when supported and recommended as it is more feature rich and provides future options.
-
-
-Health Check:
-  - Below is a basic authentik intended to see if an apps web server is active. This is what depends-on: condition: service_healthy requires to function.
-  - Health checks can run constantly and be used to provide app status information.
-
-healthcheck:
-  test: ["CMD-SHELL", "curl -fsS http://localhost/ || exit 1"]
-  interval: 30s
-  timeout: 10s
-  retries: 3
-  start_period: 60s

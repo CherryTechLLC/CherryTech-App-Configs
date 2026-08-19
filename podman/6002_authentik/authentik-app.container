@@ -2,8 +2,8 @@
 
 [Unit]
 Description=Authentik App
-Requires=authentik-db.service
-After=authentik-db.service
+Requires=authentik-db.service authentik-worker.service
+After=authentik-db.service authentik-worker.service
 
 [Container]
 Image=ghcr.io/goauthentik/server:2026.5.6
