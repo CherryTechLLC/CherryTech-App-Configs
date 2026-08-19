@@ -6,6 +6,11 @@
 
   admin off
 
+}
+
+
+
+
 #NEXTCLOUD - 8002
 
 cloud.{env.DOMAIN} {
@@ -172,7 +177,7 @@ paperless.{env.DOMAIN} {
 
 #ACTUAL - 8015
 
-budget.{env.DOMAIN} {
+actual.{env.DOMAIN} {
 
     tls {
     dns hetzner {env.HETZNER_API_TOKEN}
