@@ -1,0 +1,29 @@
+#EXAMPLE-db.container
+
+[Unit]
+Description=EXAMPLE Database
+
+[Container]
+Image=docker.io/library/mariadb:11.8.8@sha256:be1ef4fe5f14589325c08a41c76334097ce66c86264b75e1d28342c742782a61
+ContainerName=EXAMPLE-db
+Pod=EXAMPLE.pod
+Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db-backups:/var/db-backups:Z
+Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db:/var/lib/mysql:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/0000_EXAMPLE/.env
+Secret=EXAMPLE-db-password,type=env,target=MARIADB_PASSWORD
+Secret=EXAMPLE-db-root-password,type=env,target=MARIADB_ROOT_PASSWORD
+HealthCmd=/bin/bash -c 'healthcheck.sh --connect --innodb_initialized'
+HealthStartPeriod=60s
+HealthInterval=60s
+HealthTimeout=10s
+HealthRetries=15
+Notify=healthy
+Memory=2g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

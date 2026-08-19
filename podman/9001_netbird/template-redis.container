@@ -1,0 +1,27 @@
+#EXAMPLE-redis.container
+
+[Unit]
+Description=EXAMPLE Redis
+
+[Container]
+Image=docker.io/valkey/valkey:9.1-alpine
+ContainerName=EXAMPLE-redis
+Pod=EXAMPLE.pod
+Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-valkey:/data:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/0000_EXAMPLE/.env
+HealthCmd=/bin/sh -c 'valkey-cli ping | grep PONG'
+HealthStartPeriod=30s
+HealthInterval=120s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=1g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target
