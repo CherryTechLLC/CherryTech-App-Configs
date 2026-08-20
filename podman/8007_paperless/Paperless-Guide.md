@@ -17,6 +17,7 @@ DEPLOYMENT INSTRUCTIONS:
     - Files: (Paste text into file by itself)
       - nano .paperless-db-password.txt
       - nano .paperless-admin-password.txt
+        - sudo openssl rand -base64 32
       - nano .paperless-secret-key.txt
         - sudo openssl rand -base64 128
     - Protect Secrets (MANDATORY)
@@ -35,6 +36,7 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/paperless/.data/paperless/paperless-media
     - mkdir /home/paperless/.data/paperless/paperless-export
     - mkdir /home/paperless/.data/paperless/paperless-consume
+    - mkdir /home/paperless/.data/paperless/paperless-trash
   - Create SystemD Quadlet
     - sudo -u paperless -i
     - cd /srv/CherryTech-App-Configs/podman/8007_paperless
@@ -43,6 +45,7 @@ DEPLOYMENT INSTRUCTIONS:
     - systemctl --user daemon-reload
     - systemctl --user start paperless-pod.service
   - Full app initialization can take 5-10 minutes before the app will display
+  - 
 
 Resource Limits:
 The resource limits provided are intended to prevent full server crashes should an app have a resource management issues. The provided values are for 5-10 users roughly, if you have more users you may have to increase the limits.
