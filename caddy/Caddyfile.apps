@@ -163,13 +163,8 @@ paperless.{env.DOMAIN} {
     resolvers 1.1.1.1
     }
 
-    @login path /accounts/login/
-    reverse_proxy @login 127.0.0.1:8007 {
-        header_down Referrer-Policy "same-origin"
-    }
-
     reverse_proxy 127.0.0.1:8007 {
-        header_down Referrer-Policy "no-referrer"
+        header_down Referrer-Policy "same-origin"
     }
 
     encode zstd gzip
