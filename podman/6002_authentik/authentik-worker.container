@@ -1,19 +1,18 @@
 #authentik-app.container
 
 [Unit]
-Description=Authentik App
+Description=Authentik Worker
 Requires=authentik-db.service
 After=authentik-db.service
 
 [Container]
 Image=ghcr.io/goauthentik/server:2026.5.6
-ContainerName=authentik-app
+ContainerName=authentik-worker
 Pod=authentik.pod
 Exec=worker
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/6002_authentik/.env
 Secret=authentik-db-password,type=env,target=AUTHENTIK_POSTGRESQL__PASSWORD
 Secret=authentik-secret-key,type=env,target=AUTHENTIK_SECRET_KEY
-Volume=/etc/localtime:/etc/localtime:ro
 Volume=/home/authentik/.data/authentik/authentik-app:/data:Z
 Volume=/home/authentik/.data/authentik/authentik-certs:/certs:Z
 Volume=/home/authentik/.data/authentik/authentik-custom-templates:/templates:Z
