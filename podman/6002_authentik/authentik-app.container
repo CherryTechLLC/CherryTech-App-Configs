@@ -12,10 +12,11 @@ Pod=authentik.pod
 Exec=server
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/6002_authentik/.env
 Secret=authentik-db-password,type=env,target=AUTHENTIK_POSTGRESQL__PASSWORD
+Secret=authentik-db-password,type=env,target=POSTGRES_PASSWORD
 Secret=authentik-secret-key,type=env,target=AUTHENTIK_SECRET_KEY
 Volume=/home/authentik/.data/authentik/authentik-app:/data:Z
 Volume=/home/authentik/.data/authentik/authentik-custom-templates:/templates:Z
-HealthCmd=curl -fsS http://127.0.0.1:9000/-/health/live/
+HealthCmd=ak healthcheck
 HealthStartPeriod=3m
 HealthInterval=120s
 HealthTimeout=30s
