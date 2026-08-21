@@ -11,7 +11,7 @@ Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db-backups:/var/db-backups/:Z
 Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db:/var/lib/postgresql/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/0000_EXAMPLE/.env
 Secret=EXAMPLE-db-password,type=env,target=POSTGRES_PASSWORD
-HealthCmd=/usr/bin/pg_isready -q -d EXAMPLE -U EXAMPLE
+HealthCmd=pg_isready -q -d EXAMPLE -U EXAMPLE
 HealthStartPeriod=5m
 HealthInterval=60s
 HealthTimeout=15s

@@ -11,7 +11,7 @@ Volume=/home/nextcloud/.data/nextcloud/nextcloud-db-backups:/var/db-backups/:Z
 Volume=/home/nextcloud/.data/nextcloud/nextcloud-db:/var/lib/postgresql/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8002_nextcloud/.env
 Secret=nextcloud-db-password,type=env,target=POSTGRES_PASSWORD
-HealthCmd=/usr/bin/pg_isready -q -d nextcloud -U nextcloud
+HealthCmd=pg_isready -q -d nextcloud -U nextcloud
 HealthStartPeriod=5m
 HealthInterval=60s
 HealthTimeout=15s

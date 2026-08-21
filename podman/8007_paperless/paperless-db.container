@@ -11,7 +11,7 @@ Volume=/home/paperless/.data/paperless/paperless-db-backups:/var/db-backups:Z
 Volume=/home/paperless/.data/paperless/paperless-db:/var/lib/postgresql/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8007_paperless/.env
 Secret=paperless-db-password,type=env,target=POSTGRES_PASSWORD
-HealthCmd=/usr/bin/pg_isready -q -d paperless -U paperless
+HealthCmd=pg_isready -q -d paperless -U paperless
 HealthStartPeriod=5m
 HealthInterval=60s
 HealthTimeout=15s
