@@ -11,7 +11,7 @@ Volume=/home/authentik/.data/authentik/authentik-db-backups:/var/db-backups/:Z
 Volume=/home/authentik/.data/authentik/authentik-db:/var/lib/postgresql/data:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/6002_authentik/.env
 Secret=authentik-db-password,type=env,target=POSTGRES_PASSWORD
-HealthCmd=/usr/bin/pg_isready -q -d authentik -U authentik
+HealthCmd=pg_isready -q -d authentik -U authentik
 HealthStartPeriod=5m
 HealthInterval=60s
 HealthTimeout=15s
