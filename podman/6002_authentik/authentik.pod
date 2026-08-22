@@ -3,7 +3,7 @@
 
 [Pod]
 PodName=authentik
-PublishPort=127.0.0.1:6002:9443
+PublishPort=127.0.0.1:6002:9000
 UserNS=keep-id
 ShmSize=512m
 
