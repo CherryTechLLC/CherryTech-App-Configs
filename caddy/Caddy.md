@@ -26,7 +26,7 @@ cd /tmp
 
 wget https://github.com/caddyserver/xcaddy/releases/download/v0.4.7/xcaddy_0.4.7_linux_amd64.tar.gz
 
-tar xvf xcaddy_0.4.5_linux_amd64.tar.gz xcaddy
+tar xvf xcaddy_0.4.7_linux_amd64.tar.gz xcaddy
 
 sudo mv xcaddy /usr/bin
 
