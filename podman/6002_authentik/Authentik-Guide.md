@@ -23,8 +23,10 @@ DEPLOYMENT INSTRUCTIONS:
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/6002_authentik/secrets
     - Files: (Paste text into file by itself)
-      - nano .authentik-db-password.txt
-      - nano .authentik-secret-key.txt
+      - sudo nano .authentik-db-password.txt
+        - sudo openssl rand -base64 32
+      - sudo nano .authentik-secret-key.txt
+        - sudo openssl rand -base64 64
     - Protect Secrets (MANDATORY)
       - sudo chown -R authentik:authentik /srv/CherryTech-App-Configs/podman/6002_authentik/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/6002_authentik/secrets

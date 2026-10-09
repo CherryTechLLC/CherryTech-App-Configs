@@ -16,7 +16,7 @@ DEPLOYMENT INSTRUCTIONS:
       - App Key:
         - sudo podman run --rm invoiceninja/invoiceninja-debian:latest php artisan key:generate --show
         - Create .invoiceninja_app_key.txt
-        - Paste the key into the text file including "base65:" at the start and "=" at the end.
+        - Paste the key into the text file including "base64:" at the start and "=" at the end.
   - Create a new dedicated user for this app
     - sudo useradd -m invoiceninja -F -u 8004
     - sudo loginctl enable-linger invoiceninja

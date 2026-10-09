@@ -8,7 +8,6 @@ DEPLOYMENT INSTRUCTIONS:
     - Values to change:
       - PAPERLESS_URL
       - TZ
-      - PAPERLESS_ADMIN_MAIL
   - Create a new dedicated user for this app
     - sudo useradd -m paperless -F -u 8007
     - sudo loginctl enable-linger paperless
@@ -16,10 +15,11 @@ DEPLOYMENT INSTRUCTIONS:
     - Create directory /srv/CherryTech-App-Configs/podman/8007_paperless/secrets
     - Files: (Paste text into file by itself)
       - nano .paperless-db-password.txt
+        - sudo openssl rand -base64 64
       - nano .paperless-admin-password.txt
         - sudo openssl rand -base64 32
       - nano .paperless-secret-key.txt
-        - sudo openssl rand -base64 128
+        - sudo openssl rand -base64 64
     - Protect Secrets (MANDATORY)
       - sudo chown -R paperless:paperless /srv/CherryTech-App-Configs/podman/8007_paperless/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8007_paperless/secrets
@@ -45,7 +45,7 @@ DEPLOYMENT INSTRUCTIONS:
     - systemctl --user daemon-reload
     - systemctl --user start paperless-pod.service
   - Full app initialization can take 5-10 minutes before the app will display
-  - 
+  - Log in with the username 'system' and the password you created
 
 Resource Limits:
 The resource limits provided are intended to prevent full server crashes should an app have a resource management issues. The provided values are for 5-10 users roughly, if you have more users you may have to increase the limits.
@@ -58,6 +58,7 @@ Wiki Link:
 Other Good Sources:
   - https://hub.docker.com/_/postgres
   - https://docs.paperless-ngx.com/configuration/
+  - https://github.com/paperless-ngx/paperless-ngx/wiki/Using-a-Reverse-Proxy-with-Paperless-ngx#caddy
 
 
 Secrets:
