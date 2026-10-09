@@ -6,7 +6,7 @@ Requires=authentik-db.service
 After=authentik-db.service
 
 [Container]
-Image=ghcr.io/goauthentik/server:2026.8.3
+Image=ghcr.io/goauthentik/server:-2026.8.3
 ContainerName=authentik-worker
 Pod=authentik.pod
 Exec=worker
