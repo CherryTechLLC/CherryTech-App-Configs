@@ -3,7 +3,7 @@
 
 [Pod]
 PodName=netbox
-PublishPort=127.0.0.1:8008:0000
+PublishPort=127.0.0.1:8008:8000
 UserNS=keep-id
 
 [Install]
