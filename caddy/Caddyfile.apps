@@ -186,6 +186,37 @@ paperless.{env.DOMAIN} {
         }
 }
 
+#NETBOX - 8
+
+netbox.{env.DOMAIN} {
+
+  tls {
+    dns hetzner {env.HETZNER_API_TOKEN}
+    propagation_delay 30s
+    resolvers 1.1.1.1
+  }
+
+  encode zstd gzip
+
+  reverse_proxy 127.0.0.1:8008 {
+    header_up X-Real-IP {remote_host}
+    header_up X-Forewarded-For {remote_host}
+    header_up Host {host}
+  }
+
+  header {
+    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    Referrer-Policy strict-origin-when-cross-origin
+    X-Contact-Type-Options "nosniff"
+    X-Frame-Options "SAMEORIGIN"
+  }
+
+  request_body {
+    max_size 500GB
+  }
+
+}
+
 #ACTUAL - 8015
 
 actual.{env.DOMAIN} {
