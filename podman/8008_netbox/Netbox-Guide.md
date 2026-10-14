@@ -15,7 +15,7 @@ DEPLOYMENT INSTRUCTIONS:
     - Create directory /srv/CherryTech-App-Configs/podman/8008_netbox/secrets
     - Files: (Paste text into file by itself)
       - nano .netbox-db-password.txt
-        - sudo openssl rand -base64 32
+        - sudo openssl rand -base64 64
       - nano .netbox-pepper1-api.txt
         - sudo openssl rand -base64 64
       - nano .netbox-secret-key.txt
