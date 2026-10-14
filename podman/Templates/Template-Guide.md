@@ -15,7 +15,9 @@ DEPLOYMENT INSTRUCTIONS:
     - Create directory /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
     - Files: (Paste text into file by itself)
       - nano .EXAMPLE-db-password.txt
+        - sudo openssl rand -base64 32
       - nano .EXAMPLE-db-root-password.txt
+        - sudo openssl rand -base64 32
     - Protect Secrets (MANDATORY)
       - sudo chown -R EXAMPLE:EXAMPLE /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
@@ -36,6 +38,8 @@ DEPLOYMENT INSTRUCTIONS:
     - systemctl --user daemon-reload
     - systemctl --user start EXAMPLE-pod.service
   - Full app initialization can take 5-10 minutes before the app will display
+  - Configure Automatic Updates
+    - systemctl --user enable --now podman-auto-update.timer
 
 Resource Limits:
 The resource limits provided are intended to prevent full server crashes should an app have a resource management issues. The provided values are for 5-10 users roughly, if you have more users you may have to increase the limits.
