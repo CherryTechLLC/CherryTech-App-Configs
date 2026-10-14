@@ -1,0 +1,28 @@
+#netbox-db.container
+
+[Unit]
+Description=Netbox Database
+
+[Container]
+Image=docker.io/library/postgres:18-alpine@sha256:1d22739c0a64fae400b80b9b7bc66c793915541c6a65977bbe9b8c88d22b3569
+ContainerName=netbox-db
+Pod=netbox.pod
+Volume=/home/netbox/.data/netbox/netbox-db-backups:/var/db-backups/:Z
+Volume=/home/netbox/.data/netbox/netbox-db:/var/lib/postgresql/data:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_netbox/.env
+Secret=netbox-db-password,type=env,target=POSTGRES_PASSWORD
+HealthCmd=pg_isready -q -d netbox -U netbox
+HealthStartPeriod=5m
+HealthInterval=60s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+Memory=2g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

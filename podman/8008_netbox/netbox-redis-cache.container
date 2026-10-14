@@ -1,0 +1,27 @@
+#netbox-redis.container
+
+[Unit]
+Description=Netbox Redis Cache
+
+[Container]
+Image=docker.io/valkey/valkey:9.1-alpine
+ContainerName=netbox-redis-cache
+Pod=netbox.pod
+Volume=/home/netbox/.data/netbox/netbox-valkey-cache:/data:Z
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_netbox/.env
+HealthCmd=/bin/sh -c 'valkey-cli ping | grep PONG'
+HealthStartPeriod=30s
+HealthInterval=120s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=1g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target
