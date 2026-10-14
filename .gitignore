@@ -3,7 +3,12 @@
 *.secret
 *.key
 *.pem
+*.txt
 secrets/
+.secrets/
+secret/
+.secret/
+
 
 # Runtime data
 data/
