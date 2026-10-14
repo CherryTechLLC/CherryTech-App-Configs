@@ -2,11 +2,11 @@
 
 [Unit]
 Description=Authentik App
-Requires=authentik-db.service authentik-worker.service
-After=authentik-db.service authentik-worker.service
+Requires=authentik-db.service
+After=authentik-db.service
 
 [Container]
-Image=ghcr.io/goauthentik/server:-2026.8.3
+Image=ghcr.io/goauthentik/server:2026.8.3
 ContainerName=authentik-app
 Pod=authentik.pod
 Exec=server
