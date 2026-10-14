@@ -8,7 +8,7 @@ After=netbox-redis.service netbox-redis-cache.service netbox-db.service
 [Container]
 Image=docker.io/netboxcommunity/netbox:v4.7
 ContainerName=netbox-app
-Pod=netbox.pod
+Network=netbox.network
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_netbox/.env
 Secret=netbox-db-password,type=env,target=DB_PASSWORD
 Secret=netbox-pepper1-api,type=env,target=API_TOKEN_PEPPER_1
@@ -27,6 +27,7 @@ Notify=healthy
 AutoUpdate=registry
 Memory=3g
 NoNewPrivileges=true
+UserNS=keep-id
 #AddCapability=CAP_NET_BIND_SERVICE    -     Bind to port 80??
 
 [Service]

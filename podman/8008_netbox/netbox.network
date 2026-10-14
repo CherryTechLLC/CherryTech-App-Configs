@@ -1,0 +1,11 @@
+# netbox.pod
+# Netbox Quadlet
+
+[Unit]
+Description=Netbox application network
+
+[Network]
+NetworkName=netbox
+
+[Install]
+WantedBy=default.target

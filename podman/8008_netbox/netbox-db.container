@@ -6,7 +6,7 @@ Description=Netbox Database
 [Container]
 Image=docker.io/library/postgres:18-alpine@sha256:1d22739c0a64fae400b80b9b7bc66c793915541c6a65977bbe9b8c88d22b3569
 ContainerName=netbox-db
-Pod=netbox.pod
+Network=netbox.network
 Volume=/home/netbox/.data/netbox/netbox-db-backups:/var/db-backups/:Z
 Volume=/home/netbox/.data/netbox/netbox-db:/var/lib/postgresql:Z
 EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_netbox/.env
@@ -19,6 +19,7 @@ HealthRetries=10
 Notify=healthy
 Memory=2g
 NoNewPrivileges=true
+UserNS=keep-id
 
 [Service]
 Restart=always
