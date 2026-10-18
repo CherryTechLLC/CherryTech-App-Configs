@@ -3,11 +3,6 @@ Briefly explain the app and key notes here.
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Ensure Caddy Reverse Proxy is set up to display this app
-  - Configure Environment Variable
-    - sudo cp /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/example.env .env
-    - Values to change:
-      - DOMAIN
-      - TZ
   - Create a new dedicated user for this app
     - sudo useradd -m EXAMPLE -F -u 0000
     - sudo loginctl enable-linger EXAMPLE
@@ -30,6 +25,11 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db-backups
     - mkdir /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-valkey
     - mkdir /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app
+  - Configure Environment Variable
+    - sudo cp /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/example.env /home/EXAMPLE/.data/EXAMPLE/.env
+    - Values to change:
+      - DOMAIN
+      - TZ
   - Create SystemD Quadlet
     - sudo -u EXAMPLE -i
     - cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE

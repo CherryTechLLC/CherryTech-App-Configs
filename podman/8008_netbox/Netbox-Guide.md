@@ -23,13 +23,6 @@ DEPLOYMENT INSTRUCTIONS:
       - podman secret create netbox-db-password .netbox-db-password.txt
       - podman secret create netbox-pepper1-api .netbox-pepper1-api.txt
       - podman secret create netbox-secret-key .netbox-secret-key.txt
-  - Configure Environment Variable
-    - sudo cp /srv/CherryTech-App-Configs/podman/8008_netbox/netbox.env /home/netbox/.data/netbox/.env
-    - Values to change:
-      - ALLOWED_HOSTS
-      - TZ
-  - Create netbox configuration file
-    - sudo cp /srv/CherryTech-App-Configs/podman/8008_netbox/config /home/netbox/.data/netbox/.config
   - Create storage directories: (sudo -u netbox -i)
     - mkdir /home/netbox/.data/netbox/netbox-db
     - mkdir /home/netbox/.data/netbox/netbox-db-backups
@@ -38,6 +31,13 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/netbox/.data/netbox/netbox-media
     - mkdir /home/netbox/.data/netbox/netbox-reports
     - mkdir /home/netbox/.data/netbox/netbox-scripts
+  - Configure Environment Variable
+    - sudo cp /srv/CherryTech-App-Configs/podman/8008_netbox/netbox.env /home/netbox/.data/netbox/.env
+    - Values to change:
+      - ALLOWED_HOSTS
+      - TZ
+  - Create netbox configuration file
+    - sudo cp /srv/CherryTech-App-Configs/podman/8008_netbox/config /home/netbox/.data/netbox/.config
   - Create SystemD Quadlet
     - sudo -u netbox -i
     - cd /srv/CherryTech-App-Configs/podman/8008_netbox
@@ -46,6 +46,8 @@ DEPLOYMENT INSTRUCTIONS:
     - systemctl --user daemon-reload
     - systemctl --user start netbox-pod.service
   - Full app initialization can take 5-10 minutes before the app will display
+  - Configure Automatic Updates
+    - systemctl --user enable --now podman-auto-update.timer
 
 Resource Limits:
 The resource limits provided are intended to prevent full server crashes should an app have a resource management issues. The provided values are for 5-10 users roughly, if you have more users you may have to increase the limits.
