@@ -10,9 +10,9 @@ Image=docker.io/netboxcommunity/netbox:v4.7
 ContainerName=netbox-app
 Network=netbox.network
 EnvironmentFile=/home/netbox/.data/netbox/.env
-Secret=netbox-db-password,type=env,target=DB_PASSWORD
-Secret=netbox-pepper1-api,type=env,target=API_TOKEN_PEPPER_1
-Secret=netbox-secret-key,type=env,target=SECRET_KEY
+Secret=netbox-db-password,type=mount,target=db_password
+Secret=netbox-pepper1-api,type=mount,target=api_token_pepper_1
+Secret=netbox-secret-key,type=mount,target=secret_key
 Volume=/home/netbox/.data/netbox/.config:/etc/netbox/config:Z,ro
 Volume=/home/netbox/.data/netbox/netbox-media:/opt/netbox/netbox/media:Z
 Volume=/home/netbox/.data/netbox/netbox-reports:/opt/netbox/netbox/reports:Z
@@ -27,7 +27,6 @@ AutoUpdate=registry
 Memory=3g
 NoNewPrivileges=true
 UserNS=keep-id
-#AddCapability=CAP_NET_BIND_SERVICE    -     Bind to port 80??
 
 [Service]
 Restart=always

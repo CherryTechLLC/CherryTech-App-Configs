@@ -1,18 +1,18 @@
-#netbox-app.container
+#netbox-worker.container
 
 [Unit]
-Description=Netbox App
+Description=Netbox Worker
 Requires=netbox-redis.service netbox-redis-cache.service netbox-db.service
 After=netbox-redis.service netbox-redis-cache.service netbox-db.service
 
 [Container]
 Image=docker.io/netboxcommunity/netbox:v4.7
-ContainerName=netbox-app
+ContainerName=netbox-worker
 Network=netbox.network
 EnvironmentFile=/home/netbox/.data/netbox/.env
-Secret=netbox-db-password,type=env,target=DB_PASSWORD
-Secret=netbox-pepper1-api,type=env,target=API_TOKEN_PEPPER_1
-Secret=netbox-secret-key,type=env,target=SECRET_KEY
+Secret=netbox-db-password,type=mount,target=db_password
+Secret=netbox-pepper1-api,type=mount,target=api_token_pepper_1
+Secret=netbox-secret-key,type=mount,target=secret_key
 Volume=/home/netbox/.data/netbox/.config:/etc/netbox/config:Z,ro
 Volume=/home/netbox/.data/netbox/netbox-media:/opt/netbox/netbox/media:Z
 Volume=/home/netbox/.data/netbox/netbox-reports:/opt/netbox/netbox/reports:Z
