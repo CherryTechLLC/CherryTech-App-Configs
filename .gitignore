@@ -1,5 +1,4 @@
 # Secrets
-.env
 *.secret
 *.key
 *.pem
@@ -14,6 +13,11 @@ secret/
 data/
 logs/
 tmp/
+
+#Config Data
+.env
+.config/
+config/
 
 # OS/editor files
 .DS_Store

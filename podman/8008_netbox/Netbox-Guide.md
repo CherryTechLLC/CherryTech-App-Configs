@@ -3,11 +3,6 @@ Netbox is a utility for tracking networks and server rack equipment for infratru
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Ensure Caddy Reverse Proxy is set up to display this app
-  - Configure Environment Variable
-    - sudo cp /srv/CherryTech-App-Configs/podman/8008_netbox/netbox.env .env
-    - Values to change:
-      - ALLOWED_HOSTS
-      - TZ
   - Create a new dedicated user for this app
     - sudo useradd -m netbox -F -u 8008
     - sudo loginctl enable-linger netbox
@@ -28,6 +23,13 @@ DEPLOYMENT INSTRUCTIONS:
       - podman secret create netbox-db-password .netbox-db-password.txt
       - podman secret create netbox-pepper1-api .netbox-pepper1-api.txt
       - podman secret create netbox-secret-key .netbox-secret-key.txt
+  - Configure Environment Variable
+    - sudo cp /srv/CherryTech-App-Configs/podman/8008_netbox/netbox.env /home/netbox/.data/netbox/.env
+    - Values to change:
+      - ALLOWED_HOSTS
+      - TZ
+  - Create netbox configuration file
+    - sudo cp /srv/CherryTech-App-Configs/podman/8008_netbox/config /home/netbox/.data/netbox/.config
   - Create storage directories: (sudo -u netbox -i)
     - mkdir /home/netbox/.data/netbox/netbox-db
     - mkdir /home/netbox/.data/netbox/netbox-db-backups

@@ -9,7 +9,7 @@ ContainerName=netbox-db
 Network=netbox.network
 Volume=/home/netbox/.data/netbox/netbox-db-backups:/var/db-backups/:Z
 Volume=/home/netbox/.data/netbox/netbox-db:/var/lib/postgresql:Z
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/8008_netbox/.env
+EnvironmentFile=/home/netbox/.data/netbox/.env
 Secret=netbox-db-password,type=env,target=POSTGRES_PASSWORD
 HealthCmd=pg_isready -q -d netbox -U netbox
 HealthStartPeriod=5m
