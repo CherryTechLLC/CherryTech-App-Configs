@@ -13,7 +13,6 @@ EnvironmentFile=/home/netbox/.data/netbox/.env
 Secret=netbox-db-password,type=env,target=DB_PASSWORD
 Secret=netbox-pepper1-api,type=env,target=API_TOKEN_PEPPER_1
 Secret=netbox-secret-key,type=env,target=SECRET_KEY
-Volume=/etc/localtime:/etc/localtime:ro
 Volume=/home/netbox/.data/netbox/.config:/etc/netbox/config:Z,ro
 Volume=/home/netbox/.data/netbox/netbox-media:/opt/netbox/netbox/media:Z
 Volume=/home/netbox/.data/netbox/netbox-reports:/opt/netbox/netbox/reports:Z

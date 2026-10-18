@@ -44,9 +44,8 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo -u netbox -i
     - cd /srv/CherryTech-App-Configs/podman/8008_netbox
     - podman quadlet install netbox-app.container netbox-worker.container netbox-db.container netbox-redis.container netbox-redis-cache.container netbox.network
-    - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
-    - systemctl --user daemon-reload
-    - systemctl --user start netbox-pod.service
+  - Restart server or manually enable all server units 
+   - netbox-app.container netbox-worker.container netbox-db.container netbox-redis.container netbox-redis-cache.container netbox.network
   - Full app initialization can take 5-10 minutes before the app will display
   - Configure Automatic Updates
     - systemctl --user enable --now podman-auto-update.timer
