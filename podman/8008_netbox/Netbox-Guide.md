@@ -32,11 +32,13 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/netbox/.data/netbox/netbox-reports
     - mkdir /home/netbox/.data/netbox/netbox-scripts
   - Configure Environment Variable (sudo -u netbox -i)
+  - Configure Environment Variable
     - cp /srv/CherryTech-App-Configs/podman/8008_netbox/netbox.env /home/netbox/.data/netbox/.env
     - Values to change:
       - ALLOWED_HOSTS
       - TZ
   - Create netbox configuration file (sudo -u netbox -i)
+  - Create netbox configuration file
     - cp /srv/CherryTech-App-Configs/podman/8008_netbox/config /home/netbox/.data/netbox/.config
   - Create SystemD Quadlet
     - sudo -u netbox -i
