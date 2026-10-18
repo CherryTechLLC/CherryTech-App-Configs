@@ -17,7 +17,6 @@ tmp/
 #Config Data
 .env
 .config/
-config/
 
 # OS/editor files
 .DS_Store
