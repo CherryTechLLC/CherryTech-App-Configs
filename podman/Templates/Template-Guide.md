@@ -25,8 +25,8 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db-backups
     - mkdir /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-valkey
     - mkdir /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app
-  - Configure Environment Variable
-    - sudo cp /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/example.env /home/EXAMPLE/.data/EXAMPLE/.env
+  - Configure Environment Variable (sudo -u EXAMPLE -i)
+    - cp /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/example.env /home/EXAMPLE/.data/EXAMPLE/.env
     - Values to change:
       - DOMAIN
       - TZ
