@@ -10,13 +10,9 @@ DEPLOYMENT INSTRUCTIONS:
   - Install required packages
     - sudo apt-get install qemu-guest-agent git podman
       - Skip qemu-guest-agent if not using proxmox
-  - Set up automatic updates
+  - Set up ubuntu server automatic updates
     - 
   - Follow Caddy set up guide
-  - Configure Environment Variables
-    - sudo cp /srv/CherryTech-App-Configs/podman/6002_authentik/authentik.env .env
-    - Values to change:
-      - AUTHENTIK_HOST
   - Create a new dedicated user for this app
     - sudo useradd authentik -m -F -u 6002
     - sudo loginctl enable-linger authentik
@@ -40,6 +36,11 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/authentik/.data/authentik/authentik-app
     - mkdir /home/authentik/.data/authentik/authentik-custom-templates
     - mkdir /home/authentik/.data/authentik/authentik-certs
+  - Configure Environment Variable
+    - cp /srv/CherryTech-App-Configs/podman/6002_authentik/authentik.env /home/authentik/.data/authentik/.env
+    - Values to change:
+      - AUTHENTIK_HOST
+      -
   - Create SystemD Quadlet
     - sudo -u authentik -i
     - cd /srv/CherryTech-App-Configs/podman/6002_authentik

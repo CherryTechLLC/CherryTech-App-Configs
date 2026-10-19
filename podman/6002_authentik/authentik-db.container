@@ -9,7 +9,7 @@ ContainerName=authentik-db
 Pod=authentik.pod
 Volume=/home/authentik/.data/authentik/authentik-db-backups:/var/db-backups/:Z
 Volume=/home/authentik/.data/authentik/authentik-db:/var/lib/postgresql/data:Z
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/6002_authentik/.env
+EnvironmentFile=/home/authentik/.data/authentik/.env
 Secret=authentik-db-password,type=env,target=POSTGRES_PASSWORD
 HealthCmd=pg_isready -q -d authentik -U authentik
 HealthStartPeriod=5m

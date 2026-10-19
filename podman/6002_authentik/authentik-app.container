@@ -10,9 +10,8 @@ Image=ghcr.io/goauthentik/server:2026.8.3
 ContainerName=authentik-app
 Pod=authentik.pod
 Exec=server
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/6002_authentik/.env
+EnvironmentFile=/home/authentik/.data/authentik/.env
 Secret=authentik-db-password,type=env,target=AUTHENTIK_POSTGRESQL__PASSWORD
-Secret=authentik-db-password,type=env,target=POSTGRES_PASSWORD
 Secret=authentik-secret-key,type=env,target=AUTHENTIK_SECRET_KEY
 Volume=/home/authentik/.data/authentik/authentik-app:/data:Z
 Volume=/home/authentik/.data/authentik/authentik-custom-templates:/templates:Z
