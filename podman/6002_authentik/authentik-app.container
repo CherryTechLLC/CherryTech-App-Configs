@@ -13,6 +13,7 @@ Exec=server
 EnvironmentFile=/home/authentik/.data/authentik/.env
 Secret=authentik-db-password,type=env,target=AUTHENTIK_POSTGRESQL__PASSWORD
 Secret=authentik-secret-key,type=env,target=AUTHENTIK_SECRET_KEY
+Secret=authentik-email-password,type=env,target=AUTHENTIK_EMAIL__PASSWORD
 Volume=/home/authentik/.data/authentik/authentik-app:/data:Z
 Volume=/home/authentik/.data/authentik/authentik-custom-templates:/templates:Z
 HealthCmd=ak healthcheck

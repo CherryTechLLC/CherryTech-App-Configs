@@ -39,8 +39,11 @@ DEPLOYMENT INSTRUCTIONS:
   - Configure Environment Variable
     - cp /srv/CherryTech-App-Configs/podman/6002_authentik/authentik.env /home/authentik/.data/authentik/.env
     - Values to change:
-      - AUTHENTIK_HOST
-      -
+      - AUTHENTIK_EMAIL__HOST (Your server provider, mail.your-server.de for Hetzner)
+      - AUTHENTIK_EMAIL__PORT (465 for ssl, 587 for tls)
+      - AUTHENTIK_EMAIL__USERNAME (The part of the email before @)
+      - Uncomment AUTHENTIK_EMAIL__USE_TLS - OR - AUTHENTIK_EMAIL__USE_SSL (Not Both!)
+      - AUTHENTIK_EMAIL__FROM (sso@example.com)
   - Create SystemD Quadlet
     - sudo -u authentik -i
     - cd /srv/CherryTech-App-Configs/podman/6002_authentik
