@@ -12,6 +12,9 @@ DEPLOYMENT INSTRUCTIONS:
       - Skip qemu-guest-agent if not using proxmox
   - Set up ubuntu server automatic updates
     - 
+  - Create a new email account at your email service provider
+    - sso@example.com
+    - Save the password to put into a podman secret later
   - Follow Caddy set up guide
   - Create a new dedicated user for this app
     - sudo useradd authentik -m -F -u 6002
@@ -23,6 +26,8 @@ DEPLOYMENT INSTRUCTIONS:
         - sudo openssl rand -base64 32
       - sudo nano .authentik-secret-key.txt
         - sudo openssl rand -base64 64
+      - sudo nano .authentik-email-password.txt
+        - Enter
     - Protect Secrets (MANDATORY)
       - sudo chown -R authentik:authentik /srv/CherryTech-App-Configs/podman/6002_authentik/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/6002_authentik/secrets
