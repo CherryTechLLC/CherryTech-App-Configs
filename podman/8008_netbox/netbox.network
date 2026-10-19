@@ -1,8 +1,8 @@
-# netbox.pod
+# netbox.network
 # Netbox Quadlet
 
 [Unit]
-Description=Netbox application network
+Description=Netbox Application Network
 
 [Network]
 NetworkName=netbox

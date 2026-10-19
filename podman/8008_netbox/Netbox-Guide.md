@@ -38,7 +38,6 @@ DEPLOYMENT INSTRUCTIONS:
       - ALLOWED_HOSTS
       - TZ
   - Create netbox configuration file (sudo -u netbox -i)
-  - Create netbox configuration file
     - cp /srv/CherryTech-App-Configs/podman/8008_netbox/config /home/netbox/.data/netbox/.config
   - Create SystemD Quadlet
     - sudo -u netbox -i

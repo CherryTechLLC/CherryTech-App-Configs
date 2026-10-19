@@ -1,21 +1,21 @@
-#EXAMPLE-app.container
+#netbird-app.container
 
 [Unit]
-Description=EXAMPLE App
-Requires=EXAMPLE-redis.service EXAMPLE-db.service
-After=EXAMPLE-redis.service EXAMPLE-db.service
+Description=Netbird App
+Requires=netbird-redis.service netbird-db.service
+After=netbird-redis.service netbird-db.service
 
 [Container]
-Image=docker.io/EXAMPLE-app/EXAMPLE-server:0.0.0
-ContainerName=EXAMPLE-app
-Pod=EXAMPLE.pod
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/0000_EXAMPLE/.env
-Secret=EXAMPLE-db-password,type=env,target=DB_PASSWORD
+Image=docker.io/netbird-app/netbird-server:0.0.0
+ContainerName=netbird-app
+Pod=netbird.pod
+EnvironmentFile=/srv/CherryTech-App-Configs/podman/9001_netbird/.env
+Secret=netbird-db-password,type=env,target=DB_PASSWORD
 Volume=/etc/localtime:/etc/localtime:ro
-Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app:/data:Z
-Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app:/var/www/html:Z
-Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-public:/var/www/html/public:Z
-Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-storage:/var/www/html/storage:Z
+Volume=/home/netbird/.data/netbird/netbird-app:/data:Z
+Volume=/home/netbird/.data/netbird/netbird-app:/var/www/html:Z
+Volume=/home/netbird/.data/netbird/netbird-public:/var/www/html/public:Z
+Volume=/home/netbird/.data/netbird/netbird-storage:/var/www/html/storage:Z
 HealthCmd=
 HealthStartPeriod=3m
 HealthInterval=120s
