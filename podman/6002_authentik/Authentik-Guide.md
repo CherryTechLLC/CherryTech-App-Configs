@@ -49,6 +49,8 @@ DEPLOYMENT INSTRUCTIONS:
     - systemctl --user daemon-reload
     - systemctl --user start authentik-pod.service
   - Full app initialization can take 5-10 minutes before the app will display
+  - Configure Automatic Updates
+    - systemctl --user enable --now podman-auto-update.timer
 
 Resource Limits:
 The resource limits provided are intended to prevent full server crashes should an app have a resource management issues. The provided values are for 5-10 users roughly, if you have more users you may have to increase the limits.
