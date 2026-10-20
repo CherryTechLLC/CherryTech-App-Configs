@@ -10,7 +10,7 @@
 
 #AUTHENTIK - 6002
 
-auth.{env.DOMAIN} {
+sso.{env.DOMAIN} {
 
   tls {
     dns hetzner {env.HETZNER_API_TOKEN}
@@ -20,8 +20,10 @@ auth.{env.DOMAIN} {
 
   encode zstd gzip
 
-  reverse_proxy 127.0.0.1:6002 {
-    header_up X-Real-IP {remote_host}
+  reverse_proxy https://127.0.0.1:6002 {
+    transport http {
+      tls_insecure_skip_verify
+    }
   }
 
   header {
