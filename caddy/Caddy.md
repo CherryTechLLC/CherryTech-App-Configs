@@ -34,6 +34,11 @@ xcaddy build --with github.com/caddy-dns/hetzner/v2
 
 sudo cp /tmp/caddy /usr/bin/caddy
 
+sudo restorecon -F /usr/bin/caddy
+sudo semanage fcontext -a -t bin_t /usr/bin/caddy && restorecon -Rv /usr/bin/caddy
+
+sudo systemctl restart caddy
+
 caddy build-info
 
 sudo chown caddy:caddy /etc/caddy/Caddyfile
