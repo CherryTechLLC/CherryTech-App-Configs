@@ -28,6 +28,11 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/immich/.data/immich/immich-model-cache
     - mkdir /home/immich/.data/immich/immich-valkey
     - mkdir /home/immich/.data/immich/immich-uploads
+  - Configure Environment Variable (sudo -u immich -i)
+    - cp /srv/CherryTech-App-Configs/podman/8006_immich/example.env /home/immich/.data/immich/.env
+    - Values to change:
+      - DOMAIN
+      - TZ
   - OPTIONAL: Set up NFS on NAS
     - Grant Root user all priviledges on share (on NAS)
     - On NFS share set CentOS server IP as allowed host and Mapall to Root. (All access from that IP is given the root account tag)

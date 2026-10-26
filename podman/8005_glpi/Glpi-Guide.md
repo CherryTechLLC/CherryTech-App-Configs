@@ -3,15 +3,13 @@ GLPI is a ITSM (IT Service Management) tool for asset tracking, ticketing, and m
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Ensure Caddy Reverse Proxy is set up to display this app
-  - Configure Environment Variables
-    - sudo cp glpi.env .env
-    - Values to change:
-      - TZ
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/8005_glpi/secrets
     - Files: (Paste text into file by itself)
       - nano .glpi-db-password.txt
+        - sudo openssl rand -base64 64
       - nano .glpi-db-root_password.txt
+        - sudo openssl rand -base64 64
   - Create a new dedicated user for this app
     - sudo useradd -m glpi -F -u 8005
     - sudo loginctl enable-linger glpi
@@ -30,6 +28,10 @@ DEPLOYMENT INSTRUCTIONS:
       - mkdir /home/glpi/.data/glpi/glpi-valkey
       - mkdir /home/glpi/.data/glpi/glpi-db
       - mkdir /home/glpi/.data/glpi/glpi-db-backups
+  - Configure Environment Variables (sudo -u glpi -i)
+    - cp /srv/CherryTech-App-Configs/8005_glpi/example.env /home/glpi/.data/glpi/.env
+    - Values to change:
+      - TZ
   - Create SystemD Quadlet
     - sudo -u glpi -i
     - cd /srv/CherryTech-App-Configs/podman/8005_glpi

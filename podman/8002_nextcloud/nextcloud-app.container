@@ -6,10 +6,10 @@ Requires=nextcloud-redis.service nextcloud-db.service
 After=nextcloud-redis.service nextcloud-db.service
 
 [Container]
-Image=docker.io/nextcloud:33.0-apache
+Image=docker.io/nextcloud:35.0-apache
 ContainerName=nextcloud-app
 Pod=nextcloud.pod
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/8002_nextcloud/.env
+EnvironmentFile=/home/nextcloud/.data/nextcloud/.env
 Secret=nextcloud-db-password,type=env,target=POSTGRES_PASSWORD
 Volume=/home/nextcloud/.data/nextcloud/nextcloud-app:/var/www/html:Z
 Volume=/home/nextcloud/.data/nextcloud/nextcloud-custom_apps:/var/www/html/custom_apps:Z

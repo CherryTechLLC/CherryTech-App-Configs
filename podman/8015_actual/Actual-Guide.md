@@ -3,15 +3,15 @@ Briefly explain the app and key notes here.
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Ensure Caddy Reverse Proxy is set up to display this app
-  - Configure Environment Variable
-    - sudo cp /srv/CherryTech-App-Configs/podman/8015_actual/actual.env .env
-    - Values to change:
-      - TZ
   - Create a new dedicated user for this app
     - sudo useradd -m actual -F -u 8015
     - sudo loginctl enable-linger actual
   - Create storage directories: (sudo -u actual -i)
     - mkdir /home/actual/.data/actual/actual-app
+  - Configure Environment Variable (sudo -u actual -i)
+    - cp /srv/CherryTech-App-Configs/podman/8015_actual/actual.env /home/actual/.data/actual/.env
+    - Values to change:
+      - TZ
   - Create SystemD Quadlet
     - sudo -u actual -i
     - cd /srv/CherryTech-App-Configs/podman/8015_actual

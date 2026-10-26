@@ -9,7 +9,7 @@ ContainerName=EXAMPLE-db
 Pod=EXAMPLE.pod
 Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db-backups:/var/db-backups/:Z
 Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db:/var/lib/postgresql/data:Z
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/0000_EXAMPLE/.env
+EnvironmentFile=/home/EXAMPLE/.data/EXAMPLE/.env
 Secret=EXAMPLE-db-password,type=env,target=POSTGRES_PASSWORD
 HealthCmd=pg_isready -q -d EXAMPLE -U EXAMPLE
 HealthStartPeriod=5m

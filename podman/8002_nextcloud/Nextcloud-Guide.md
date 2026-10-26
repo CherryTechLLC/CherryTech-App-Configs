@@ -3,14 +3,6 @@ Nextcloud is a Google Drive and M365 alternative that is open source, fully self
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Ensure Caddy Reverse Proxy is set up to display this app
-  - Configure Environment Variable
-    - sudo cp /srv/CherryTech-App-Configs/podman/8002_nextcloud/nextcloud.env .env
-    - Values to change:
-      - DOMAIN
-      - TZ
-      - NEXTCLOUD_TRUSTED_DOMAINS
-      - OVERWRITEHOST
-      - OVERWRITECLIURL
   - Create a new dedicated user for this app
     - sudo useradd -m nextcloud -F -u 8002
     - sudo loginctl enable-linger nextcloud
@@ -32,6 +24,14 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/nextcloud/.data/nextcloud/nextcloud-custom_apps
     - mkdir /home/nextcloud/.data/nextcloud/nextcloud-config
     - mkdir /home/nextcloud/.data/nextcloud/nextcloud-data
+  - Configure Environment Variable (sudo -u nextcloud -i)
+    - cp /srv/CherryTech-App-Configs/podman/8002_nextcloud/nextcloud.env EnvironmentFile=/home/nextcloud/.data/nextcloud/.env
+    - Values to change:
+      - DOMAIN
+      - TZ
+      - NEXTCLOUD_TRUSTED_DOMAINS
+      - OVERWRITEHOST
+      - OVERWRITECLIURL
   - Create SystemD Quadlet
     - sudo -u nextcloud -i
     - cd /srv/CherryTech-App-Configs/podman/8002_nextcloud
