@@ -1,8 +1,12 @@
 Briefly explain the app and key notes here.
 
 DEPLOYMENT INSTRUCTIONS:
+  - Create new Ubuntu Server VM
   - Follow guide to clone repo from Github
-  - Ensure Caddy Reverse Proxy is set up to display this app
+  - Caddy:
+    - sudo apt update
+    - sudo apt dist-upgrade -y
+    - sudo apt-get install caddy
   - Configure Environment Variable
     - sudo cp /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/example.env .env
     - Values to change:
@@ -16,6 +20,8 @@ DEPLOYMENT INSTRUCTIONS:
     - Files: (Paste text into file by itself)
       - nano .EXAMPLE-db-password.txt
       - nano .EXAMPLE-db-root-password.txt
+      - nano .
+        - host=netbird-db user=netbird password= dbname=netbird port=5432
     - Protect Secrets (MANDATORY)
       - sudo chown -R EXAMPLE:EXAMPLE /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets

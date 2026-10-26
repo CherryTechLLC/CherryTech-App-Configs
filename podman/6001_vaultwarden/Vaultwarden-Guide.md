@@ -3,7 +3,7 @@ Vaultwarden is a backend for the Bitwarden password manager without the limitati
 
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
-  - Ensure Caddy Reverse Proxy is set up to display this app
+  - Copy the Caddyfile entry into your servers existing /etc/caddy/Caddyfile below all other entries
   - Create a new dedicated user for this app
     - sudo useradd -m vaultwarden -F -u 6001
     - sudo loginctl enable-linger vaultwarden

@@ -16,6 +16,7 @@ DEPLOYMENT INSTRUCTIONS:
     - sso@example.com
     - Save the password to put into a podman secret later
   - Follow Caddy set up guide
+  - Copy the Caddyfile entry into your servers existing /etc/caddy/Caddyfile below all other entries
   - Create a new dedicated user for this app
     - sudo useradd authentik -m -F -u 6002
     - sudo loginctl enable-linger authentik

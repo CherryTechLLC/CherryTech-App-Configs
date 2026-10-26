@@ -1,16 +1,6 @@
-{
+#AUTHENTIK - 6002
 
-#  acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
-
-  #Must disable Caddy API on a multi-user system as it is locally accesable to ALL users
-
-  admin off
-
-}
-
-#VAULTWARDEN - 6001
-
-accounts.{env.DOMAIN} {
+sso.{env.DOMAIN} {
 
   tls {
     dns hetzner {env.HETZNER_API_TOKEN}
@@ -18,11 +8,16 @@ accounts.{env.DOMAIN} {
     resolvers 1.1.1.1
   }
 
-
   encode zstd gzip
 
-  reverse_proxy 127.0.0.1:6001 {
+  reverse_proxy https://127.0.0.1:6002 {
+    transport http {
+      tls_insecure_skip_verify
+    }
     header_up X-Real-IP {remote_host}
+    header_up X-Forwarded-For {remote_host}
+    header_up Host {host}
+    header_up X-Forwarded-Proto {scheme}
   }
 
   header {

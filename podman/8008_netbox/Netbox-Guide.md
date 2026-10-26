@@ -32,7 +32,6 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/netbox/.data/netbox/netbox-reports
     - mkdir /home/netbox/.data/netbox/netbox-scripts
   - Configure Environment Variable (sudo -u netbox -i)
-  - Configure Environment Variable
     - cp /srv/CherryTech-App-Configs/podman/8008_netbox/netbox.env /home/netbox/.data/netbox/.env
     - Values to change:
       - ALLOWED_HOSTS

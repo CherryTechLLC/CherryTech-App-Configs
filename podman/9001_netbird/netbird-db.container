@@ -1,0 +1,29 @@
+#netbird-db.container
+
+[Unit]
+Description=Netbird Database
+
+[Container]
+Image=docker.io/library/postgres:17.10@sha256:0027bef26712baaee437a4ea48fdf3d2d2e2bc5f0d81615374408ca320f3c7e3
+ContainerName=netbird-db
+Network=netbird.network
+Volume=/home/netbird/.data/netbird/netbird-db-backups:/var/db-backups/:Z
+Volume=/home/netbird/.data/netbird/netbird-db:/var/lib/postgresql/data:Z
+EnvironmentFile=/home/netbird/.data/netbird/.env
+Secret=netbird-db-password,type=env,target=POSTGRES_PASSWORD
+HealthCmd=pg_isready -q -d netbird -U netbird
+HealthStartPeriod=5m
+HealthInterval=60s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+Memory=2g
+NoNewPrivileges=true
+UserNS=keep-id
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

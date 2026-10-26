@@ -1,0 +1,11 @@
+# netbird.network
+# Netbird Quadlet
+
+[Unit]
+Description=Netbird Application Network
+
+[Network]
+NetworkName=netbird
+
+[Install]
+WantedBy=default.target

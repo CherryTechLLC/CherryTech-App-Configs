@@ -1,0 +1,37 @@
+#netbird-server.container
+
+[Unit]
+Description=Netbird App
+
+[Container]
+Image=docker.io/netbirdio/netbird-server:latest
+ContainerName=netbird-server
+Network=netbird.network
+Secret=netbird-auth-secret,type=env,target=NB_AUTH_SECRET
+Secret=netbird-store-dsn,type=env,target=NB_STORE_ENGINE_POSTGRES_DSN
+Volume=/home/netbird/.data/netbird/netbird-data:/var/lib/netbird:Z
+Volume=/home/netbird/.data/netbird/config.yaml:/etc/netbird/config.yaml:Z
+HealthCmd=
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+Exec="--config", "/etc/netbird/config.yaml"
+LogDriver=json-file
+LogOpt=max-size=500m
+PublishPort=127.0.0.1:8081:80
+PublishPort=3478:3478/udp
+UserNS=keep-id
+#NoNewPrivileges=true
+#AddCapability=CAP_NET_BIND_SERVICE    -     Bind to port 80??
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+#ExecStartPre=sleep 30
+
+[Install]
+WantedBy=default.target
