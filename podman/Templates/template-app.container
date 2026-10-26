@@ -9,7 +9,7 @@ After=EXAMPLE-redis.service EXAMPLE-db.service
 Image=docker.io/EXAMPLE-app/EXAMPLE-server:0.0.0
 ContainerName=EXAMPLE-app
 Pod=EXAMPLE.pod
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/0000_EXAMPLE/.env
+EnvironmentFile=/home/EXAMPLE/.data/EXAMPLE/.env
 Secret=EXAMPLE-db-password,type=env,target=DB_PASSWORD
 Volume=/etc/localtime:/etc/localtime:ro
 Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app:/data:Z

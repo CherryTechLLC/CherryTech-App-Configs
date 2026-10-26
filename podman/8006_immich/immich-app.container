@@ -9,7 +9,7 @@ After=immich-redis.service immich-db.service
 Image=ghcr.io/immich-app/immich-server:v3
 ContainerName=immich-app
 Pod=immich.pod
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/8006_immich/.env
+EnvironmentFile=/home/immich/.data/immich/.env
 Secret=immich-db-password,type=env,target=DB_PASSWORD
 Volume=/etc/localtime:/etc/localtime:ro
 Volume=/home/immich/.data/immich/immich-uploads:/data:Z

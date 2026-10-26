@@ -4,11 +4,6 @@ Vaultwarden is a backend for the Bitwarden password manager without the limitati
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Ensure Caddy Reverse Proxy is set up to display this app
-  - Configure Environment Variable
-    - sudo cp /srv/CherryTech-App-Configs/podman/6001_vaultwarden/example.env /srv/CherryTech-App-Configs/podman/6001_vaultwarden/.env
-    - Values to change: (ADMIN_TOKEN stays as CHANGE-ME, we set that later)
-      - DOMAIN
-      - TZ
   - Create a new dedicated user for this app
     - sudo useradd -m vaultwarden -F -u 6001
     - sudo loginctl enable-linger vaultwarden
@@ -16,6 +11,7 @@ DEPLOYMENT INSTRUCTIONS:
     - Create directory /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets
     -Files: (Paste text into file by itself)
       - nano .vaultwarden-db-password.txt
+        - sudo openssl rand -base64 64
     - Protect Secrets (MANDATORY)
       - sudo chown -R vaultwarden:vaultwarden /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets
@@ -26,6 +22,11 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-app
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db-backups
+  - Configure Environment Variable (sudo -u vaultwarden -i)
+    - cp /srv/CherryTech-App-Configs/podman/6001_vaultwarden/example.env /home/vaultwarden/.data/vaultwarden/.env
+    - Values to change: (ADMIN_TOKEN stays as CHANGE-ME, we set that later in-app)
+      - DOMAIN
+      - TZ
   - Create SystemD Quadlet
     - sudo -u vaultwarden -i
     - cd /srv/CherryTech-App-Configs/podman/6001_vaultwarden

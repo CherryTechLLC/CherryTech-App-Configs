@@ -11,7 +11,7 @@ Description=GLPI App
 Image=docker.io/glpi/glpi:11.0
 ContainerName=glpi-app
 Pod=glpi.pod
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/8005_glpi/.env
+EnvironmentFile=/home/glpi/.data/glpi/.env
 Secret=glpi-db-password,type=env,target=GLPI_DB_PASSWORD
 Volume=/home/glpi/.data/glpi/glpi-app:/var/glpi:Z,U
 Volume=/home/glpi/.data/glpi/glpi-marketplace:/var/www/glpi/marketplace:Z,U

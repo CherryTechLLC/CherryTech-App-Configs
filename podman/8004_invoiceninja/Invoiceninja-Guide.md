@@ -3,16 +3,14 @@ Invoice Ninja is an excellent tool for creating and tracking invoices. Self-Host
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Ensure Caddy Reverse Proxy is set up to display this app
-  - Configure Environment Variables
-    - sudo cp invoiceninja.env .env
-    - Values to change:
-      - APP_URL
-      - TZ
+
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/8004_invoiceninja/secrets
     - Files: (Paste text into file by itself)
       - nano .invoiceninja_db_password.txt
+        - sudo openssl rand -base64 64
       - nano .invoiceninja_db_root_password.txt
+        - sudo openssl rand -base64 64
       - App Key:
         - sudo podman run --rm invoiceninja/invoiceninja-debian:latest php artisan key:generate --show
         - Create .invoiceninja_app_key.txt
@@ -37,6 +35,11 @@ DEPLOYMENT INSTRUCTIONS:
       - mkdir /home/invoiceninja/.data/invoiceninja/invoiceninja-db
       - mkdir /home/invoiceninja/.data/invoiceninja/invoiceninja-db-backups
       - cp /srv/CherryTech-App-Configs/podman/8004_invoiceninja/nginx /home/invoiceninja/.data/invoiceninja/ -r
+  - Configure Environment Variables (sudo -u invoiceninja -i)
+    - cp /srv/CherryTech-App-Configs/podman/8004_invoiceninja/example.env /home/invoiceninja/.data/invoiceninja/.env
+    - Values to change:
+      - APP_URL
+      - TZ
   - Create SystemD Quadlet
     - sudo -u invoiceninja -i
     - cd /srv/CherryTech-App-Configs/podman/8004_invoiceninja
