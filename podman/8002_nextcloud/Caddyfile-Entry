@@ -29,3 +29,17 @@ cloud.{env.DOMAIN} {
   }
 
 }
+
+cloud.{env.DOMAIN} {
+
+  tls {
+    dns hetzner {env.HETZNER_API_TOKEN}
+    propagation_delay 30s
+    resolvers 1.1.1.1
+  }
+
+  encode zstd gzip
+
+  php_fastcgi 127.0.0.1:8002
+
+}
