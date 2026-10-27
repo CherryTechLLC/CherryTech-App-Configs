@@ -9,9 +9,9 @@ DEPLOYMENT INSTRUCTIONS:
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/8016_inventree/secrets
     - Files: (Paste text into file by itself)
-      - nano .inventree-db-password.txt
+      - sudo nano .inventree-db-password.txt
         - sudo openssl rand -base64 64
-      - nano .inventree-secret-key.text
+      - sudo nano .inventree-secret-key.txt
         - sudo openssl rand -base64 128
     - Protect Secrets (MANDATORY)
       - sudo chown -R inventree:inventree /srv/CherryTech-App-Configs/podman/8016_inventree/secrets
@@ -19,7 +19,7 @@ DEPLOYMENT INSTRUCTIONS:
     - Generate Secrets
       - Login to app user (sudo -u inventree -i)
       - podman secret create inventree-db-password .inventree-db-password.txt
-      - podman secret create inventree-db-root-password .inventree-db-root-password.txt
+      - podman secret create inventree-secret-key .inventree-secret-key.txt
   - Create storage directories: (sudo -u inventree -i)
     - mkdir /home/inventree/.data/inventree/inventree-db
     - mkdir /home/inventree/.data/inventree/inventree-db-backups
