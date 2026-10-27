@@ -1,13 +1,13 @@
-#inventree-app.container
+#inventree-worker.container
 
 [Unit]
-Description=Inventree App
+Description=Inventree Worker
 Requires=inventree-redis.service inventree-db.service inventree-server.service
 After=inventree-redis.service inventree-db.service inventree-server.service
 
 [Container]
 Image=docker.io/inventree/inventree:stable
-ContainerName=inventree-app
+ContainerName=inventree-worker
 Pod=inventree.pod
 EnvironmentFile=/home/inventree/.data/inventree/.env
 Secret=inventree-db-password,type=env,target=INVENTREE_DB_PASSWORD
