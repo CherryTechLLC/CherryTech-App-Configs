@@ -6,9 +6,9 @@ DEPLOYMENT INSTRUCTIONS:
   - Create secrets:
     - Create directory /srv/CherryTech-App-Configs/podman/8005_glpi/secrets
     - Files: (Paste text into file by itself)
-      - nano .glpi-db-password.txt
+      - sudo nano .glpi-db-password.txt
         - sudo openssl rand -base64 64
-      - nano .glpi-db-root_password.txt
+      - sudo nano .glpi-db-root-password.txt
         - sudo openssl rand -base64 64
   - Create a new dedicated user for this app
     - sudo useradd -m glpi -F -u 8005
