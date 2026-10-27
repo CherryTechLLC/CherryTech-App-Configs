@@ -12,7 +12,7 @@ Pod=inventree.pod
 EnvironmentFile=/home/inventree/.data/inventree/.env
 Secret=inventree-db-password,type=env,target=INVENTREE_DB_PASSWORD
 Secret=inventree-secret-key,type=env,target=INVENTREE_SECRET_KEY
-Volume=/home/inventree/.data/inventree/inventree-data:home/inventree/data:Z
+Volume=/home/inventree/.data/inventree/inventree-data:/home/inventree/data:Z
 HealthCmd=invoke worker-health
 HealthStartPeriod=3m
 HealthInterval=120s

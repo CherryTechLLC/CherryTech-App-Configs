@@ -35,7 +35,7 @@ DEPLOYMENT INSTRUCTIONS:
   - Create SystemD Quadlet
     - sudo -u inventree -i
     - cd /srv/CherryTech-App-Configs/podman/8016_inventree
-    - podman quadlet install inventree-server.container inventree-worker.container inventree-db.container inventree-redis.container inventree.pod
+    - podman quadlet install inventree-server.container inventree-worker.container inventree-db.container inventree-redis.container inventree-caddy.container inventree.pod
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - systemctl --user daemon-reload
     - systemctl --user start inventree-pod.service
