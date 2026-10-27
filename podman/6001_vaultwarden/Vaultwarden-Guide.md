@@ -1,6 +1,5 @@
 Vaultwarden is a backend for the Bitwarden password manager without the limitations of the official self-hosted bitwarden server. It requires an email account to send details to users. Users will either request an account setup to thier email, or you can disable sign-up (recommended) and invite users manually from the admin panel.
 
-
 DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Copy the Caddyfile entry into your servers existing /etc/caddy/Caddyfile below all other entries

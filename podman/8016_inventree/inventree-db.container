@@ -1,0 +1,28 @@
+#inventree-db.container
+
+[Unit]
+Description=Inventree Database
+
+[Container]
+Image=docker.io/library/postgres:17.10@sha256:0027bef26712baaee437a4ea48fdf3d2d2e2bc5f0d81615374408ca320f3c7e3
+ContainerName=inventree-db
+Pod=inventree.pod
+Volume=/home/inventree/.data/inventree/inventree-db-backups:/var/db-backups/:Z
+Volume=/home/inventree/.data/inventree/inventree-db:/var/lib/postgresql:Z
+EnvironmentFile=/home/inventree/.data/inventree/.env
+Secret=inventree-db-password,type=env,target=POSTGRES_PASSWORD
+HealthCmd=pg_isready -q -d inventree -U inventree
+HealthStartPeriod=5m
+HealthInterval=60s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+Memory=2g
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,36 @@
+#inventree-caddy.container
+
+[Unit]
+Description=Inventree Caddy
+Requires=inventree-redis.service inventree-db.service inventree-server.service inventree-worker.service
+After=inventree-redis.service inventree-db.service inventree-server.service inventree-worker.service
+
+[Container]
+Image=docker.io/caddy:alpine
+ContainerName=inventree-caddy
+Pod=inventree.pod
+EnvironmentFile=/home/inventree/.data/inventree/.env
+Volume=/home/inventree/.data/inventree/inventree-data:/data:Z
+Volume=/home/inventree/.data/inventree/inventree-data/static:/var/www/static:Z
+Volume=/home/inventree/.data/inventree/inventree-data/media:/var/www/media:Z
+Volume=/home/inventree/.data/inventree/Caddyfile:/etc/caddy/Caddyfile:Z
+Volume=/home/inventree/.data/inventree/inventree-caddy-logs:/var/log:Z
+Volume=/home/inventree/.data/inventree/inventree-config:/config:Z
+HealthCmd=wget --spider -q http://127.0.0.1:9090/api/system/health/
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+NoNewPrivileges=true
+#AddCapability=CAP_NET_BIND_SERVICE    -     Bind to port 80??
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+#ExecStartPre=sleep 30
+
+[Install]
+WantedBy=default.target

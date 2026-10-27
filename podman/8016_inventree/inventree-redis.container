@@ -1,0 +1,28 @@
+#inventree-redis.container
+
+[Unit]
+Description=Inventree Redis
+
+[Container]
+Image=docker.io/valkey/valkey:9.1-alpine
+ContainerName=inventree-redis
+Pod=inventree.pod
+Volume=/home/inventree/.data/inventree/inventree-valkey:/data:Z
+EnvironmentFile=/home/inventree/.data/inventree/.env
+HealthCmd=/bin/sh -c 'valkey-cli ping | grep PONG'
+HealthStartPeriod=30s
+HealthInterval=120s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=1g
+NoNewPrivileges=true
+Exec=redis-server --save "" --appendonly no
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

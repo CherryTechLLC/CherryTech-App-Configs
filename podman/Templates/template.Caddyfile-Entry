@@ -1,0 +1,28 @@
+#AUTHENTIK - 6002
+
+sso.{env.DOMAIN} {
+
+  tls {
+    dns hetzner {env.HETZNER_API_TOKEN}
+    propagation_delay 30s
+    resolvers 1.1.1.1
+  }
+
+  encode zstd gzip
+
+  reverse_proxy https://127.0.0.1:6002 {
+    transport http {
+      tls_insecure_skip_verify
+    }
+    header_up X-Real-IP {remote_host}
+    header_up X-Forwarded-For {remote_host}
+    header_up Host {host}
+    header_up X-Forwarded-Proto {scheme}
+  }
+
+  header {
+    Strict-Transport-Security "max-age=31536000;"
+    X-Content-Type-Options "nosniff"
+  }
+}
+

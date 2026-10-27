@@ -1,0 +1,33 @@
+#inventree-server.container
+
+[Unit]
+Description=Inventree Server
+Requires=inventree-redis.service inventree-db.service
+After=inventree-redis.service inventree-db.service
+
+[Container]
+Image=docker.io/inventree/inventree:stable
+ContainerName=inventree-server
+Pod=inventree.pod
+EnvironmentFile=/home/inventree/.data/inventree/.env
+Secret=inventree-db-password,type=env,target=INVENTREE_DB_PASSWORD
+Secret=inventree-secret-key,type=env,target=INVENTREE_SECRET_KEY
+Volume=/home/inventree/.data/inventree/inventree-data:home/inventree/data:Z
+HealthCmd=invoke server-health --address "http://localhost:8000"
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+NoNewPrivileges=true
+#AddCapability=CAP_NET_BIND_SERVICE    -     Bind to port 80??
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+#ExecStartPre=sleep 30
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,69 @@
+#Inventree Internal Web Server
+
+
+(log_common) {
+	log {
+		output file /var/log/caddy/{args[0]}.access.log
+	}
+}
+
+(cors-headers) {
+	header Allow GET,HEAD,OPTIONS
+	header Access-Control-Allow-Origin *
+	header Access-Control-Allow-Methods GET,HEAD,OPTIONS
+	header Access-Control-Allow-Headers Authorization,Content-Type,User-Agent,traceparent
+
+	@cors_preflight{args[0]} method OPTIONS
+
+	handle @cors_preflight{args[0]} {
+		respond "" 204
+	}
+}
+
+
+127.0.0.1:9090 {
+	handle /api/system/health/* {
+		reverse_proxy http://inventree-server:8000
+	}
+
+	handle {
+		respond 404
+	}
+}
+
+http://127.0.0.1:8016 {
+	import log_common inventree
+
+	encode gzip
+
+	request_body {
+		max_size 100MB
+	}
+
+	# Handle static request files
+	handle_path /static/* {
+		import cors-headers static
+
+		root * /var/www/static
+		file_server
+	}
+
+	handle_path /media/* {
+		import cors-headers media
+
+		root * /var/www/media
+		file_server
+
+		header Content-Disposition attachment
+
+		forward_auth http://inventree-server:8000 {
+			uri /auth/
+		}
+	}
+
+	# All other requests are proxied to the InvenTree server
+	reverse_proxy http://127.0.0.1:8000 {
+
+      trusted_proxies 127.0.0.1
+	}
+}
