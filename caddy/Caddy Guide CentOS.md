@@ -15,11 +15,6 @@ sudo nano /etc/dnf/dnf.conf
 Add the line:
 exclude=caddy
 
-ON DEBIAN
-
-sudo apt-get install caddy golang (Will delete, sets up service and user and everything)
-
-
 CHECK FOR NEW CADDY VERSION BEFORE RUNNING THIS NEXT COMMAND
 
 cd /tmp
@@ -32,16 +27,25 @@ sudo mv xcaddy /usr/bin
 
 xcaddy build --with github.com/caddy-dns/hetzner/v2
 
+sudo systemctl stop caddy
+
 sudo cp /tmp/caddy /usr/bin/caddy
 
 sudo restorecon -F /usr/bin/caddy
 sudo semanage fcontext -a -t bin_t /usr/bin/caddy && restorecon -Rv /usr/bin/caddy
 
-sudo systemctl restart caddy
+sudo systemctl stop caddy
 
 caddy build-info
 
 sudo chown caddy:caddy /etc/caddy/Caddyfile
+
+sudo cp /srv/CherryTech-App-Configs/caddy/caddy.env.template /etc/caddy/caddy.env
+
+sudo nano /etc/caddy/caddy.env
+
+Create a hetzner API token and copy it to the HETZNER_API_TOKEN field in the .env file
+Set the domain to the base domain of your applications, typicallt apps.example.com or just example.com
 
 sudo chmod 600 /etc/caddy/caddy.env
 
@@ -54,8 +58,6 @@ Add:
 [Service]
 EnvironmentFile=/etc/caddy/caddy.env
 
-
-
 sudo setsebool -P httpd_can_network_connect 1
 
 sudo firewall-cmd --permanent --add-service=http
@@ -63,8 +65,6 @@ sudo firewall-cmd --permanent --add-service=http
 sudo firewall-cmd --permanent --add-service=https
 
 sudo firewall-cmd --reload
-
-sudo systemctl daemon-reexec
 
 sudo systemctl daemon-reload
 

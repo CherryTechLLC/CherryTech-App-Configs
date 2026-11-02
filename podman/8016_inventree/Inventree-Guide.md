@@ -31,6 +31,7 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/inventree/.data/inventree/inventree-app
     - mkdir /home/inventree/.data/inventree/inventree-config
     - mkdir /home/inventree/.data/inventree/inventree-data
+    - mkdir /home/inventree/.data/inventree/inventree-caddy-logs
     - cp /srv/CherryTech-App-Configs/podman/8016_inventree/Caddyfile.internal /home/inventree/.data/inventree/Caddyfile
   - Configure Environment Variable (sudo -u inventree -i)
     - cp /srv/CherryTech-App-Configs/podman/8016_inventree/inventree.env /home/inventree/.data/inventree/.env
