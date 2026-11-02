@@ -3,6 +3,7 @@ Briefly explain the app and key notes here.
 DEPLOYMENT INSTRUCTIONS:
   - Create new Ubuntu Server VM
   - Follow guide to clone repo from Github
+    - (git clone https://)
   - Caddy:
     - sudo apt update
     - sudo apt dist-upgrade -y
