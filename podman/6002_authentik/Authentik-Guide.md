@@ -11,7 +11,7 @@ DEPLOYMENT INSTRUCTIONS:
     - sudo apt-get install qemu-guest-agent git podman
       - Skip qemu-guest-agent if not using proxmox
   - Set up ubuntu server automatic updates
-    - 
+    - nano /etc/apt/au
   - Create a new email account at your email service provider
     - sso@example.com
     - Save the password to put into a podman secret later
@@ -28,7 +28,7 @@ DEPLOYMENT INSTRUCTIONS:
       - sudo nano .authentik-secret-key.txt
         - sudo openssl rand -base64 64
       - sudo nano .authentik-email-password.txt
-        - Enter
+        - Enter the email password you created earlier
     - Protect Secrets (MANDATORY)
       - sudo chown -R authentik:authentik /srv/CherryTech-App-Configs/podman/6002_authentik/secrets
       - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/6002_authentik/secrets
@@ -37,11 +37,10 @@ DEPLOYMENT INSTRUCTIONS:
       - podman secret create authentik-db-password .authentik-db-password.txt
       - podman secret create authentik-secret-key .authentik-secret-key.txt
   - Create storage directories: (sudo -u authentik -i)
-    - mkdir /home/authentik/.data/authentik/authentik-db
-    - mkdir /home/authentik/.data/authentik/authentik-db-backups
-    - mkdir /home/authentik/.data/authentik/authentik-app
-    - mkdir /home/authentik/.data/authentik/authentik-custom-templates
-    - mkdir /home/authentik/.data/authentik/authentik-certs
+    - mkdir .data
+    - mkdir .data/authentik
+    - cd ~/.data/authentik
+    - mkdir authentik-db authentik-db-backups authentik-app authentik-app authentik-custom-templates authentik-certs
   - Configure Environment Variable
     - cp /srv/CherryTech-App-Configs/podman/6002_authentik/authentik.env /home/authentik/.data/authentik/.env
     - Values to change:
