@@ -22,7 +22,7 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db
     - mkdir /home/vaultwarden/.data/vaultwarden/vaultwarden-db-backups
   - Configure Environment Variable (sudo -u vaultwarden -i)
-    - cp /srv/CherryTech-App-Configs/podman/6001_vaultwarden/example.env /home/vaultwarden/.data/vaultwarden/.env
+    - cp /srv/CherryTech-App-Configs/podman/6001_vaultwarden/vaultwarden.env /home/vaultwarden/.data/vaultwarden/.env
     - Values to change: (ADMIN_TOKEN stays as CHANGE-ME, we set that later in-app)
       - DOMAIN
       - TZ
