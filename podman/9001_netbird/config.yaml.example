@@ -12,7 +12,7 @@
 #   - STUN: Local on port 3478 by default; set 'stuns' to use external instead
 
 server:
-  listenAddress: "127.0.0.1:80"
+  listenAddress: ":80"
 
   exposedAddress: "https://overlay.example.com:443"
 
@@ -101,7 +101,7 @@ server:
   #   file: ""  # Custom SQLite file path (optional, defaults to {dataDir}/idp.db)
 
   # Reverse proxy settings (optional)
-   reverseProxy:
+  reverseProxy:
      trustedHTTPProxies: [127.0.0.1/32]           # CIDRs of trusted reverse proxies (e.g. ["10.0.0.0/8"])
      trustedHTTPProxiesCount: 1       # Number of trusted proxies in front of the server (alternative to trustedHTTPProxies)
   #   trustedPeers: []                 # CIDRs of trusted peer networks (e.g. ["100.64.0.0/10"])

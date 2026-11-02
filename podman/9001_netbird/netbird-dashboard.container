@@ -2,20 +2,21 @@
 
 [Unit]
 Description=Netbird Dashboard
+Requires=netbird-db.service
+After=netbird-db.service
 
 [Container]
 Image=docker.io/netbirdio/dashboard:latest
 ContainerName=netbird-dashboard
 Network=netbird.network
 EnvironmentFile=/home/netbird/.data/netbird/dashboard.env
-Secret=netbird-db-password,type=env,target=DB_PASSWORD
-
-HealthCmd=
-HealthStartPeriod=3m
-HealthInterval=120s
-HealthTimeout=30s
-HealthRetries=10
-Notify=healthy
+Secret=netbird-client-secret,type=env,target=AUTH_CLIENT_SECRET
+#HealthCmd=
+#HealthStartPeriod=3m
+#HealthInterval=120s
+#HealthTimeout=30s
+#HealthRetries=10
+#Notify=healthy
 AutoUpdate=registry
 Memory=3g
 LogDriver=json-file

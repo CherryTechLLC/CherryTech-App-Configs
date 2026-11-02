@@ -1,7 +1,9 @@
 #netbird-server.container
 
 [Unit]
-Description=Netbird App
+Description=Netbird Server
+Requires=netbird-db.service
+After=netbird-db.service
 
 [Container]
 Image=docker.io/netbirdio/netbird-server:latest
@@ -10,14 +12,13 @@ Network=netbird.network
 Secret=netbird-auth-secret,type=env,target=NB_AUTH_SECRET
 Secret=netbird-store-dsn,type=env,target=NB_STORE_ENGINE_POSTGRES_DSN
 Volume=/home/netbird/.data/netbird/netbird-data:/var/lib/netbird:Z
-Volume=/home/netbird/.data/netbird/config.yaml:/etc/netbird/config.yaml:Z
-
-HealthCmd=
-HealthStartPeriod=3m
-HealthInterval=120s
-HealthTimeout=30s
-HealthRetries=10
-Notify=healthy
+Volume=/home/netbird/.data/netbird/config.yaml:/etc/netbird/config.yaml:ro,Z
+#HealthCmd=
+#HealthStartPeriod=3m
+#HealthInterval=120s
+#HealthTimeout=30s
+#HealthRetries=10
+#Notify=healthy
 AutoUpdate=registry
 Memory=3g
 Exec="--config", "/etc/netbird/config.yaml"
