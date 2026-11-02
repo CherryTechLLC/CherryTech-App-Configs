@@ -1,47 +1,53 @@
-Briefly explain the app and key notes here.
+Netbird is a application called an Overlay VPN, it is similar to TailScale or ZeroTier but it runs on your server. This file set is highly complex and should not be used by beginers.
 
 DEPLOYMENT INSTRUCTIONS:
   - Create new Ubuntu Server VM
   - Follow guide to clone repo from Github
     - (git clone https://)
   - Caddy:
-    - sudo apt update
-    - sudo apt dist-upgrade -y
-    - sudo apt-get install caddy
-  - Configure Environment Variable
-    - sudo cp /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/example.env .env
-    - Values to change:
-      - DOMAIN
-      - TZ
+    - Follow the Caddy Install Guide
+    - Copy the "Caddyfile-Entry" into /etc/caddy/Caddyfile (Do not overwrite existing Caddyfile, add to in)
+      - sudo nano /etc/caddy/Caddyfile
   - Create a new dedicated user for this app
-    - sudo useradd -m EXAMPLE -F -u 0000
-    - sudo loginctl enable-linger EXAMPLE
+    - sudo useradd -m netbird -F -u 9001
+    - sudo loginctl enable-linger netbird
   - Create secrets:
-    - Create directory /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
+    - Create directory /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
     - Files: (Paste text into file by itself)
-      - nano .EXAMPLE-db-password.txt
-      - nano .EXAMPLE-db-root-password.txt
-      - nano .
+      - nano .netbird-db-password.txt
+        - sudo openssl rand -base64 64
+      - netbird-auth-secret
+        - sudo openssl rand -base64 128
+      - nano .netbird-store-dsn.txt
         - host=netbird-db user=netbird password= dbname=netbird port=5432
     - Protect Secrets (MANDATORY)
-      - sudo chown -R EXAMPLE:EXAMPLE /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
-      - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
+      - sudo chown -R netbird:netbird /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
+      - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
     - Generate Secrets
-      - Login to app user (sudo -u EXAMPLE -i)
-      - podman secret create EXAMPLE-db-password .EXAMPLE-db-password.txt
-      - podman secret create EXAMPLE-db-root-password .EXAMPLE-db-root-password.txt
-  - Create storage directories: (sudo -u EXAMPLE -i)
-    - mkdir /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db
-    - mkdir /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db-backups
-    - mkdir /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-valkey
-    - mkdir /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app
+      - Login to app user (sudo -u netbird -i)
+      - podman secret create netbird-db-password .netbird-db-password.txt
+      - podman secret create netbird-store-dsn .netbird-store-dsn.txt
+      - podman secret create netbird-auth-secret .netbird-auth-secret.txt
+  - Create storage directories: (sudo -u netbird -i)
+    - mkdir .data
+    - mkdir .data/netbird
+    - cd .data/netbird
+    - mkdir netbird-data netbird-db netbird-db-backups
+  - Create .env and config files:
+    - cp /srv/CherryTech-App-Configs/podman/9001_netbird/dashboard.env ~./data/netbird/dashboard.env
+      - Edit:
+        - NETBIRD_MGMT_API_ENDPOINT
+        - NETBIRD_MGMT_GRPC_API_ENDPOINT
+        - AUTH_AUTHORITY
+    - cp /srv/CherryTech-App-Configs/podman/9001_netbird/config.yaml.example ~./data/netbird/config.yaml
+      - exposedAddress
   - Create SystemD Quadlet
-    - sudo -u EXAMPLE -i
-    - cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE
-    - podman quadlet install EXAMPLE-app.container EXAMPLE-db.container EXAMPLE-redis.container EXAMPLE.pod
+    - sudo -u netbird -i
+    - cd /srv/CherryTech-App-Configs/podman/9001_netbird
+    - podman quadlet install netbird-server.container netbird-db.container netbird-dashboard.container netbird.network
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - systemctl --user daemon-reload
-    - systemctl --user start EXAMPLE-pod.service
+    - systemctl --user start netbird-pod.service
   - Full app initialization can take 5-10 minutes before the app will display
 
 Resource Limits:
@@ -82,7 +88,7 @@ NOTES TO DEVELOPER:
 
 
 Health Check:
-  - Below is a basic example intended to see if an apps web server is active. This is what depends-on: condition: service_healthy requires to function.
+  - Below is a basic netbird intended to see if an apps web server is active. This is what depends-on: condition: service_healthy requires to function.
   - Health checks can run constantly and be used to provide app status information.
 
 healthcheck:
