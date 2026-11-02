@@ -1,19 +1,17 @@
-#netbird-app.container
+#netbird-crowdsec.container
 
 [Unit]
-Description=Netbird App
+Description=Netbird Crowdsec
 
 [Container]
-Image=docker.io/netbirdio/netbird-server:latest
-ContainerName=netbird-server
-Pod=netbird.pod
-EnvironmentFile=/srv/CherryTech-App-Configs/podman/9001_netbird/.env
+Image=docker.io/crowdsecurity/crowdsec:latest
+ContainerName=netbird-crowdsec
+Network=netbird.network
+EnvironmentFile=/home/netbird/.data/netbird/.env
 Secret=netbird-db-password,type=env,target=DB_PASSWORD
 Volume=/etc/localtime:/etc/localtime:ro
-Volume=/home/netbird/.data/netbird/netbird-app:/data:Z
-Volume=/home/netbird/.data/netbird/netbird-letsencrypt:/letsencrypt
-Volume=/home/netbird/.data/netbird/netbird-public:/var/www/html/public:Z
-Volume=/home/netbird/.data/netbird/netbird-storage:/var/www/html/storage:Z
+Volume=/home/netbird/.data/netbird/netbird-crowdsec:/var/lib/crowdsec/data:Z
+
 HealthCmd=
 HealthStartPeriod=3m
 HealthInterval=120s

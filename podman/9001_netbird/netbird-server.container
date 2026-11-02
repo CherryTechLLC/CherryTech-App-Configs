@@ -11,6 +11,7 @@ Secret=netbird-auth-secret,type=env,target=NB_AUTH_SECRET
 Secret=netbird-store-dsn,type=env,target=NB_STORE_ENGINE_POSTGRES_DSN
 Volume=/home/netbird/.data/netbird/netbird-data:/var/lib/netbird:Z
 Volume=/home/netbird/.data/netbird/config.yaml:/etc/netbird/config.yaml:Z
+
 HealthCmd=
 HealthStartPeriod=3m
 HealthInterval=120s
