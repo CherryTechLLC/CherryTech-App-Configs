@@ -31,8 +31,8 @@ DEPLOYMENT INSTRUCTIONS:
     - cd /srv/CherryTech-App-Configs/podman/6001_vaultwarden
     - podman quadlet install vaultwarden-app.container vaultwarden-db.container vaultwarden.pod
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
-    - systemctl --user daemon-reload
-    - systemctl --user start vaultwarden-pod.service
+    - systemctl --user daemon-reload    (sudo systemctl --machine=vaultwarden@.host --user daemon-reload)
+    - systemctl --user start vaultwarden-pod.service (sudo systemctl --machine=vaultwarden@.host --user start vaultwarden-pod.service)
   - Full app initialization can take 5-10 minutes before the app will display
   - Log in to vault.apps.example.com/admin with the token CHANGE-ME
   - Create secure vaultwarden_admin_token  (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page)
