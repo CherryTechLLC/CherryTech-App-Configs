@@ -19,6 +19,7 @@ DEPLOYMENT INSTRUCTIONS:
       - netbird-auth-secret
         - sudo openssl rand -base64 128
       - nano .netbird-store-dsn.txt
+        - take the netbird-db-password and past it in the string below
         - host=netbird-db user=netbird password= dbname=netbird port=5432
     - Protect Secrets (MANDATORY)
       - sudo chown -R netbird:netbird /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
