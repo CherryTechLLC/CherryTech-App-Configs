@@ -1,0 +1,11 @@
+# template.network
+# Template Quadlet
+
+[Unit]
+Description=Template Application Network
+
+[Network]
+NetworkName=templae
+
+[Install]
+WantedBy=default.target
