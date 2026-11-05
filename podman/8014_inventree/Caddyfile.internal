@@ -31,7 +31,7 @@
 	}
 }
 
-http://127.0.0.1:8016 {
+http://127.0.0.1:8014 {
 	import log_common inventree
 
 	encode gzip

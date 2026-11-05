@@ -4,10 +4,10 @@ DEPLOYMENT INSTRUCTIONS:
   - Follow guide to clone repo from Github
   - Ensure Caddy Reverse Proxy is set up to display this app
   - Create a new dedicated user for this app
-    - sudo useradd -m inventree -F -u 8016
+    - sudo useradd -m inventree -F -u 8014
     - sudo loginctl enable-linger inventree
   - Create secrets:
-    - Create directory /srv/CherryTech-App-Configs/podman/8016_inventree/secrets
+    - Create directory /srv/CherryTech-App-Configs/podman/8014_inventree/secrets
     - Files: (Paste text into file by itself)
       - sudo nano .inventree-db-password.txt
         - sudo openssl rand -base64 64
@@ -17,8 +17,8 @@ DEPLOYMENT INSTRUCTIONS:
         - sudo openssl rand -base64 32
       - sudo nano .inventree-
     - Protect Secrets (MANDATORY)
-      - sudo chown -R inventree:inventree /srv/CherryTech-App-Configs/podman/8016_inventree/secrets
-      - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8016_inventree/secrets
+      - sudo chown -R inventree:inventree /srv/CherryTech-App-Configs/podman/8014_inventree/secrets
+      - sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/8014_inventree/secrets
     - Generate Secrets
       - Login to app user (sudo -u inventree -i)
       - podman secret create inventree-db-password .inventree-db-password.txt
@@ -32,16 +32,16 @@ DEPLOYMENT INSTRUCTIONS:
     - mkdir /home/inventree/.data/inventree/inventree-config
     - mkdir /home/inventree/.data/inventree/inventree-data
     - mkdir /home/inventree/.data/inventree/inventree-caddy-logs
-    - cp /srv/CherryTech-App-Configs/podman/8016_inventree/Caddyfile.internal /home/inventree/.data/inventree/Caddyfile
+    - cp /srv/CherryTech-App-Configs/podman/8014_inventree/Caddyfile.internal /home/inventree/.data/inventree/Caddyfile
   - Configure Environment Variable (sudo -u inventree -i)
-    - cp /srv/CherryTech-App-Configs/podman/8016_inventree/inventree.env /home/inventree/.data/inventree/.env
+    - cp /srv/CherryTech-App-Configs/podman/8014_inventree/inventree.env /home/inventree/.data/inventree/.env
     - Values to change:
       - INVENTREE_SITE_URL
       - TZ
       - INVENTREE_TIMEZONE
   - Create SystemD Quadlet
     - sudo -u inventree -i
-    - cd /srv/CherryTech-App-Configs/podman/8016_inventree
+    - cd /srv/CherryTech-App-Configs/podman/8014_inventree
     - podman quadlet install inventree-server.container inventree-worker.container inventree-db.container inventree-redis.container inventree-caddy.container inventree.pod
     - export XDG_RUNTIME_DIR="/run/user/$UID" export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
     - systemctl --user daemon-reload

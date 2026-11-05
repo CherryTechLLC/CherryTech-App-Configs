@@ -1,4 +1,4 @@
-#INVENTREE - 8016
+#INVENTREE - 8014
 
 inventory.{env.DOMAIN} {
 
@@ -10,7 +10,7 @@ inventory.{env.DOMAIN} {
 
   encode zstd gzip
 
-  reverse_proxy https://127.0.0.1:6002 {
+  reverse_proxy https://127.0.0.1:8014 {
     transport http {
       tls_insecure_skip_verify
     }
