@@ -5,7 +5,7 @@
 Description=Template Application Network
 
 [Network]
-NetworkName=templae
+NetworkName=template
 
 [Install]
 WantedBy=default.target
