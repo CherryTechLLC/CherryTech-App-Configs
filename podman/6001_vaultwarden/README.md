@@ -24,7 +24,7 @@ Before beginning:
 
 ## 2. Configure Caddy
 
-Copy the Vaultwarden Caddyfile entry into your server's existing configuration:
+Copy the Vaultwarden vaultwarden.Caddyfile entry into your server's existing configuration:
 
 ```bash
 sudo nano /etc/caddy/Caddyfile
@@ -102,11 +102,7 @@ podman secret create vaultwarden-db-password /srv/CherryTech-App-Configs/podman/
 While logged in as the Vaultwarden application user, create the required storage directories:
 
 ```bash
-mkdir -p /home/vaultwarden/.data/vaultwarden/vaultwarden-app
-
-mkdir -p /home/vaultwarden/.data/vaultwarden/vaultwarden-db
-
-mkdir -p /home/vaultwarden/.data/vaultwarden/vaultwarden-db-backups
+mkdir -p /home/vaultwarden/.data/vaultwarden/vaultwarden-app /home/vaultwarden/.data/vaultwarden/vaultwarden-db /home/vaultwarden/.data/vaultwarden/vaultwarden-db-backups
 ```
 
 ## 6. Configure Environment Variables
@@ -127,7 +123,7 @@ Update the following values:
 
 | Variable | Description |
 |---|---|
-| `DOMAIN` | Your Vaultwarden domain (e.g., `vault.apps.example.com`) |
+| `DOMAIN` | Your Vaultwarden domain (e.g., `accounts.apps.cherrytech.net`) |
 | `TZ` | Your server's timezone (e.g., `America/Detroit`) |
 
 **Important:** Leave `ADMIN_TOKEN` set to `CHANGE-ME`. We will configure a secure admin token through the web interface after deployment.
@@ -274,7 +270,7 @@ If you anticipate supporting more users, or notice resource utilization approach
 
 Use the CentOS Cockpit interface to monitor application resource utilization:
 
-`https://SERVER-IP:9090`
+`https://CENTOS-SERVER-IP:9090`
 
 Monitor:
 - CPU utilization
