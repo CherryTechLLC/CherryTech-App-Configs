@@ -311,13 +311,12 @@ sudo journalctl _UID=0000
 ## 11. Reference Links
 
 ### Container Image
-- [EXAMPLE – Docker Hub](https://hub.docker.com/r/EXAMPLE/server)
+-
 
 ### Official Documentation
-- [EXAMPLE Wiki](https://github.com/dani-garcia/EXAMPLE/wiki)
-- [SMTP Configuration](https://github.com/dani-garcia/EXAMPLE/wiki/SMTP-Configuration)
-- [Enabling the Admin Page](https://github.com/dani-garcia/EXAMPLE/wiki/Enabling-admin-page)
-- [Using Podman](https://github.com/dani-garcia/EXAMPLE/wiki/Using-Podman)
+-
 
 ### Additional Resources
-- [EXAMPLE Quadlet / PostgreSQL Pod Guide](https://www.nite07.com/en/posts/quadlet-EXAMPLE/#option-2-postgresql-pod)
+- https://hub.docker.com/_/mariadb
+- https://hub.docker.com/_/postgres
+- https://hub.docker.com/r/valkey/valkey
