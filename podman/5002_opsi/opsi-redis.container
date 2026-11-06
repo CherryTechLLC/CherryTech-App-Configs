@@ -1,0 +1,28 @@
+#opsi-redis.container
+
+[Unit]
+Description=opsi Redis
+
+[Container]
+Image=docker.io/valkey/valkey:9.1-alpine
+ContainerName=opsi-redis
+Pod=opsi.pod
+Volume=/home/opsi/.data/opsi/opsi-valkey:/data:Z
+EnvironmentFile=/home/opsi/.data/opsi/.env
+HealthCmd=/bin/sh -c 'valkey-cli ping | grep PONG'
+HealthStartPeriod=30s
+HealthInterval=120s
+HealthTimeout=15s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=1g
+NoNewPrivileges=true
+Exec=redis-server --loadmodule /usr/local/lib/redis/modules/redistimeseries.so --dir /data
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

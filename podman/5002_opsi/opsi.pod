@@ -1,0 +1,10 @@
+# EXAMPLE.pod
+# EXAMPLE Quadlet
+
+[Pod]
+PodName=EXAMPLE
+PublishPort=127.0.0.1:0000:0000
+UserNS=keep-id
+
+[Install]
+WantedBy=default.target
