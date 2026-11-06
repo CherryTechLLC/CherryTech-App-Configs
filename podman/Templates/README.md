@@ -47,19 +47,30 @@ sudo loginctl enable-linger EXAMPLE
 sudo mkdir -p /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
 ```
 
-### 4.2 Generate the Database Password
+### 4.2 Generate Passwords
+
+Generate each secure password:
+
+Database Password:
+```bash
+sudo openssl rand -base64 64
+```
+
+MariaDB Root Password:
+```bash
+sudo openssl rand -base64 64
+```
 
 Create the password file:
 
 ```bash
 cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
+```
+```bash
 nano EXAMPLE-db-password.txt
 ```
-
-Generate a secure password:
-
 ```bash
-sudo openssl rand -base64 64
+nano EXAMPLE-db-root-password.txt
 ```
 
 Paste the generated password into the file by itself, without additional text or spaces.
@@ -82,10 +93,14 @@ Log in as the EXAMPLE application user:
 sudo -u EXAMPLE -i
 ```
 
-Create the Podman secret:
+Create the Podman secrets:
 
 ```bash
 podman secret create EXAMPLE-db-password /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets/EXAMPLE-db-password.txt
+```
+
+```bash
+podman secret create EXAMPLE-db-root-password /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets/EXAMPLE-db-root-password.txt
 ```
 
 ## 5. Create Application Storage Directories
@@ -93,7 +108,11 @@ podman secret create EXAMPLE-db-password /srv/CherryTech-App-Configs/podman/0000
 While logged in as the EXAMPLE application user, create the required storage directories:
 
 ```bash
-mkdir -p /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db-backups
+cd ~/.data/EXAMPLE/.data/EXAMPLE
+```
+
+```bash
+mkdir -p EXAMPLE-app EXAMPLE-data EXAMPLE-db EXAMPLE-db-backups
 ```
 
 ## 6. Configure Environment Variables
@@ -140,7 +159,7 @@ cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE
 Install the application containers and pod:
 
 ```bash
-podman quadlet install EXAMPLE-app.container EXAMPLE-db.container EXAMPLE.pod EXAMPLE.network
+podman quadlet install EXAMPLE-app.container EXAMPLE-server.container EXAMPLE-db.container EXAMPLE-redis.container EXAMPLE.pod EXAMPLE.network
 ```
 
 ### 7.3 Configure the Systemd Environment
