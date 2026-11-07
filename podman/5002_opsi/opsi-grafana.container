@@ -1,0 +1,36 @@
+#opsi-app.container
+
+[Unit]
+Description=opsi App
+Requires=opsi-redis.service opsi-db.service
+After=opsi-redis.service opsi-db.service
+
+[Container]
+Image=docker.io/grafana/grafana:latest
+ContainerName=opsi-grafana
+Pod=opsi.pod
+EnvironmentFile=/home/opsi/.data/opsi/.env
+Secret=opsi-db-password,type=env,target=DB_PASSWORD
+
+Volume=/home/opsi/.data/opsi/opsi-app:/data:Z
+Volume=/home/opsi/.data/opsi/opsi-app:/var/www/html:Z
+Volume=/home/opsi/.data/opsi/opsi-public:/var/www/html/public:Z
+Volume=/home/opsi/.data/opsi/opsi-storage:/var/www/html/storage:Z
+HealthCmd=
+HealthStartPeriod=3m
+HealthInterval=120s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+AutoUpdate=registry
+Memory=3g
+NoNewPrivileges=true
+#AddCapability=CAP_NET_BIND_SERVICE    -     Bind to port 80??
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+#ExecStartPre=sleep 30
+
+[Install]
+WantedBy=default.target

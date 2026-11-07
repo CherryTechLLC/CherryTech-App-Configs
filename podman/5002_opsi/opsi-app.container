@@ -11,11 +11,10 @@ ContainerName=opsi-app
 Pod=opsi.pod
 EnvironmentFile=/home/opsi/.data/opsi/.env
 Secret=opsi-db-password,type=env,target=DB_PASSWORD
-Volume=/etc/localtime:/etc/localtime:ro
+Secret=opsi-db-password,type=env,target=OPSI_ADMIN_PASSWORD
+Secret=opsi-db-password,type=env,target=OPSI_ROOT_PASSWORD
+
 Volume=/home/opsi/.data/opsi/opsi-app:/data:Z
-Volume=/home/opsi/.data/opsi/opsi-app:/var/www/html:Z
-Volume=/home/opsi/.data/opsi/opsi-public:/var/www/html/public:Z
-Volume=/home/opsi/.data/opsi/opsi-storage:/var/www/html/storage:Z
 HealthCmd=
 HealthStartPeriod=3m
 HealthInterval=120s

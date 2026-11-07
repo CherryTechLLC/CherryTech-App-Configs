@@ -1,8 +1,8 @@
-# EXAMPLE Deployment Guide
+# opsi Deployment Guide
 
 ## Overview
 
-OPSI is an open source tool for deploying and managing applications installed on a Windows desktop. 
+
 
 ---
 
@@ -15,28 +15,28 @@ Before beginning:
 
 ## 2. Configure Caddy
 
-Copy the EXAMPLE EXAMPLE.Caddyfile entry into your server's existing configuration:
+Copy the opsi opsi.Caddyfile entry into your server's existing configuration:
 
 ```bash
 sudo nano /etc/caddy/Caddyfile
 ```
 
-Place the EXAMPLE entry below all existing site entries.
+Place the opsi entry below all existing site entries.
 
 Ensure the domain in the Caddyfile matches the domain configured in your environment file.
 
 ## 3. Create a Dedicated Application User
 
-Create a dedicated system user for EXAMPLE:
+Create a dedicated system user for opsi:
 
 ```bash
-sudo useradd -m EXAMPLE -F -u 0000
+sudo useradd -m opsi -F -u 0000
 ```
 
 Enable lingering so the user's systemd services can run without an active login session:
 
 ```bash
-sudo loginctl enable-linger EXAMPLE
+sudo loginctl enable-linger opsi
 ```
 
 ## 4. Create and Configure Secrets
@@ -44,22 +44,33 @@ sudo loginctl enable-linger EXAMPLE
 ### 4.1 Create the Secrets Directory
 
 ```bash
-sudo mkdir -p /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
+sudo mkdir -p /srv/CherryTech-App-Configs/podman/0000_opsi/secrets
 ```
 
-### 4.2 Generate the Database Password
+### 4.2 Generate Passwords
+
+Generate each secure password:
+
+Database Password:
+```bash
+sudo openssl rand -base64 64
+```
+
+MariaDB Root Password:
+```bash
+sudo openssl rand -base64 64
+```
 
 Create the password file:
 
 ```bash
-cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
-nano EXAMPLE-db-password.txt
+cd /srv/CherryTech-App-Configs/podman/0000_opsi/secrets
 ```
-
-Generate a secure password:
-
 ```bash
-sudo openssl rand -base64 64
+nano opsi-db-password.txt
+```
+```bash
+nano opsi-db-root-password.txt
 ```
 
 Paste the generated password into the file by itself, without additional text or spaces.
@@ -69,31 +80,43 @@ Paste the generated password into the file by itself, without additional text or
 **Mandatory:** Restrict access to the secrets directory and its contents.
 
 ```bash
-sudo chown -R EXAMPLE:EXAMPLE /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
+sudo chown -R opsi:opsi /srv/CherryTech-App-Configs/podman/0000_opsi/secrets
 
-sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
+sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/0000_opsi/secrets
 ```
 
 ### 4.4 Create the Podman Secret
 
-Log in as the EXAMPLE application user:
+Log in as the opsi application user:
 
 ```bash
-sudo -u EXAMPLE -i
+sudo -u opsi -i
 ```
 
-Create the Podman secret:
+Create the Podman secrets:
 
 ```bash
-podman secret create EXAMPLE-db-password /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets/EXAMPLE-db-password.txt
+cd /srv/CherryTech-App-Configs/podman/0000_opsi/secrets
+```
+
+```bash
+podman secret create opsi-db-password opsi-db-password.txt
+```
+
+```bash
+podman secret create opsi-db-root-password opsi-db-root-password.txt
 ```
 
 ## 5. Create Application Storage Directories
 
-While logged in as the EXAMPLE application user, create the required storage directories:
+While logged in as the opsi application user, create the required storage directories:
 
 ```bash
-mkdir -p /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db-backups
+cd ~/.data/opsi/.data/opsi
+```
+
+```bash
+mkdir -p opsi-app opsi-data opsi-db opsi-db-backups
 ```
 
 ## 6. Configure Environment Variables
@@ -101,20 +124,20 @@ mkdir -p /home/EXAMPLE/.data/EXAMPLE/EXAMPLE-app /home/EXAMPLE/.data/EXAMPLE/EXA
 Copy the provided environment file into the application's data directory:
 
 ```bash
-cp /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/EXAMPLE.env /home/EXAMPLE/.data/EXAMPLE/.env
+cp /srv/CherryTech-App-Configs/podman/0000_opsi/opsi.env /home/opsi/.data/opsi/.env
 ```
 
 Edit the environment file:
 
 ```bash
-nano /home/EXAMPLE/.data/EXAMPLE/.env
+nano /home/opsi/.data/opsi/.env
 ```
 
 Update the following values:
 
 | Variable | Description |
 |---|---|
-| `DOMAIN` | Your EXAMPLE domain (e.g., `EXAMPLE.apps.cherrytech.net`) |
+| `DOMAIN` | Your opsi domain (e.g., `opsi.apps.cherrytech.net`) |
 | `TZ` | Your server's timezone (e.g., `America/Detroit`) |
 
 **Important:** Leave `ADMIN_TOKEN` set to `CHANGE-ME`. We will configure a secure admin token through the web interface after deployment.
@@ -123,16 +146,16 @@ Update the following values:
 
 ### 7.1 Navigate to the Configuration Directory
 
-If you are not already logged in as the EXAMPLE application user:
+If you are not already logged in as the opsi application user:
 
 ```bash
-sudo -u EXAMPLE -i
+sudo -u opsi -i
 ```
 
 Navigate to the application configuration directory:
 
 ```bash
-cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE
+cd /srv/CherryTech-App-Configs/podman/0000_opsi
 ```
 
 ### 7.2 Install the Quadlet Files
@@ -140,19 +163,19 @@ cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE
 Install the application containers and pod:
 
 ```bash
-podman quadlet install EXAMPLE-app.container EXAMPLE-db.container EXAMPLE.pod EXAMPLE.network
+podman quadlet install opsi-app.container opsi-server.container opsi-db.container opsi-redis.container opsi.pod opsi.network
 ```
 
 ### 7.3 Configure the Systemd Environment
 
-This command makes the EXAMPLE user you logged in as able to execute systemd --user commands:
+This command makes the opsi user you logged in as able to execute systemd --user commands:
 
 ```bash
 export XDG_RUNTIME_DIR="/run/user/$UID"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
 ```
 
-### 7.4 Reload Systemd and Start EXAMPLE
+### 7.4 Reload Systemd and Start opsi
 
 Reload the user systemd configuration:
 
@@ -163,26 +186,32 @@ systemctl --user daemon-reload
 Alternatively, from an administrative account:
 
 ```bash
-sudo systemctl --machine=EXAMPLE@.host --user daemon-reload
+sudo systemctl --machine=opsi@.host --user daemon-reload
 ```
 
-Start the EXAMPLE pod:
+Start the opsi pod:
 
 ```bash
-systemctl --user start EXAMPLE-pod.service
+systemctl --user start opsi-pod.service
 ```
 
 Alternatively:
 
 ```bash
-sudo systemctl --machine=EXAMPLE@.host --user start EXAMPLE-pod.service
+sudo systemctl --machine=opsi@.host --user start opsi-pod.service
 ```
 
 **Note:** Full application initialization can take approximately 5–10 minutes before the web interface becomes available.
 
+### 7.5 Reload Enable Automatic Updates
+
+```bash
+systemctl --user enable --now podman-auto-update.timer
+```
+
 ## 8. Initial Admin Configuration
 
-Once EXAMPLE has initialized, navigate to:
+Once opsi has initialized, navigate to:
 
 `https://vault.apps.domain.tld/admin`
 
@@ -192,7 +221,7 @@ Log in using the temporary admin token:
 
 ### 8.1 Generate a Secure Admin Token
 
-Follow the official [EXAMPLE Admin Page documentation](https://github.com/dani-garcia/EXAMPLE/wiki/Enabling-admin-page).
+Follow the official [opsi Admin Page documentation](https://github.com/dani-garcia/opsi/wiki/Enabling-admin-page).
 
 Install the required packages:
 
@@ -217,7 +246,7 @@ Replace `REPLACE-THIS-PASSWORD` with your desired admin password.
 
 ### 8.2 Apply the Admin Token
 
-1. Open the EXAMPLE admin panel.
+1. Open the opsi admin panel.
 2. Locate **Admin token/Argon2 PHC** under General Settings.
 3. Paste the entire generated Argon2id hash.
 4. Select **Save** at the bottom of the page.
@@ -227,20 +256,20 @@ Replace `REPLACE-THIS-PASSWORD` with your desired admin password.
 
 ## 9. Configure SMTP
 
-SMTP (Simple Mail Transfer Protocol) is required for EXAMPLE email functionality, including invitations and account-related notifications.
+SMTP (Simple Mail Transfer Protocol) is required for opsi email functionality, including invitations and account-related notifications.
 
 Configure the following settings in the admin panel:
 
-| Setting | Description | Example |
+| Setting | Description | opsi |
 |---|---|---|
 | SMTP Host | Hostname of your email server | `mail.your-server.de` |
-| SMTP From | Email address notifications originate from | `EXAMPLE@example.com` |
-| SMTP From Name | Display name shown to recipients | `EXAMPLE` |
-| SMTP Username | SMTP authentication username | `EXAMPLE@example.com` |
+| SMTP From | Email address notifications originate from | `opsi@opsi.com` |
+| SMTP From Name | Display name shown to recipients | `opsi` |
+| SMTP Username | SMTP authentication username | `opsi@opsi.com` |
 | SMTP Password | SMTP account password | Your SMTP password |
 
 **Notes:**
-- The SMTP hostname depends on your email provider. The example above is for Hetzner.
+- The SMTP hostname depends on your email provider. The opsi above is for Hetzner.
 - The From address must be authorized to send through your SMTP provider.
 - The username is generally the full email address.
 - Ensure the SMTP port and security settings match your provider's requirements.
@@ -282,13 +311,12 @@ sudo journalctl _UID=0000
 ## 11. Reference Links
 
 ### Container Image
-- [EXAMPLE – Docker Hub](https://hub.docker.com/r/EXAMPLE/server)
+- https://hub.docker.com/r/uibmz/opsi-server
 
 ### Official Documentation
-- [EXAMPLE Wiki](https://github.com/dani-garcia/EXAMPLE/wiki)
-- [SMTP Configuration](https://github.com/dani-garcia/EXAMPLE/wiki/SMTP-Configuration)
-- [Enabling the Admin Page](https://github.com/dani-garcia/EXAMPLE/wiki/Enabling-admin-page)
-- [Using Podman](https://github.com/dani-garcia/EXAMPLE/wiki/Using-Podman)
+- https://docs.opsi.org/opsi-docs-en/4.3/first-steps/server/server-installation-docker.html
 
 ### Additional Resources
-- [EXAMPLE Quadlet / PostgreSQL Pod Guide](https://www.nite07.com/en/posts/quadlet-EXAMPLE/#option-2-postgresql-pod)
+- https://hub.docker.com/_/mariadb
+- https://hub.docker.com/r/valkey/valkey
+- https://hub.docker.com/r/grafana/grafana
