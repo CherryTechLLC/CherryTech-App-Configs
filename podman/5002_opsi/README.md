@@ -97,7 +97,7 @@ sudo nano opsi-admin-password.txt
 sudo nano opsi-root-password.txt
 ```
 ```bash
-nano opsi-grafana-password.txt
+sudo nano opsi-grafana-password.txt
 ```
 
 Paste the generated password into the file by itself, without additional text or spaces.
@@ -128,21 +128,13 @@ cd /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
 
 ```bash
 podman secret create opsi-db-password opsi-db-password.txt
-```
 
-```bash
 podman secret create opsi-db-root-password opsi-db-root-password.txt
-```
 
-```bash
 podman secret create opsi-admin-password opsi-admin-password.txt
-```
 
-```bash
 podman secret create opsi-root-password opsi-root-password.txt
-```
 
-```bash
 podman secret create opsi-grafana-password opsi-grafana-password.txt
 ```
 
@@ -172,8 +164,8 @@ Update the following values:
 
 | Variable | Description |
 |---|---|
-| `OPSI_HOSTNAME` | Your opsi domain (e.g., `opsi.apps.cherrytech.net`) |
-| `DOMAINNAME` | Your opsi domain again (e.g., `opsi.apps.cherrytech.net`) |
+| `HOSTNAME` | Your opsi domain (e.g., `deploy`) |
+| `DOMAINNAME` | Your opsi domain again (e.g., `cherrytech.net`) |
 | `TZ` | Your server's timezone (e.g., `America/Detroit`) |
 
 

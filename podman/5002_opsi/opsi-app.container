@@ -13,6 +13,7 @@ EnvironmentFile=/home/opsi/.data/opsi/.env
 Secret=opsi-db-password,type=env,target=MYSQL_PASSWORD
 Secret=opsi-admin-password,type=env,target=OPSI_ADMIN_PASSWORD
 Secret=opsi-root-password,type=env,target=OPSI_ROOT_PASSWORD
+Secret=opsi-grafana-password,type=env,target=GF_SECURITY_ADMIN_PASSWORD
 Volume=/home/opsi/.data/opsi/opsi-app:/data:Z
 HealthCmd=curl -fk https://127.0.0.1:4447/
 HealthStartPeriod=3m
