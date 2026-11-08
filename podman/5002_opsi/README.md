@@ -33,7 +33,7 @@ Ensure the domain in the Caddyfile matches the domain configured in your environ
 Create a dedicated system user for opsi:
 
 ```bash
-sudo useradd -m opsi -F -u 6002
+sudo useradd -m opsi -F -u 5002
 ```
 
 Enable lingering so the user's systemd services can run without an active login session:
@@ -47,7 +47,7 @@ sudo loginctl enable-linger opsi
 ### 4.1 Create the Secrets Directory
 
 ```bash
-sudo mkdir -p /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
+sudo mkdir -p /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
 ```
 
 ### 4.2 Generate Passwords
@@ -82,7 +82,7 @@ sudo openssl rand -base64 64
 ### 4.3 Create the password files:
 
 ```bash
-cd /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
+cd /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
 ```
 ```bash
 sudo nano opsi-db-password.txt
@@ -107,9 +107,9 @@ Paste the generated password into the file by itself, without additional text or
 **Mandatory:** Restrict access to the secrets directory and its contents.
 
 ```bash
-sudo chown -R opsi:opsi /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
+sudo chown -R opsi:opsi /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
 
-sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
+sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
 ```
 
 ### 4.5 Create the Podman Secret
@@ -123,7 +123,7 @@ sudo -u opsi -i
 Create the Podman secrets:
 
 ```bash
-cd /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
+cd /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
 ```
 
 ```bash
@@ -151,7 +151,7 @@ mkdir -p /home/opsi/.data/opsi/{opsi-app,opsi-db,opsi-db-backups,opsi-valkey,ops
 Copy the provided environment file into the application's data directory:
 
 ```bash
-cp /srv/CherryTech-App-Configs/podman/6002_opsi/opsi.env /home/opsi/.data/opsi/.env
+cp /srv/CherryTech-App-Configs/podman/5002_opsi/opsi.env /home/opsi/.data/opsi/.env
 ```
 
 Edit the environment file:
@@ -182,7 +182,7 @@ sudo -u opsi -i
 Navigate to the application configuration directory:
 
 ```bash
-cd /srv/CherryTech-App-Configs/podman/6002_opsi
+cd /srv/CherryTech-App-Configs/podman/5002_opsi
 ```
 
 ### 7.2 Install the Quadlet Files
@@ -263,7 +263,7 @@ To view logs go the the **Logs** tab in cockpit and under the **Identifier** dro
 To view full logs for the application log into an admin account and use the following command:
 
 ```bash
-sudo journalctl _UID=6002
+sudo journalctl _UID=5002
 ```
 ---
 
