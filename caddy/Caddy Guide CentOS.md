@@ -23,9 +23,9 @@ your-app.apps.example.com
 Install Go and the Caddy package. The Caddy package will establish the service, system user, and default configuration directories.
 
 ```bash
-sudo dnf install go
+sudo dnf install go -y
 sudo dnf copr enable @caddy/caddy
-sudo dnf install caddy
+sudo dnf install caddy -y
 ```
 
 **Note:** The distribution-provided Caddy binary will be replaced with a custom build containing the Hetzner DNS module.
@@ -46,7 +46,7 @@ exclude=caddy
 
 ## 3. Build Caddy with the Hetzner DNS Module
 
-**Important:** Check for a newer version of [xcaddy](https://github.com/caddyserver/xcaddy/releases) before running these commands.
+**Important:** Check for a newer version of xcaddy (https://github.com/caddyserver/xcaddy/releases) before running these commands.
 
 Download and extract xcaddy:
 

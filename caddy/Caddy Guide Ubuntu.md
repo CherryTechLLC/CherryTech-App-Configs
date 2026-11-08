@@ -23,7 +23,7 @@ your-app.apps.example.com
 Install the Caddy package and Go. The Caddy package will establish the service, system user, and default configuration directories.
 
 ```bash
-sudo apt-get install caddy golang
+sudo apt-get install caddy golang -y
 ```
 
 **Note:** The distribution-provided Caddy binary will be replaced with a custom build containing the Hetzner DNS module.
@@ -36,7 +36,7 @@ sudo apt-mark hold caddy
 
 ## 3. Build Caddy with the Hetzner DNS Module
 
-**Important:** Check for a newer version of [xcaddy](https://github.com/caddyserver/xcaddy/releases) before running these commands.
+**Important:** Check for a newer version of xcaddy (https://github.com/caddyserver/xcaddy/releases) before running these commands.
 
 Download and extract xcaddy:
 
@@ -141,6 +141,8 @@ Allow SSH and HTTPS, deny incoming connections by default, and allow outgoing co
 
 ```bash
 sudo ufw allow 22/tcp
+
+sudo ufw allow 80/tcp
 
 sudo ufw allow 443/tcp
 
