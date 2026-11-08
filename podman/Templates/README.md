@@ -52,12 +52,12 @@ sudo mkdir -p /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
 
 Generate each secure password:
 
-Database Password:
+ - Database Password:
 ```bash
 sudo openssl rand -base64 64
 ```
 
-MariaDB Root Password:
+ - MariaDB Root Password:
 ```bash
 sudo openssl rand -base64 64
 ```
