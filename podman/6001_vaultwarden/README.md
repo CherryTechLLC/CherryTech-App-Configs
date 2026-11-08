@@ -69,7 +69,7 @@ Create the password file:
 
 ```bash
 cd /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets
-nano vaultwarden-db-password.txt
+sudo nano vaultwarden-db-password.txt
 ```
 
 Paste the generated password into the file by itself, without additional text or spaces.

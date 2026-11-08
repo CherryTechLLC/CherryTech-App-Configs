@@ -85,16 +85,16 @@ sudo openssl rand -base64 64
 cd /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
 ```
 ```bash
-nano opsi-db-password.txt
+sudo nano opsi-db-password.txt
 ```
 ```bash
-nano opsi-db-root-password.txt
+sudo nano opsi-db-root-password.txt
 ```
 ```bash
-nano opsi-admin-password.txt
+sudo nano opsi-admin-password.txt
 ```
 ```bash
-nano opsi-root-password.txt
+sudo nano opsi-root-password.txt
 ```
 ```bash
 nano opsi-grafana-password.txt
