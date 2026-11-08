@@ -127,15 +127,15 @@ cd /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
 ```
 
 ```bash
-podman secret create opsi-db-password opsi-db-password.txt
+podman secret create opsi-db-password .opsi-db-password.txt
 
-podman secret create opsi-db-root-password opsi-db-root-password.txt
+podman secret create opsi-db-root-password .opsi-db-root-password.txt
 
-podman secret create opsi-admin-password opsi-admin-password.txt
+podman secret create opsi-admin-password .opsi-admin-password.txt
 
-podman secret create opsi-root-password opsi-root-password.txt
+podman secret create opsi-root-password .opsi-root-password.txt
 
-podman secret create opsi-grafana-password opsi-grafana-password.txt
+podman secret create opsi-grafana-password .opsi-grafana-password.txt
 ```
 
 ## 5. Create Application Storage Directories

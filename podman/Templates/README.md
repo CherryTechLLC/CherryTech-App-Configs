@@ -101,11 +101,11 @@ cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
 ```
 
 ```bash
-podman secret create EXAMPLE-db-password EXAMPLE-db-password.txt
+podman secret create EXAMPLE-db-password .EXAMPLE-db-password.txt
 ```
 
 ```bash
-podman secret create EXAMPLE-db-root-password EXAMPLE-db-root-password.txt
+podman secret create EXAMPLE-db-root-password .EXAMPLE-db-root-password.txt
 ```
 
 ## 5. Create Application Storage Directories

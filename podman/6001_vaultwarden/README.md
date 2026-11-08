@@ -95,7 +95,7 @@ sudo -u vaultwarden -i
 Create the Podman secret:
 
 ```bash
-podman secret create vaultwarden-db-password /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets/vaultwarden-db-password.txt
+podman secret create vaultwarden-db-password /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets/.vaultwarden-db-password.txt
 ```
 
 ## 5. Create Application Storage Directories
