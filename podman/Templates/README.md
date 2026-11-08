@@ -62,7 +62,7 @@ MariaDB Root Password:
 sudo openssl rand -base64 64
 ```
 
-Create the password file:
+### 4.3 Create the password file:
 
 ```bash
 cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
@@ -76,7 +76,7 @@ nano EXAMPLE-db-root-password.txt
 
 Paste the generated password into the file by itself, without additional text or spaces.
 
-### 4.3 Protect the Secrets
+### 4.4 Protect the Secrets
 
 **Mandatory:** Restrict access to the secrets directory and its contents.
 
@@ -86,7 +86,7 @@ sudo chown -R EXAMPLE:EXAMPLE /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/se
 sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
 ```
 
-### 4.4 Create the Podman Secret
+### 4.5 Create the Podman Secret
 
 Log in as the EXAMPLE application user:
 
@@ -200,82 +200,14 @@ sudo systemctl --machine=EXAMPLE@.host --user start EXAMPLE-pod.service
 
 **Note:** Full application initialization can take approximately 5–10 minutes before the web interface becomes available.
 
-### 7.5 Reload Enable Automatic Updates
+### 7.5 Enable Automatic Updates
 
 ```bash
 systemctl --user enable --now podman-auto-update.timer
 ```
 
-## 8. Initial Admin Configuration
 
-Once EXAMPLE has initialized, navigate to:
-
-`https://vault.apps.domain.tld/admin`
-
-Log in using the temporary admin token:
-
-`CHANGE-ME`
-
-### 8.1 Generate a Secure Admin Token
-
-Follow the official [EXAMPLE Admin Page documentation](https://github.com/dani-garcia/EXAMPLE/wiki/Enabling-admin-page).
-
-Install the required packages:
-
-```bash
-sudo dnf install epel-release -y
-
-sudo dnf install argon2 -y
-```
-
-Generate an Argon2id password hash:
-
-```bash
-sudo echo -n 'REPLACE-THIS-PASSWORD' | argon2 "$(openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4
-```
-
-Replace `REPLACE-THIS-PASSWORD` with your desired admin password.
-
-**Important:**
-- Save the password somewhere secure.
-- Copy the entire generated string, including the `$argon2id$` prefix.
-- Do not lose the original password. The generated hash cannot be used as the login password.
-
-### 8.2 Apply the Admin Token
-
-1. Open the EXAMPLE admin panel.
-2. Locate **Admin token/Argon2 PHC** under General Settings.
-3. Paste the entire generated Argon2id hash.
-4. Select **Save** at the bottom of the page.
-5. Log out using the top-right menu.
-6. Return to the admin login page.
-7. Enter the original password used to generate the hash.
-
-## 9. Configure SMTP
-
-SMTP (Simple Mail Transfer Protocol) is required for EXAMPLE email functionality, including invitations and account-related notifications.
-
-Configure the following settings in the admin panel:
-
-| Setting | Description | Example |
-|---|---|---|
-| SMTP Host | Hostname of your email server | `mail.your-server.de` |
-| SMTP From | Email address notifications originate from | `EXAMPLE@example.com` |
-| SMTP From Name | Display name shown to recipients | `EXAMPLE` |
-| SMTP Username | SMTP authentication username | `EXAMPLE@example.com` |
-| SMTP Password | SMTP account password | Your SMTP password |
-
-**Notes:**
-- The SMTP hostname depends on your email provider. The example above is for Hetzner.
-- The From address must be authorized to send through your SMTP provider.
-- The username is generally the full email address.
-- Ensure the SMTP port and security settings match your provider's requirements.
-
-Save the configuration and test email delivery.
-
----
-
-## 10. Resource Limits and Monitoring
+## 8. Resource Limits and Monitoring
 
 The configured resource limits are intended to prevent application resource-management issues from causing a full server crash.
 

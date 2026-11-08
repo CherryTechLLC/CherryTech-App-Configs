@@ -59,17 +59,17 @@ sudo mkdir -p /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets
 
 ### 4.2 Generate the Database Password
 
+Generate a secure password:
+
+```bash
+sudo openssl rand -base64 64
+```
+
 Create the password file:
 
 ```bash
 cd /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets
 nano vaultwarden-db-password.txt
-```
-
-Generate a secure password:
-
-```bash
-sudo openssl rand -base64 64
 ```
 
 Paste the generated password into the file by itself, without additional text or spaces.
