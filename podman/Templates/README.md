@@ -198,8 +198,6 @@ Alternatively:
 sudo systemctl --machine=EXAMPLE@.host --user start EXAMPLE-pod.service
 ```
 
-**Note:** Full application initialization can take approximately 5–10 minutes before the web interface becomes available.
-
 ### 7.5 Enable Automatic Updates
 
 ```bash
