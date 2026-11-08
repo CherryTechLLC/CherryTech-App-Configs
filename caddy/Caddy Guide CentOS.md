@@ -144,10 +144,19 @@ Add the following:
 [Service]
 EnvironmentFile=/etc/caddy/caddy.env
 ```
-
 Save and exit.
 
-## 6. Configure SELinux and Firewall
+## 6. Copy the Caddyfile base into the configuration directory:
+
+```bash
+sudo cp /srv/CherryTech-App-Configs/caddy/Caddyfile /etc/caddy/Caddyfile
+```
+
+To add an app to the list of apps Caddy exposes copy the app.Caddyfile entry into the Caddyfile. 
+
+**Do not overwrite the base Caddyfile, only add to it**
+
+## 7. Configure SELinux and Firewall
 
 Allow Caddy to establish network connections through SELinux:
 
@@ -165,7 +174,7 @@ sudo firewall-cmd --permanent --add-service=https
 sudo firewall-cmd --reload
 ```
 
-## 7. Start Caddy
+## 8. Start Caddy
 
 Reload systemd to apply the service override:
 
@@ -185,7 +194,7 @@ Verify the service:
 sudo systemctl status caddy
 ```
 
-## 8. Maintenance
+## 9. Maintenance
 
 Due to the utilization of a custom Caddy application with the Hetzner-DNS module updates to Caddy will require rebuilding the custom binary as it was built in step 3.
 
