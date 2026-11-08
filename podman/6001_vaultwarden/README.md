@@ -103,7 +103,7 @@ podman secret create vaultwarden-db-password /srv/CherryTech-App-Configs/podman/
 While logged in as the Vaultwarden application user, create the required storage directories:
 
 ```bash
-mkdir -p /home/vaultwarden/.data/vaultwarden/vaultwarden-app /home/vaultwarden/.data/vaultwarden/vaultwarden-db /home/vaultwarden/.data/vaultwarden/vaultwarden-db-backups
+mkdir -p /home/vaultwarden/.data/vaultwarden/{vaultwarden-app,vaultwarden-db,vaultwarden-db-backups}
 ```
 
 ## 6. Configure Environment Variables

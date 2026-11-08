@@ -113,11 +113,7 @@ podman secret create EXAMPLE-db-root-password EXAMPLE-db-root-password.txt
 While logged in as the EXAMPLE application user, create the required storage directories:
 
 ```bash
-cd ~/.data/EXAMPLE/.data/EXAMPLE
-```
-
-```bash
-mkdir -p EXAMPLE-app EXAMPLE-data EXAMPLE-db EXAMPLE-db-backups
+mkdir -p /home/EXAMPLE/.data/EXAMPLE/{EXAMPLE-app,EXAMPLE-data,EXAMPLE-db,EXAMPLE-db-backups,EXAMPLE-valkey}
 ```
 
 ## 6. Configure Environment Variables
