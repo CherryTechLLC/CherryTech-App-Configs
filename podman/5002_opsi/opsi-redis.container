@@ -1,7 +1,7 @@
 #opsi-redis.container
 
 [Unit]
-Description=opsi Redis
+Description=Opsi Redis
 
 [Container]
 Image=docker.io/valkey/valkey:9.1-alpine
@@ -15,10 +15,9 @@ HealthInterval=120s
 HealthTimeout=15s
 HealthRetries=10
 Notify=healthy
-AutoUpdate=registry
 Memory=1g
 NoNewPrivileges=true
-Exec=redis-server --loadmodule /usr/local/lib/redis/modules/redistimeseries.so --dir /data
+Exec=valkey-server --loadmodule /usr/local/lib/redis/modules/redistimeseries.so --dir /data
 
 [Service]
 Restart=always

@@ -1,27 +1,21 @@
-#opsi-app.container
+#opsi-garafana.container
 
 [Unit]
-Description=opsi App
-Requires=opsi-redis.service opsi-db.service
-After=opsi-redis.service opsi-db.service
+Description=Opsi Grafana
 
 [Container]
 Image=docker.io/grafana/grafana:latest
 ContainerName=opsi-grafana
 Pod=opsi.pod
 EnvironmentFile=/home/opsi/.data/opsi/.env
-Secret=opsi-db-password,type=env,target=DB_PASSWORD
-
-Volume=/home/opsi/.data/opsi/opsi-app:/data:Z
-Volume=/home/opsi/.data/opsi/opsi-app:/var/www/html:Z
-Volume=/home/opsi/.data/opsi/opsi-public:/var/www/html/public:Z
-Volume=/home/opsi/.data/opsi/opsi-storage:/var/www/html/storage:Z
-HealthCmd=
+Secret=opsi-grafana-password,type=env,target=GF_SECURITY_ADMIN_PASSWORD
+Volume=/home/opsi/.data/opsi/opsi-grafana-data:/var/lib/grafana:Z
+HealthCmd=wget -q -O /dev/null http://127.0.0.1:3000/api/health
 HealthStartPeriod=3m
 HealthInterval=120s
 HealthTimeout=30s
 HealthRetries=10
-Notify=healthy
+#Notify=healthy
 AutoUpdate=registry
 Memory=3g
 NoNewPrivileges=true

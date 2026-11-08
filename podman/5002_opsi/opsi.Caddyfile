@@ -10,12 +10,7 @@ deploy.{env.DOMAIN} {
 
   encode zstd gzip
 
-  reverse_proxy http://127.0.0.1:6002 {
-    header_up X-Real-IP {remote_host}
-    header_up X-Forwarded-For {remote_host}
-    header_up Host {host}
-    header_up X-Forwarded-Proto {scheme}
-  }
+  reverse_proxy 127.0.0.1:6002
 
   header {
     Strict-Transport-Security "max-age=31536000;"

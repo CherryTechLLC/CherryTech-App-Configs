@@ -1,17 +1,17 @@
-#EXAMPLE-db.container
+#opsi-db.container
 
 [Unit]
-Description=EXAMPLE Database
+Description=Opsi Database
 
 [Container]
-Image=docker.io/library/mariadb:11.8.8@sha256:be1ef4fe5f14589325c08a41c76334097ce66c86264b75e1d28342c742782a61
-ContainerName=EXAMPLE-db
-Pod=EXAMPLE.pod
-Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db-backups:/var/db-backups:Z
-Volume=/home/EXAMPLE/.data/EXAMPLE/EXAMPLE-db:/var/lib/mysql:Z
-EnvironmentFile=/home/EXAMPLE/.data/EXAMPLE/.env
-Secret=EXAMPLE-db-password,type=env,target=MARIADB_PASSWORD
-Secret=EXAMPLE-db-root-password,type=env,target=MARIADB_ROOT_PASSWORD
+Image=docker.io/library/mariadb:10.7@sha256:9a48ac9f196f3d4fd6fea2cab59a49df9e7ca459bf14b2f7b85a0e38a5454571
+ContainerName=opsi-db
+Pod=opsi.pod
+Volume=/home/opsi/.data/opsi/opsi-db:/var/lib/mysql:Z
+Volume=/home/opsi.data/opsi/opsi-db-backups:/var/db-backups:Z
+EnvironmentFile=/home/opsi/.data/opsi/.env
+Secret=opsi-db-password,type=env,target=MARIADB_PASSWORD
+Secret=opsi-db-root-password,type=env,target=MARIADB_ROOT_PASSWORD
 HealthCmd=/bin/bash -c 'healthcheck.sh --connect --innodb_initialized'
 HealthStartPeriod=60s
 HealthInterval=60s

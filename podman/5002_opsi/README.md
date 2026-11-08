@@ -1,8 +1,11 @@
-# opsi Deployment Guide
+# README.md
+# Opsi Deployment Guide
 
 ## Overview
 
+OPSI is a tool for deploying applications and configurations to windows fleets. A agent is required on any machine you want to control with OPSI.
 
+A standalone "configserver" has a built-in "depotserver" but additional "depotserver" nodes can be configured in remote campuses to save on bandwidth from the central location.
 
 ---
 
@@ -30,7 +33,7 @@ Ensure the domain in the Caddyfile matches the domain configured in your environ
 Create a dedicated system user for opsi:
 
 ```bash
-sudo useradd -m opsi -F -u 0000
+sudo useradd -m opsi -F -u 6002
 ```
 
 Enable lingering so the user's systemd services can run without an active login session:
@@ -44,27 +47,42 @@ sudo loginctl enable-linger opsi
 ### 4.1 Create the Secrets Directory
 
 ```bash
-sudo mkdir -p /srv/CherryTech-App-Configs/podman/0000_opsi/secrets
+sudo mkdir -p /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
 ```
 
 ### 4.2 Generate Passwords
 
 Generate each secure password:
 
-Database Password:
+ - Database Password:
 ```bash
 sudo openssl rand -base64 64
 ```
 
-MariaDB Root Password:
+ - MariaDB Root Password:
 ```bash
 sudo openssl rand -base64 64
 ```
 
-Create the password file:
+ - Opsi Admin Password:
+```bash
+sudo openssl rand -base64 32
+```
+
+ - Opsi Root Password:
+```bash
+sudo openssl rand -base64 64
+```
+
+ - Opsi Grafana Password:
+```bash
+sudo openssl rand -base64 64
+```
+
+### 4.3 Create the password files:
 
 ```bash
-cd /srv/CherryTech-App-Configs/podman/0000_opsi/secrets
+cd /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
 ```
 ```bash
 nano opsi-db-password.txt
@@ -72,20 +90,29 @@ nano opsi-db-password.txt
 ```bash
 nano opsi-db-root-password.txt
 ```
+```bash
+nano opsi-admin-password.txt
+```
+```bash
+nano opsi-root-password.txt
+```
+```bash
+nano opsi-grafana-password.txt
+```
 
 Paste the generated password into the file by itself, without additional text or spaces.
 
-### 4.3 Protect the Secrets
+### 4.4 Protect the Secrets
 
 **Mandatory:** Restrict access to the secrets directory and its contents.
 
 ```bash
-sudo chown -R opsi:opsi /srv/CherryTech-App-Configs/podman/0000_opsi/secrets
+sudo chown -R opsi:opsi /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
 
-sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/0000_opsi/secrets
+sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
 ```
 
-### 4.4 Create the Podman Secret
+### 4.5 Create the Podman Secret
 
 Log in as the opsi application user:
 
@@ -96,7 +123,7 @@ sudo -u opsi -i
 Create the Podman secrets:
 
 ```bash
-cd /srv/CherryTech-App-Configs/podman/0000_opsi/secrets
+cd /srv/CherryTech-App-Configs/podman/6002_opsi/secrets
 ```
 
 ```bash
@@ -107,16 +134,24 @@ podman secret create opsi-db-password opsi-db-password.txt
 podman secret create opsi-db-root-password opsi-db-root-password.txt
 ```
 
+```bash
+podman secret create opsi-admin-password opsi-admin-password.txt
+```
+
+```bash
+podman secret create opsi-root-password opsi-root-password.txt
+```
+
+```bash
+podman secret create opsi-grafana-password opsi-grafana-password.txt
+```
+
 ## 5. Create Application Storage Directories
 
 While logged in as the opsi application user, create the required storage directories:
 
 ```bash
-cd ~/.data/opsi/.data/opsi
-```
-
-```bash
-mkdir -p opsi-app opsi-data opsi-db opsi-db-backups
+mkdir -p /home/opsi/.data/opsi/{opsi-app,opsi-db,opsi-db-backups,opsi-valkey,opsi-grafana-data}
 ```
 
 ## 6. Configure Environment Variables
@@ -124,7 +159,7 @@ mkdir -p opsi-app opsi-data opsi-db opsi-db-backups
 Copy the provided environment file into the application's data directory:
 
 ```bash
-cp /srv/CherryTech-App-Configs/podman/0000_opsi/opsi.env /home/opsi/.data/opsi/.env
+cp /srv/CherryTech-App-Configs/podman/6002_opsi/opsi.env /home/opsi/.data/opsi/.env
 ```
 
 Edit the environment file:
@@ -137,10 +172,10 @@ Update the following values:
 
 | Variable | Description |
 |---|---|
-| `DOMAIN` | Your opsi domain (e.g., `opsi.apps.cherrytech.net`) |
+| `OPSI_HOSTNAME` | Your opsi domain (e.g., `opsi.apps.cherrytech.net`) |
+| `DOMAINNAME` | Your opsi domain again (e.g., `opsi.apps.cherrytech.net`) |
 | `TZ` | Your server's timezone (e.g., `America/Detroit`) |
 
-**Important:** Leave `ADMIN_TOKEN` set to `CHANGE-ME`. We will configure a secure admin token through the web interface after deployment.
 
 ## 7. Install and Start the Quadlet Services
 
@@ -155,7 +190,7 @@ sudo -u opsi -i
 Navigate to the application configuration directory:
 
 ```bash
-cd /srv/CherryTech-App-Configs/podman/0000_opsi
+cd /srv/CherryTech-App-Configs/podman/6002_opsi
 ```
 
 ### 7.2 Install the Quadlet Files
@@ -163,7 +198,7 @@ cd /srv/CherryTech-App-Configs/podman/0000_opsi
 Install the application containers and pod:
 
 ```bash
-podman quadlet install opsi-app.container opsi-server.container opsi-db.container opsi-redis.container opsi.pod opsi.network
+podman quadlet install opsi-app.container opsi-grafana.container opsi-db.container opsi-redis.container opsi.pod
 ```
 
 ### 7.3 Configure the Systemd Environment
@@ -209,76 +244,8 @@ sudo systemctl --machine=opsi@.host --user start opsi-pod.service
 systemctl --user enable --now podman-auto-update.timer
 ```
 
-## 8. Initial Admin Configuration
 
-Once opsi has initialized, navigate to:
-
-`https://vault.apps.domain.tld/admin`
-
-Log in using the temporary admin token:
-
-`CHANGE-ME`
-
-### 8.1 Generate a Secure Admin Token
-
-Follow the official [opsi Admin Page documentation](https://github.com/dani-garcia/opsi/wiki/Enabling-admin-page).
-
-Install the required packages:
-
-```bash
-sudo dnf install epel-release -y
-
-sudo dnf install argon2 -y
-```
-
-Generate an Argon2id password hash:
-
-```bash
-sudo echo -n 'REPLACE-THIS-PASSWORD' | argon2 "$(openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4
-```
-
-Replace `REPLACE-THIS-PASSWORD` with your desired admin password.
-
-**Important:**
-- Save the password somewhere secure.
-- Copy the entire generated string, including the `$argon2id$` prefix.
-- Do not lose the original password. The generated hash cannot be used as the login password.
-
-### 8.2 Apply the Admin Token
-
-1. Open the opsi admin panel.
-2. Locate **Admin token/Argon2 PHC** under General Settings.
-3. Paste the entire generated Argon2id hash.
-4. Select **Save** at the bottom of the page.
-5. Log out using the top-right menu.
-6. Return to the admin login page.
-7. Enter the original password used to generate the hash.
-
-## 9. Configure SMTP
-
-SMTP (Simple Mail Transfer Protocol) is required for opsi email functionality, including invitations and account-related notifications.
-
-Configure the following settings in the admin panel:
-
-| Setting | Description | opsi |
-|---|---|---|
-| SMTP Host | Hostname of your email server | `mail.your-server.de` |
-| SMTP From | Email address notifications originate from | `opsi@opsi.com` |
-| SMTP From Name | Display name shown to recipients | `opsi` |
-| SMTP Username | SMTP authentication username | `opsi@opsi.com` |
-| SMTP Password | SMTP account password | Your SMTP password |
-
-**Notes:**
-- The SMTP hostname depends on your email provider. The opsi above is for Hetzner.
-- The From address must be authorized to send through your SMTP provider.
-- The username is generally the full email address.
-- Ensure the SMTP port and security settings match your provider's requirements.
-
-Save the configuration and test email delivery.
-
----
-
-## 10. Resource Limits and Monitoring
+## 8. Resource Limits and Monitoring
 
 The configured resource limits are intended to prevent application resource-management issues from causing a full server crash.
 
@@ -304,7 +271,7 @@ To view logs go the the **Logs** tab in cockpit and under the **Identifier** dro
 To view full logs for the application log into an admin account and use the following command:
 
 ```bash
-sudo journalctl _UID=0000
+sudo journalctl _UID=6002
 ```
 ---
 
@@ -320,3 +287,5 @@ sudo journalctl _UID=0000
 - https://hub.docker.com/_/mariadb
 - https://hub.docker.com/r/valkey/valkey
 - https://hub.docker.com/r/grafana/grafana
+- https://github.com/opsi-org/opsi-docker/blob/main/opsi-server/docker-compose.yml
+- https://github.com/opsi-org/opsi-docker/blob/main/opsi-server/opsi-server.env
