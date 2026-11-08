@@ -1,66 +1,211 @@
-These instructions walk through setting up Caddy with Hetzner DNS
+# Caddy Installation – Debian / Ubuntu
 
-In order for the domains you assign to applications to work you must create a DNS A record in the DNS server. I recommend something simple like *.apps.example.com and then in Caddy you assign your-app.app.example.com.
+These instructions walk through installing Caddy with the **Hetzner DNS module** for automated DNS-01 certificate validation.
 
+## 1. DNS Configuration
 
-ON DEBIAN
+In order for the domains assigned to applications to work, you must create a DNS A record with your DNS provider.
 
-sudo apt-get install caddy golang (Will delete, sets up service and user and everything)
+I recommend creating a wildcard record for your applications:
 
+```text
+*.apps.example.com
+```
+
+You can then assign individual subdomains to applications in your Caddy configuration:
+
+```text
+your-app.apps.example.com
+```
+
+## 2. Install Caddy and Go
+
+Install the Caddy package and Go. The Caddy package will establish the service, system user, and default configuration directories.
+
+```bash
+sudo apt-get install caddy golang
+```
+
+**Note:** The distribution-provided Caddy binary will be replaced with a custom build containing the Hetzner DNS module.
+
+Prevent APT from overwriting the custom Caddy binary during future updates:
+
+```bash
 sudo apt-mark hold caddy
+```
 
+## 3. Build Caddy with the Hetzner DNS Module
 
-CHECK FOR NEW CADDY VERSION BEFORE RUNNING THIS NEXT COMMAND
+**Important:** Check for a newer version of [xcaddy](https://github.com/caddyserver/xcaddy/releases) before running these commands.
 
+Download and extract xcaddy:
+
+```bash
 cd /tmp
 
 wget https://github.com/caddyserver/xcaddy/releases/download/v0.4.7/xcaddy_0.4.7_linux_amd64.tar.gz
 
 tar xvf xcaddy_0.4.7_linux_amd64.tar.gz xcaddy
 
-sudo mv xcaddy /usr/bin
+sudo mv xcaddy /usr/bin/
+```
 
+Build Caddy with the Hetzner DNS module:
+
+```bash
 xcaddy build --with github.com/caddy-dns/hetzner/v2
+```
 
+Stop the existing Caddy service and replace its binary:
+
+```bash
 sudo systemctl stop caddy
 
 sudo cp /tmp/caddy /usr/bin/caddy
+```
 
-sudo systemctl stop caddy
+Verify the custom build:
 
+```bash
 caddy build-info
+```
 
+## 4. Configure Caddy Environment Variables
+
+Set the ownership of the Caddy configuration:
+
+```bash
 sudo chown caddy:caddy /etc/caddy/Caddyfile
+```
 
+Copy the environment template:
+
+```bash
 sudo cp /srv/CherryTech-App-Configs/caddy/caddy.env.template /etc/caddy/caddy.env
+```
 
+Edit the environment file:
+
+```bash
 sudo nano /etc/caddy/caddy.env
+```
 
-Create a hetzner API token and copy it to the HETZNER_API_TOKEN field in the .env file
-Set the domain to the base domain of your applications, typicallt apps.example.com or just example.com
+Configure the following:
 
+- **HETZNER_API_TOKEN:** Create an API token in Hetzner DNS and enter it into this field.
+- **DOMAIN:** Set this to the base domain used by your applications, typically `apps.example.com` or `example.com`, depending on your configuration.
+
+Secure the environment file:
+
+```bash
 sudo chmod 600 /etc/caddy/caddy.env
 
 sudo chown caddy:caddy /etc/caddy/caddy.env
+```
 
+## 5. Configure the Caddy Systemd Service
+
+Create a systemd override to load the environment variables:
+
+```bash
 sudo systemctl edit caddy
+```
 
-Add:
+Add the following:
+
+```ini
 [Service]
 EnvironmentFile=/etc/caddy/caddy.env
+```
 
+Save and exit.
+
+Copy your Caddyfile into the configuration directory:
+
+```bash
 sudo cp /srv/CherryTech-App-Configs/caddy/Caddyfile /etc/caddy/Caddyfile
+```
 
+## 6. Configure the Firewall
+
+Allow SSH and HTTPS, deny incoming connections by default, and allow outgoing connections.
+
+```bash
+sudo ufw allow 22/tcp
+
+sudo ufw allow 443/tcp
+
+sudo ufw default deny incoming
+
+sudo ufw default allow outgoing
+
+sudo ufw default deny routed
+```
+
+Enable UFW:
+
+```bash
+sudo ufw enable
+```
+
+Verify the firewall configuration:
+
+```bash
+sudo ufw status verbose
+```
+
+## 7. Start Caddy
+
+Reload systemd to apply the service override:
+
+```bash
 sudo systemctl daemon-reload
+```
 
+Enable and start Caddy:
+
+```bash
 sudo systemctl enable --now caddy
+```
 
+Verify the service:
 
-Configure the firewall:
-- sudo ufw allow 22/tcp
-- sudo ufw allow 443/tcp
-- sudo ufw default deny incoming
-- sudo ufw default allow outgoing
-- sudo ufw default deny routed
-- sudo ufw enable
-- sudo ufw status verbose
+```bash
+sudo systemctl status caddy
+```
+
+## 8. Maintenance
+
+Due to the utilization of a custom Caddy application with the Hetzner-DNS module updates to Caddy will require rebuilding the custom binary as it was built in step 3.
+
+Download and extract xcaddy: (**Check for a new version**)
+
+```bash
+cd /tmp
+
+wget https://github.com/caddyserver/xcaddy/releases/download/v0.4.7/xcaddy_0.4.7_linux_amd64.tar.gz
+
+tar xvf xcaddy_0.4.7_linux_amd64.tar.gz xcaddy
+
+sudo mv xcaddy /usr/bin/
+```
+
+Build Caddy with the Hetzner DNS module:
+
+```bash
+xcaddy build --with github.com/caddy-dns/hetzner/v2
+```
+
+Stop the existing Caddy service and replace its binary:
+
+```bash
+sudo systemctl stop caddy
+
+sudo cp /tmp/caddy /usr/bin/caddy
+```
+
+Verify the custom build:
+
+```bash
+caddy build-info
+```
