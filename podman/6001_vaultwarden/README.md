@@ -194,7 +194,7 @@ sudo systemctl --machine=vaultwarden@.host --user start vaultwarden-pod.service
 
 Once Vaultwarden has initialized, navigate to:
 
-`https://vault.apps.example.com/admin`
+`https://accounts.apps.example.com/admin`
 
 Log in using the temporary admin token:
 
@@ -215,10 +215,10 @@ sudo dnf install argon2 -y
 Generate an Argon2id password hash:
 
 ```bash
-echo -n 'REPLACE-THIS-PASSWORD' | argon2 "$(openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4
+sudo echo -n 'REPLACE' | argon2 "$(openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4
 ```
 
-Replace `REPLACE-THIS-PASSWORD` with your desired admin password.
+Replace `REPLACE` with your desired admin password. (sudo openssl rand -base64 64 recommended)
 
 **Important:**
 - Save the password somewhere secure.
