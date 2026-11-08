@@ -8,11 +8,11 @@ Image=docker.io/library/mariadb:10.7@sha256:9a48ac9f196f3d4fd6fea2cab59a49df9e7c
 ContainerName=opsi-db
 Pod=opsi.pod
 Volume=/home/opsi/.data/opsi/opsi-db:/var/lib/mysql:Z
-Volume=/home/opsi.data/opsi/opsi-db-backups:/var/db-backups:Z
+Volume=/home/opsi/.data/opsi/opsi-db-backups:/var/db-backups:Z
 EnvironmentFile=/home/opsi/.data/opsi/.env
 Secret=opsi-db-password,type=env,target=MARIADB_PASSWORD
 Secret=opsi-db-root-password,type=env,target=MARIADB_ROOT_PASSWORD
-HealthCmd=/bin/bash -c 'healthcheck.sh --connect --innodb_initialized'
+HealthCmd=healthcheck.sh --connect --innodb_initialized
 HealthStartPeriod=60s
 HealthInterval=60s
 HealthTimeout=10s
