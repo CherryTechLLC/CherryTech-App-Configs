@@ -111,6 +111,15 @@ sudo nano /etc/caddy/caddy.env
 Configure the following:
 
 - **HETZNER_API_TOKEN:** Create an API token in Hetzner DNS and enter it into this field.
+  - Log into *Hetzner Console*
+  - Select the project for domain you want the apps to fall under. 
+  - On the left side-bad go down to *Security*
+  - Go to the *API tokens* tab and select *Generate API token*
+  - Configure the token
+    - **DO NOT USE THE SAME TOKEN ON MULTIPLE SERVERS**
+    - Name the key something specific to this server (e.g "Apps")
+    - Set the key to *Read & Write*
+    - Copy the new key directly into /etc/caddy/caddy.env
 - **DOMAIN:** Set this to the base domain used by your applications, typically `apps.example.com` or `example.com`, depending on your configuration.
 
 Secure the environment file:
