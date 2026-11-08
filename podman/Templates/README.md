@@ -68,10 +68,10 @@ sudo openssl rand -base64 64
 cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
 ```
 ```bash
-sudo nano EXAMPLE-db-password.txt
+sudo nano .EXAMPLE-db-password.txt
 ```
 ```bash
-sudo nano EXAMPLE-db-root-password.txt
+sudo nano .EXAMPLE-db-root-password.txt
 ```
 
 Paste the generated password into the file by itself, without additional text or spaces.

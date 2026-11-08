@@ -85,19 +85,19 @@ sudo openssl rand -base64 64
 cd /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
 ```
 ```bash
-sudo nano opsi-db-password.txt
+sudo nano .opsi-db-password.txt
 ```
 ```bash
-sudo nano opsi-db-root-password.txt
+sudo nano .opsi-db-root-password.txt
 ```
 ```bash
-sudo nano opsi-admin-password.txt
+sudo nano .opsi-admin-password.txt
 ```
 ```bash
-sudo nano opsi-root-password.txt
+sudo nano .opsi-root-password.txt
 ```
 ```bash
-sudo nano opsi-grafana-password.txt
+sudo nano .opsi-grafana-password.txt
 ```
 
 Paste the generated password into the file by itself, without additional text or spaces.
