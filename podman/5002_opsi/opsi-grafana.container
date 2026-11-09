@@ -1,4 +1,4 @@
-#opsi-garafana.container
+#opsi-grafana.container
 
 [Unit]
 Description=Opsi Grafana

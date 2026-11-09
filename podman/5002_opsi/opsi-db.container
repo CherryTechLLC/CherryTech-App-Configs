@@ -4,14 +4,14 @@
 Description=Opsi Database
 
 [Container]
-Image=docker.io/library/mariadb:10.7@sha256:9a48ac9f196f3d4fd6fea2cab59a49df9e7ca459bf14b2f7b85a0e38a5454571
+Image=docker.io/library/mariadb:10.11@sha256:d769e37960821dfdcf096954f6e7ac89f747e116c1bba98e48edd265dfc7deae
 ContainerName=opsi-db
 Pod=opsi.pod
 Volume=/home/opsi/.data/opsi/opsi-db:/var/lib/mysql:Z
 Volume=/home/opsi/.data/opsi/opsi-db-backups:/var/db-backups:Z
 EnvironmentFile=/home/opsi/.data/opsi/.env
-Secret=opsi-db-password,type=env,target=MARIADB_PASSWORD
-Secret=opsi-db-root-password,type=env,target=MARIADB_ROOT_PASSWORD
+Secret=opsi-db-password,type=env,target=MYSQL_PASSWORD
+Secret=opsi-db-root-password,type=env,target=MYSQL_ROOT_PASSWORD
 HealthCmd=healthcheck.sh --connect --innodb_initialized
 HealthStartPeriod=60s
 HealthInterval=60s

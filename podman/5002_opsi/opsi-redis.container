@@ -4,7 +4,7 @@
 Description=Opsi Redis
 
 [Container]
-Image=docker.io/valkey/valkey-bundle:9
+Image=docker.io/redis:8.10@sha256:1f88291b4c57bdf249f02eb085a8669889b2d2954e91d4de5118a5da6b78dd53
 ContainerName=opsi-redis
 Pod=opsi.pod
 Volume=/home/opsi/.data/opsi/opsi-valkey:/data:Z
