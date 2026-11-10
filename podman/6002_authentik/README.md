@@ -158,7 +158,7 @@ Update the following values:
 
 | Variable | Description |
 |---|---|
-| `AUTHENTIK_WEB__BASE_URL` | Your authentik domain (e.g., `sso.cherrytech.net`) |
+| `AUTHENTIK_WEB__BASE_URL` | Your authentik domain (e.g., `https://sso.cherrytech.net`) |
 | `AUTHENTIK_EMAIL__HOST` | Your email servers addess (e.g., `mail.your-server.de`) (Hetzner) |
 | `AUTHENTIK_EMAIL__PORT` | Your email server MX port (e.g., `465 (SSL) / 587 (STARTTLS)`) |
 | `AUTHENTIK_EMAIL__USERNAME` | Your authentik email account username (e.g., `sso`) |

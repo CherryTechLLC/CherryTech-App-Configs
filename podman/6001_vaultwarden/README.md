@@ -137,7 +137,7 @@ Update the following values:
 
 | Variable | Description |
 |---|---|
-| `DOMAIN` | Your Vaultwarden domain (e.g., `accounts.apps.cherrytech.net`) |
+| `DOMAIN` | Your Vaultwarden domain (e.g., `https://accounts.apps.cherrytech.net`) |
 | `TZ` | Your server's timezone (e.g., `America/Detroit`) |
 
 **Important:** Leave `ADMIN_TOKEN` set to `CHANGE-ME`. We will configure a secure admin token through the web interface after deployment.
