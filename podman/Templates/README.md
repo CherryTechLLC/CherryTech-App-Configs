@@ -26,6 +26,12 @@ Copy the EXAMPLE entry in, below all existing site entries.
 
 Ensure the domain in the Caddyfile matches the domain configured in your environment file.
 
+Enable Changes:
+
+```bash
+sudo systemctl restart caddy
+```
+
 ## 3. Create a Dedicated Application User
 
 Create a dedicated system user for EXAMPLE:

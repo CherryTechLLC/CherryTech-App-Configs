@@ -1,5 +1,5 @@
 # README.md
-# authentik Deployment Guide
+# Authentik Deployment Guide
 
 ## Overview
 
@@ -27,6 +27,12 @@ sudo nano /etc/caddy/Caddyfile
 Copy the authentik entry in, below all existing site entries.
 
 Ensure the domain in the Caddyfile matches the domain configured in your environment file.
+
+Enable Changes:
+
+```bash
+sudo systemctl restart caddy
+```
 
 ## 3. Create a Dedicated Application User
 
@@ -72,16 +78,16 @@ Paste the generated password into the file by itself, without additional text or
 cd /srv/CherryTech-App-Configs/podman/6002_authentik/secrets
 ```
 ```bash
-nano .authentik-db-password.txt
+sudo nano .authentik-db-password.txt
 ```
 ```bash
-nano .authentik-secret-key.txt
+sudo nano .authentik-secret-key.txt
 ```
 
 Paste the authentik SMTP password file in by itself without additional text or spaces.
 
 ```bash
-nano .authentik-email-password.txt
+sudo nano .authentik-email-password.txt
 ```
 
 ### 4.4 Protect the Secrets
