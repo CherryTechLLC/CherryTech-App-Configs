@@ -55,6 +55,13 @@ Enable lingering so the user's systemd services can run without an active login 
 sudo loginctl enable-linger vaultwarden
 ```
 
+To make sudo -u authentik -i work better set the account to use bin/bash rather than /bin/sh
+
+```bash
+sudo chsh -s /bin/bash authentik
+```
+
+
 ## 4. Create and Configure Secrets
 
 ### 4.1 Create the Secrets Directory

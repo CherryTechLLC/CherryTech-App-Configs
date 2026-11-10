@@ -48,6 +48,12 @@ Enable lingering so the user's systemd services can run without an active login 
 sudo loginctl enable-linger authentik
 ```
 
+To make sudo -u authentik -i work better set the account to use bin/bash rather than /bin/sh
+
+```bash
+sudo chsh -s /bin/bash authentik
+```
+
 ## 4. Create and Configure Secrets
 
 ### 4.1 Create the Secrets Directory
@@ -127,7 +133,11 @@ podman secret create authentik-email-password .authentik-email-password.txt
 While logged in as the authentik application user, create the required storage directories:
 
 ```bash
-mkdir -p /home/authentik/.data/authentik/{authentik-app,authentik-db,authentik-db-backups,authentik-custom-templates,authentik-certs}
+mkdir -p /home/authentik/.data/authentik/authentik-app
+mkdir -p /home/authentik/.data/authentik/authentik-db
+mkdir -p /home/authentik/.data/authentik/authentik-db-backups
+mkdir -p /home/authentik/.data/authentik/authentik-custom-templates
+mkdir -p /home/authentik/.data/authentik/authentik-certs
 ```
 
 ## 6. Configure Environment Variables
