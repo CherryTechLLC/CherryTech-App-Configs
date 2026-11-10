@@ -46,6 +46,12 @@ Enable lingering so the user's systemd services can run without an active login 
 sudo loginctl enable-linger EXAMPLE
 ```
 
+To make *sudo -u EXAMPLE -i* work better set the account to use bin/bash rather than /bin/sh
+
+```bash
+sudo chsh -s /bin/bash EXAMPLE
+```
+
 ## 4. Create and Configure Secrets
 
 ### 4.1 Create the Secrets Directory
@@ -68,7 +74,7 @@ sudo openssl rand -base64 64
 sudo openssl rand -base64 64
 ```
 
-### 4.3 Create the password file:
+### 4.3 Create the password files:
 
 Paste the generated password into the file by itself, without additional text or spaces.
 
@@ -239,7 +245,7 @@ sudo journalctl _UID=0000
 ```
 ---
 
-## 11. Reference Links
+## 9. Reference Links
 
 ### Container Image
 -
