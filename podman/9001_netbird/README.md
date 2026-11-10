@@ -1,0 +1,289 @@
+# README.md
+# netbird Deployment Guide
+
+## Overview
+
+Netbird is a tool called an Overlay VPN, it is similar to TailScale or ZeroTier but it runs on your server. This file set is highly complex and should not be used by beginers.
+
+---
+
+## 1. Deployment Prerequisites
+
+Before beginning:
+- Create a new Ubuntu Server installation
+  - Default settings
+- Follow the repository guide to clone the CherryTech GitHub repository.
+- Ensure Podman and Quadlet are installed.
+- Ensure Caddy is installed and running.
+
+## 2. Configure Caddy
+
+Copy the netbird netbird.Caddyfile entry into your server's existing configuration:
+
+```bash
+sudo nano /etc/caddy/Caddyfile
+```
+
+Copy the netbird entry in, below all existing site entries.
+
+Ensure the domain in the Caddyfile matches the domain configured in your environment file.
+
+Enable Changes:
+
+```bash
+sudo systemctl restart caddy
+```
+
+## 3. Create a Dedicated Application User
+
+Create a dedicated system user for netbird:
+
+```bash
+sudo useradd -m netbird -F -u 9001
+```
+
+Enable lingering so the user's systemd services can run without an active login session:
+
+```bash
+sudo loginctl enable-linger netbird
+```
+
+To make *sudo -u netbird -i* work better set the account to use bin/bash rather than /bin/sh
+
+```bash
+sudo chsh -s /bin/bash netbird
+```
+
+## 4. Create and Configure Secrets
+
+### 4.1 Create the Secrets Directory
+
+```bash
+sudo mkdir -p /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
+```
+
+### 4.2 Generate Passwords
+
+Generate each secure password:
+
+ - Database Password:
+```bash
+sudo openssl rand -base64 64
+```
+
+ - Auth Secret:
+```bash
+sudo openssl rand -base64 128
+```
+
+### 4.3 Create the password files:
+
+Paste the generated password into the file by itself, without additional text or spaces.
+
+```bash
+cd /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
+```
+```bash
+sudo nano .netbird-db-password.txt
+```
+```bash
+sudo nano .netbird-auth secret.txt
+```
+
+## 4.4 Create netbird-store-dns:
+
+```bash
+sudo nano .netbird-store-dsn.txt
+```
+Paste the following string and copy the netbird-db-password after *password=*
+
+```bash
+host=netbird-db user=netbird password= dbname=netbird port=5432
+```
+
+### 4.5 Protect the Secrets
+
+**Mandatory:** Restrict access to the secrets directory and its contents.
+
+```bash
+sudo chown -R netbird:netbird /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
+
+sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
+```
+
+### 4.6 Create the Podman Secret
+
+Log in as the netbird application user:
+
+```bash
+sudo -u netbird -i
+```
+
+Create the Podman secrets:
+
+```bash
+cd /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
+```
+
+```bash
+podman secret create netbird-db-password .netbird-db-password.txt
+
+podman secret create netbird-auth-key .netbird-auth-key.txt
+
+podman secret create netbird-store-dsn .netbird-store-dsn.txt
+```
+
+## 5. Create Application Storage Directories
+
+While logged in as the netbird application user, create the required storage directories:
+
+```bash
+mkdir -p /home/netbird/.data/netbird/{netbird-data,netbird-db,netbird-db-backups}
+```
+
+## 6. Configure Dashboard Environment Variables
+
+Copy the provided environment file into the application's data directory:
+
+```bash
+cp /srv/CherryTech-App-Configs/podman/9001_netbird/dashboard.env /home/netbird/.data/netbird/dashboard.env
+```
+
+Edit the environment file:
+
+```bash
+nano /home/netbird/.data/netbird/dashboard.env
+```
+
+Update the following values:
+
+| Variable | Description |
+|---|---|
+| `NETBIRD_MGMT_API_ENDPOINT` | Your netbird API domain (e.g., `https://overlay.cherrytech.net`) |
+| `NETBIRD_MGMT_GRPC_API_ENDPOINT` | Your netbird API domain (e.g., `https://netbird.apps.cherrytech.net`) |
+| `AUTH_AUTHORITY` | Your server's interanal idp (e.g., `https://overlay.cherrytech.net/oauth2`) |
+
+**Important:** Leave `ADMIN_TOKEN` set to `CHANGE-ME`. We will configure a secure admin token through the web interface after deployment.
+
+## 7. Configure Netbird YAML file
+
+Netbird has a large configuration that requires a few changes.
+
+```bash
+cp /srv/CherryTech-App-Configs/podman/9001_netbird/config.yaml.example ~./data/netbird/config.yaml
+```
+Update the following values:
+
+| Variable | Description |
+|---|---|
+| `exposedAddress` | Your netbird domain (e.g., `https://overlay.cherrytech.net:443`) |
+| `auth > issuer` | Your netbird domain (e.g., `https://overlay.cherrytech.net/oauth2`) |
+
+
+## 8. Install and Start the Quadlet Services
+
+### 8.1 Navigate to the Configuration Directory
+
+If you are not already logged in as the netbird application user:
+
+```bash
+sudo -u netbird -i
+```
+
+Navigate to the application configuration directory:
+
+```bash
+cd /srv/CherryTech-App-Configs/podman/9001_netbird
+```
+
+### 8.2 Install the Quadlet Files
+
+Install the application containers and pod:
+
+```bash
+podman quadlet install netbird-app.container netbird-server.container netbird-db.container netbird-redis.container netbird.pod netbird.network
+```
+
+### 8.3 Configure the Systemd Environment
+
+This command makes the netbird user you logged in as able to execute systemd --user commands:
+
+```bash
+export XDG_RUNTIME_DIR="/run/user/$UID"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+```
+
+### 8.4 Reload Systemd and Start netbird
+
+Reload the user systemd configuration:
+
+```bash
+systemctl --user daemon-reload
+```
+
+Alternatively, from an administrative account:
+
+```bash
+sudo systemctl --machine=netbird@.host --user daemon-reload
+```
+
+Start the netbird pod:
+
+```bash
+systemctl --user start netbird-pod.service
+```
+
+Alternatively:
+
+```bash
+sudo systemctl --machine=netbird@.host --user start netbird-pod.service
+```
+
+### 8.5 Enable Automatic Updates
+
+```bash
+systemctl --user enable --now podman-auto-update.timer
+```
+
+
+## 9. Resource Limits and Monitoring
+
+The configured resource limits are intended to prevent application resource-management issues from causing a full server crash.
+
+The provided values are designed for approximately **5–10 users**.
+
+If you anticipate supporting more users, or notice resource utilization approaching the configured limits, consider increasing the allocations.
+
+### Monitoring
+
+Use the CentOS Cockpit interface to monitor application resource utilization:
+
+`https://CENTOS-SERVER-IP:9090`
+
+Monitor:
+- CPU utilization
+- Memory utilization
+- Container resource consumption
+
+If utilization consistently approaches the configured limits, adjust the corresponding Quadlet resource allocations.
+
+To view logs go the the **Logs** tab in cockpit and under the **Identifier** dropdown select the container you want to view logs on.
+
+To view full logs for the application log into an admin account and use the following command:
+
+```bash
+sudo journalctl _UID=9001
+```
+---
+
+## 10. Reference Links
+
+### Container Image
+- https://hub.docker.com/r/netbirdio/netbird
+
+### Official Documentation
+- https://docs.netbird.io/selfhosted/maintenance/configuration-files
+- https://docs.netbird.io/get-started/install
+
+### Additional Resources
+- https://hub.docker.com/_/postgres
