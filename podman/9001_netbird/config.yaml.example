@@ -57,8 +57,8 @@ server:
     # sessionCookieEncryptionKey: ""
     # OAuth2 redirect URIs for dashboard
     dashboardRedirectURIs:
-      - "https://app.example.com/nb-auth"
-      - "https://app.example.com/nb-silent-auth"
+      - "https://overlay.domain.tld/nb-auth"
+      - "https://overlay.domain.tld/nb-silent-auth"
     # OAuth2 redirect URIs for CLI
     cliRedirectURIs:
       - "http://localhost:53000/"

@@ -9,7 +9,7 @@
 
   admin off
 
-  email letsencrypt.acme@app.garagedoorservicesinc.com
+  email letsencrypt.acme@domain.tld
 
 }
 

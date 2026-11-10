@@ -132,10 +132,10 @@ Paste the generated password into the file by itself, without additional text or
 cd /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
 ```
 ```bash
-sudo nano .netbird-db-password.txt
+sudo nano .netbird-db-key.txt
 ```
 ```bash
-sudo nano .netbird-auth secret.txt
+sudo nano .netbird-auth-secret.txt
 ```
 
 ## 4.4 Create netbird-store-dns:
@@ -218,15 +218,21 @@ Update the following values:
 Netbird has a large configuration that requires a few changes.
 
 ```bash
-cp /srv/CherryTech-App-Configs/podman/9001_netbird/config.yaml.example ~./data/netbird/config.yaml
+cp /srv/CherryTech-App-Configs/podman/9001_netbird/config.yaml.example /home/netbird/.data/netbird/config.yaml
 ```
+
+```bash
+nano /home/netbird/.data/netbird/config.yaml
+```
+
 Update the following values:
 
 | Variable | Description |
 |---|---|
 | `exposedAddress` | Your netbird domain (e.g., `https://overlay.cherrytech.net:443`) |
 | `auth > issuer` | Your netbird domain (e.g., `https://overlay.cherrytech.net/oauth2`) |
-
+| `auth > dashboardRedirectURIs` | Your netbird domain (e.g., `https://overlay.cherrytech.net/nb-auth`) |
+| `auth > dashboardRedirectURIs` | Your netbird domain (e.g., `https://overlay.cherrytech.net/nb-silent-auth`) |
 
 ## 8. Install and Start the Quadlet Services
 
