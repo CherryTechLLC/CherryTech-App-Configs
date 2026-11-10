@@ -1,5 +1,11 @@
 #Inventree Internal Web Server
 
+{
+  servers {
+    trusted_proxies static 127.0.0.1/32
+  }
+}
+
 
 (log_common) {
 	log {
@@ -62,8 +68,5 @@ http://127.0.0.1:8014 {
 	}
 
 	# All other requests are proxied to the InvenTree server
-	reverse_proxy http://127.0.0.1:8000 {
-
-      trusted_proxies 127.0.0.1
-	}
+	reverse_proxy http://127.0.0.1:8000
 }
