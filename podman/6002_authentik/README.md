@@ -117,7 +117,7 @@ cd /srv/CherryTech-App-Configs/podman/6002_authentik/secrets
 ```bash
 podman secret create authentik-db-password .authentik-db-password.txt
 
-podman secret create authentik-secret-password .authentik-secret-password.txt
+podman secret create authentik-secret-key .authentik-secret-key.txt
 
 podman secret create authentik-email-password .authentik-email-password.txt
 ```
