@@ -22,7 +22,7 @@ Copy the EXAMPLE EXAMPLE.Caddyfile entry into your server's existing configurati
 sudo nano /etc/caddy/Caddyfile
 ```
 
-Place the EXAMPLE entry below all existing site entries.
+Copy the EXAMPLE entry in, below all existing site entries.
 
 Ensure the domain in the Caddyfile matches the domain configured in your environment file.
 
@@ -64,6 +64,8 @@ sudo openssl rand -base64 64
 
 ### 4.3 Create the password file:
 
+Paste the generated password into the file by itself, without additional text or spaces.
+
 ```bash
 cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
 ```
@@ -73,8 +75,6 @@ sudo nano .EXAMPLE-db-password.txt
 ```bash
 sudo nano .EXAMPLE-db-root-password.txt
 ```
-
-Paste the generated password into the file by itself, without additional text or spaces.
 
 ### 4.4 Protect the Secrets
 
@@ -102,9 +102,7 @@ cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
 
 ```bash
 podman secret create EXAMPLE-db-password .EXAMPLE-db-password.txt
-```
 
-```bash
 podman secret create EXAMPLE-db-root-password .EXAMPLE-db-root-password.txt
 ```
 
