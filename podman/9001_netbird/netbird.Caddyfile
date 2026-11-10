@@ -1,12 +1,19 @@
-#NETBIRD - 9001
+#netbird.Caddyfile
+#NETBIRD FULL Caddyfile
 
-overlay.{env.DOMAIN} {
+{
 
-  tls {
-    dns hetzner {env.HETZNER_API_TOKEN}
-    propagation_delay 30s
-    resolvers 1.1.1.1
-  }
+#  acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+
+  #Must disable Caddy API on a multi-user system as it is locally accesable to ALL users
+
+  admin off
+
+  email letsencrypt.acme@app.garagedoorservicesinc.com
+
+}
+
+overlay.domain.tld {
 
   encode zstd gzip
 

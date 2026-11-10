@@ -1,30 +1,46 @@
 # README.md
-# netbird Deployment Guide
+# Netbird Deployment Guide
 
 ## Overview
 
 Netbird is a tool called an Overlay VPN, it is similar to TailScale or ZeroTier but it runs on your server. This file set is highly complex and should not be used by beginers.
+
+Only run this app on it's own dedicated virtual machine, I recommened Ubuntu Server. Do not install any other apps alongside this tool.
+
+This tool requires a router with a public IP that you can open port 443 on. This carries a lot of risk so be careful.
 
 ---
 
 ## 1. Deployment Prerequisites
 
 Before beginning:
+- Create a dedicated VLAN for the publically exposed Netbird server to run in
+  - Install qemu-guest-agent
 - Create a new Ubuntu Server installation
   - Default settings
 - Follow the repository guide to clone the CherryTech GitHub repository.
+  - git clone https://github.com/CherryTechLLC/CherryTech-App-Configs.git
 - Ensure Podman and Quadlet are installed.
-- Ensure Caddy is installed and running.
 
 ## 2. Configure Caddy
 
-Copy the netbird netbird.Caddyfile entry into your server's existing configuration:
+For this application we will set up Caddy **Without** hetzner DNS or a Hetzner API key.
+
+In the Hetzner Console create a DNS A record that will point to your netbird server via your routers public IP
+
+Install the Caddy package and Go. The Caddy package will establish the service, system user, and default configuration directories.
+
+```bash
+sudo apt-get install caddy golang -y
+```
+
+Copy the complete netbird.Caddyfile into the config directory:
 
 ```bash
 sudo nano /etc/caddy/Caddyfile
 ```
 
-Copy the netbird entry in, below all existing site entries.
+Change the domain name on the overlay Caddyfile Entry to your domain
 
 Ensure the domain in the Caddyfile matches the domain configured in your environment file.
 
@@ -33,6 +49,38 @@ Enable Changes:
 ```bash
 sudo systemctl restart caddy
 ```
+
+## 3. Configure Server Firewall
+
+Allow SSH and HTTPS, deny incoming connections by default, and allow outgoing connections.
+
+```bash
+sudo ufw allow 22/tcp
+
+sudo ufw allow 80/tcp
+
+sudo ufw allow 443/tcp
+
+sudo ufw default deny incoming
+
+sudo ufw default allow outgoing
+
+sudo ufw default deny routed
+```
+
+Enable UFW:
+
+```bash
+sudo ufw enable
+```
+
+Verify the firewall configuration:
+
+```bash
+sudo ufw status verbose
+```
+
+We will configure the router public firewall later
 
 ## 3. Create a Dedicated Application User
 
