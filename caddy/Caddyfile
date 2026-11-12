@@ -1,3 +1,5 @@
+#MAIN SETUP
+
 {
 
 #  acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
@@ -8,6 +10,8 @@
 
 }
 
+
+#TLS SETUP
 
 *.{env.DOMAIN} {
 
