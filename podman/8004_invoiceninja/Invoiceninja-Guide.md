@@ -36,7 +36,7 @@ DEPLOYMENT INSTRUCTIONS:
       - mkdir /home/invoiceninja/.data/invoiceninja/invoiceninja-db-backups
       - cp /srv/CherryTech-App-Configs/podman/8004_invoiceninja/nginx /home/invoiceninja/.data/invoiceninja/ -r
   - Configure Environment Variables (sudo -u invoiceninja -i)
-    - cp /srv/CherryTech-App-Configs/podman/8004_invoiceninja/example.env /home/invoiceninja/.data/invoiceninja/.env
+    - cp /srv/CherryTech-App-Configs/podman/8004_invoiceninja/invoiceninja.env /home/invoiceninja/.data/invoiceninja/.env
     - Values to change:
       - APP_URL
       - TZ
