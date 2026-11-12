@@ -255,7 +255,7 @@ cd /srv/CherryTech-App-Configs/podman/9001_netbird
 Install the application containers and pod:
 
 ```bash
-podman quadlet install netbird-app.container netbird-server.container netbird-db.container netbird-redis.container netbird.pod netbird.network
+podman quadlet install netbird-server.container netbird-db.container netbird-dashboard.container netbird.network
 ```
 
 ### 8.3 Configure the Systemd Environment
