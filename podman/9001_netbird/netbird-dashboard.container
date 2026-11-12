@@ -9,7 +9,7 @@ After=netbird-db.service
 Image=docker.io/netbirdio/dashboard:latest
 ContainerName=netbird-dashboard
 Network=netbird.network
-EnvironmentFile=/home/netbird/.data/netbird/dashboard.env
+EnvironmentFile=/home/netbird/.data/netbird/.env
 Secret=netbird-client-secret,type=env,target=AUTH_CLIENT_SECRET
 #HealthCmd=
 #HealthStartPeriod=3m

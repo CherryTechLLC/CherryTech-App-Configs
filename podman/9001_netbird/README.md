@@ -194,13 +194,13 @@ mkdir -p /home/netbird/.data/netbird/{netbird-data,netbird-db,netbird-db-backups
 Copy the provided environment file into the application's data directory:
 
 ```bash
-cp /srv/CherryTech-App-Configs/podman/9001_netbird/dashboard.env /home/netbird/.data/netbird/dashboard.env
+cp /srv/CherryTech-App-Configs/podman/9001_netbird/netbird.env /home/netbird/.data/netbird/.env
 ```
 
 Edit the environment file:
 
 ```bash
-nano /home/netbird/.data/netbird/dashboard.env
+nano /home/netbird/.data/netbird/.env
 ```
 
 Update the following values:
@@ -281,10 +281,14 @@ Alternatively, from an administrative account:
 sudo systemctl --machine=netbird@.host --user daemon-reload
 ```
 
-Start the netbird pod:
+Start the netbird containers:
 
 ```bash
-systemctl --user start netbird-pod.service
+systemctl --user start netbird-db.service
+
+systemctl --user start netbird-server.service
+
+systemctl --user start netbird-dashboard.service
 ```
 
 Alternatively:
