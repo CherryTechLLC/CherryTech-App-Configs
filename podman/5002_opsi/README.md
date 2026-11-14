@@ -149,7 +149,7 @@ podman secret create opsi-grafana-password .opsi-grafana-password.txt
 While logged in as the opsi application user, create the required storage directories:
 
 ```bash
-mkdir -p /home/opsi/.data/opsi/{opsi-app,opsi-db,opsi-db-backups,opsi-valkey,opsi-grafana-data}
+mkdir -p /home/opsi/.data/opsi/{opsi-app,opsi-db,opsi-db-backups,opsi-redis,opsi-grafana-data}
 ```
 
 ## 6. Configure Environment Variables
