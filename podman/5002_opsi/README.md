@@ -60,6 +60,8 @@ sudo mkdir -p /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
 
 Generate each secure password:
 
+**Back up all secrets and passwords to a secure location**
+
  - Database Password:
 ```bash
 sudo openssl rand -base64 64
@@ -149,7 +151,7 @@ podman secret create opsi-grafana-password .opsi-grafana-password.txt
 While logged in as the opsi application user, create the required storage directories:
 
 ```bash
-mkdir -p /home/opsi/.data/opsi/{opsi-app,opsi-db,opsi-db-backups,opsi-redis,opsi-grafana-data}
+mkdir -p /home/opsi/.data/opsi/{opsi-app,opsi-db,opsi-db-backups,opsi-redis,opsi-grafana-data,opsi-grafana-plugins}
 ```
 
 ## 6. Configure Environment Variables
