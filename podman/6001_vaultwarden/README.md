@@ -74,6 +74,8 @@ sudo mkdir -p /srv/CherryTech-App-Configs/podman/6001_vaultwarden/secrets
 
 Generate a secure password:
 
+**Back up all secrets and passwords to a secure location**
+
 ```bash
 sudo openssl rand -base64 64
 ```

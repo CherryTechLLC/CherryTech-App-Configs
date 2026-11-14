@@ -64,6 +64,8 @@ sudo mkdir -p /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
 
 Generate each secure password:
 
+**Back up all secrets and passwords to a secure location**
+
  - Database Password:
 ```bash
 sudo openssl rand -base64 64
