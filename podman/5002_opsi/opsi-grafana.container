@@ -10,7 +10,7 @@ Pod=opsi.pod
 EnvironmentFile=/home/opsi/.data/opsi/.env
 Secret=opsi-grafana-password,type=env,target=GF_SECURITY_ADMIN_PASSWORD
 Volume=/home/opsi/.data/opsi/opsi-grafana-data:/var/lib/grafana:z
-Volume=/home/opsi/data/opsi/opsi-grafana-plugins:/var/lib/grafana/plugins:z
+Volume=/home/opsi/.data/opsi/opsi-grafana-plugins:/var/lib/grafana/plugins:z
 HealthCmd=wget -q -O /dev/null http://127.0.0.1:3000/api/health
 HealthStartPeriod=3m
 HealthInterval=120s
