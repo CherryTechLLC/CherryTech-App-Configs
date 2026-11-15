@@ -62,12 +62,12 @@ Generate and create each secure password:
 
  - Database Password:
 ```bash
-openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-db-password -)
+openssl rand -base64 50 | tr -d '\n' | tee >(podman secret create opsi-db-password -)
 ```
 
  - MariaDB Root Password:
 ```bash
-openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-db-root-password -)
+openssl rand -base64 50 | tr -d '\n' | tee >(podman secret create opsi-db-root-password -)
 ```
 
  - Opsi Admin Password:
