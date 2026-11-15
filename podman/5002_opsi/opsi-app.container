@@ -8,7 +8,8 @@ After=opsi-redis.service opsi-db.service
 [Container]
 Image=docker.io/uibmz/opsi-server:4.3
 ContainerName=opsi-app
-Pod=opsi.pod
+HostName=deploy.itactc.org
+Network=opsi.network
 EnvironmentFile=/home/opsi/.data/opsi/.env
 Secret=opsi-db-password,type=env,target=MYSQL_PASSWORD
 Secret=opsi-admin-password,type=env,target=OPSI_ADMIN_PASSWORD
@@ -26,6 +27,7 @@ HealthRetries=10
 AutoUpdate=registry
 Memory=3g
 NoNewPrivileges=true
+PublishPort=127.0.0.1:5002:4447
 #AddCapability=CAP_NET_BIND_SERVICE    -     Bind to port 80??
 
 [Service]

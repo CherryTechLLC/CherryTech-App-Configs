@@ -6,7 +6,7 @@ Description=Opsi Grafana
 [Container]
 Image=docker.io/grafana/grafana:latest
 ContainerName=opsi-grafana
-Pod=opsi.pod
+Network=opsi.network
 EnvironmentFile=/home/opsi/.data/opsi/.env
 Secret=opsi-grafana-password,type=env,target=GF_SECURITY_ADMIN_PASSWORD
 Volume=/home/opsi/.data/opsi/opsi-grafana-data:/var/lib/grafana:z

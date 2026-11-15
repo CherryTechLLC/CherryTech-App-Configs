@@ -140,7 +140,7 @@ cd /srv/CherryTech-App-Configs/podman/5002_opsi
 Install the application containers and pod:
 
 ```bash
-podman quadlet install opsi-app.container opsi-grafana.container opsi-db.container opsi-redis.container opsi.pod
+podman quadlet install opsi-app.container opsi-grafana.container opsi-db.container opsi-redis.container opsi.network
 ```
 
 ### 7.3 Configure the Systemd Environment
