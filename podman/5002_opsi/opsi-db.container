@@ -12,6 +12,8 @@ Volume=/home/opsi/.data/opsi/opsi-db-backups:/var/db-backups:Z
 EnvironmentFile=/home/opsi/.data/opsi/.env
 Secret=opsi-db-password,type=env,target=MYSQL_PASSWORD
 Secret=opsi-db-root-password,type=env,target=MYSQL_ROOT_PASSWORD
+Secret=opsi-db-password,type=env,target=MARIADB_PASSWORD
+Secret=opsi-db-root-password,type=env,target=MARIADB_ROOT_PASSWORD
 HealthCmd=healthcheck.sh --connect --innodb_initialized
 HealthStartPeriod=60s
 HealthInterval=60s
@@ -20,6 +22,7 @@ HealthRetries=15
 Notify=healthy
 Memory=2g
 NoNewPrivileges=true
+Exec=--max_connections=1000 --max_allowed_packet=256M --sort_buffer_size=4M
 
 [Service]
 Restart=always
