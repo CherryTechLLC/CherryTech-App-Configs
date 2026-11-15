@@ -62,28 +62,16 @@ Generate and create each secure password:
 
 **Back up all secrets and passwords to a secure location**
 
- - Database Password:
+ - Passwords:
 ```bash
 openssl rand -hex 32 | tr -d '\n' | tee >(podman secret create opsi-db-password -)
-```
 
- - MariaDB Root Password:
-```bash
 openssl rand -hex 32 | tr -d '\n' | tee >(podman secret create opsi-db-root-password -)
-```
 
- - Opsi Admin Password:
-```bash
 openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-admin-password -)
-```
 
- - Opsi Root Password:
-```bash
 openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-root-password -)
-```
 
- - Opsi Grafana Password:
-```bash
 openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-grafana-password -)
 ```
 
@@ -169,7 +157,19 @@ sudo systemctl --machine=opsi@.host --user daemon-reload
 Start the opsi pod:
 
 ```bash
-systemctl --user start opsi-pod.service
+systemctl --user start opsi-db.service
+```
+
+```bash
+systemctl --user start opsi-redis.service
+```
+
+```bash
+systemctl --user start opsi-grafana.service
+```
+
+```bash
+systemctl --user start opsi-app.service
 ```
 
 Alternatively:
