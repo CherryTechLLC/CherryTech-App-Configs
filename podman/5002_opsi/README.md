@@ -50,100 +50,39 @@ sudo loginctl enable-linger opsi
 
 ## 4. Create and Configure Secrets
 
-### 4.1 Create the Secrets Directory
-
-```bash
-sudo mkdir -p /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
-```
-
-### 4.2 Generate Passwords
-
-Generate each secure password:
-
-**Back up all secrets and passwords to a secure location**
-
- - Database Password:
-```bash
-sudo openssl rand -base64 64
-```
-
- - MariaDB Root Password:
-```bash
-sudo openssl rand -base64 64
-```
-
- - Opsi Admin Password:
-```bash
-sudo openssl rand -base64 32
-```
-
- - Opsi Root Password:
-```bash
-sudo openssl rand -base64 64
-```
-
- - Opsi Grafana Password:
-```bash
-sudo openssl rand -base64 64
-```
-
-### 4.3 Create the password files:
-
-```bash
-cd /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
-```
-```bash
-sudo nano .opsi-db-password.txt
-```
-```bash
-sudo nano .opsi-db-root-password.txt
-```
-```bash
-sudo nano .opsi-admin-password.txt
-```
-```bash
-sudo nano .opsi-root-password.txt
-```
-```bash
-sudo nano .opsi-grafana-password.txt
-```
-
-Paste the generated password into the file by itself, without additional text or spaces.
-
-### 4.4 Protect the Secrets
-
-**Mandatory:** Restrict access to the secrets directory and its contents.
-
-```bash
-sudo chown -R opsi:opsi /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
-
-sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
-```
-
-### 4.5 Create the Podman Secret
-
-Log in as the opsi application user:
+If you are not already logged in as the opsi application user:
 
 ```bash
 sudo -u opsi -i
 ```
 
-Create the Podman secrets:
+Generate and create each secure password:
 
+**Back up all secrets and passwords to a secure location**
+
+ - Database Password:
 ```bash
-cd /srv/CherryTech-App-Configs/podman/5002_opsi/secrets
+openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-db-password -)
 ```
 
+ - MariaDB Root Password:
 ```bash
-podman secret create opsi-db-password .opsi-db-password.txt
+openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-db-root-password -)
+```
 
-podman secret create opsi-db-root-password .opsi-db-root-password.txt
+ - Opsi Admin Password:
+```bash
+openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-admin-password -)
+```
 
-podman secret create opsi-admin-password .opsi-admin-password.txt
+ - Opsi Root Password:
+```bash
+openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-root-password -)
+```
 
-podman secret create opsi-root-password .opsi-root-password.txt
-
-podman secret create opsi-grafana-password .opsi-grafana-password.txt
+ - Opsi Grafana Password:
+```bash
+openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-grafana-password -)
 ```
 
 ## 5. Create Application Storage Directories
@@ -175,6 +114,7 @@ Update the following values:
 | `HOSTNAME` | Your opsi domain (e.g., `deploy`) |
 | `DOMAINNAME` | Your opsi domain again (e.g., `cherrytech.net`) |
 | `TZ` | Your server's timezone (e.g., `America/Detroit`) |
+| `GF_SERVER_ROOT_URL` | Your server's domain that grafana will use (e.g., `https://deploy.cherrytech.net:443/grafana`) |
 
 
 ## 7. Install and Start the Quadlet Services
