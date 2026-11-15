@@ -7,6 +7,8 @@ OPSI is a tool for deploying applications and configurations to windows fleets. 
 
 A standalone "configserver" has a built-in "depotserver" but additional "depotserver" nodes can be configured in remote campuses to save on bandwidth from the central location.
 
+Warning: DB passwords for opsi cannot contain symbols!
+
 ---
 
 ## 1. Deployment Prerequisites
@@ -62,12 +64,12 @@ Generate and create each secure password:
 
  - Database Password:
 ```bash
-openssl rand -base64 50 | tr -d '\n' | tee >(podman secret create opsi-db-password -)
+openssl rand -hex 32 | tr -d '\n' | tee >(podman secret create opsi-db-password -)
 ```
 
  - MariaDB Root Password:
 ```bash
-openssl rand -base64 50 | tr -d '\n' | tee >(podman secret create opsi-db-root-password -)
+openssl rand -hex 32 | tr -d '\n' | tee >(podman secret create opsi-db-root-password -)
 ```
 
  - Opsi Admin Password:
@@ -90,7 +92,7 @@ openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-grafana-p
 While logged in as the opsi application user, create the required storage directories:
 
 ```bash
-mkdir -p /home/opsi/.data/opsi/{opsi-app,opsi-db,opsi-db-backups,opsi-redis,opsi-grafana-data,opsi-grafana-plugins}
+mkdir -p /home/opsi/.data/opsi/{opsi-app,opsi-db,opsi-db-backups,opsi-redis,opsi-grafana-data}
 ```
 
 ## 6. Configure Environment Variables
