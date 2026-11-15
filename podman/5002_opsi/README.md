@@ -62,16 +62,28 @@ Generate and create each secure password:
 
 **Back up all secrets and passwords to a secure location**
 
- - Passwords:
+ - Database Password:
 ```bash
 openssl rand -hex 32 | tr -d '\n' | tee >(podman secret create opsi-db-password -)
+```
 
+ - MariaDB Root Password:
+```bash
 openssl rand -hex 32 | tr -d '\n' | tee >(podman secret create opsi-db-root-password -)
+```
 
+ - Opsi Admin Password:
+```bash
 openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-admin-password -)
+```
 
+ - Opsi Root Password:
+```bash
 openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-root-password -)
+```
 
+ - Opsi Grafana Password:
+```bash
 openssl rand -base64 64 | tr -d '\n' | tee >(podman secret create opsi-grafana-password -)
 ```
 
