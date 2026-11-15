@@ -6,7 +6,7 @@ Description=Opsi Redis
 [Container]
 Image=docker.io/redis:8.10@sha256:1f88291b4c57bdf249f02eb085a8669889b2d2954e91d4de5118a5da6b78dd53
 ContainerName=opsi-redis
-Network=opsi.network
+Pod=opsi.pod
 Volume=/home/opsi/.data/opsi/opsi-redis:/data:Z
 EnvironmentFile=/home/opsi/.data/opsi/.env
 HealthCmd=/bin/sh -c 'redis-cli ping | grep PONG'

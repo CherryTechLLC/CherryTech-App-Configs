@@ -1,0 +1,11 @@
+# opsi.pod
+# Opsi Quadlet
+
+[Pod]
+PodName=opsi
+PublishPort=127.0.0.1:5002:4447
+HostName=opsi.itactc.org
+#UserNS=keep-id
+
+[Install]
+WantedBy=default.target
