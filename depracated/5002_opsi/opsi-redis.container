@@ -17,7 +17,6 @@ HealthRetries=10
 Notify=healthy
 Memory=1g
 NoNewPrivileges=true
-Exec=redis-server --loadmodule /usr/local/lib/redis/modules/redistimeseries.so --dir /data
 
 [Service]
 Restart=always

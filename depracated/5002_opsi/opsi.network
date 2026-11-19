@@ -1,0 +1,11 @@
+# opsi.network
+# Opsi Quadlet
+
+[Unit]
+Description=Opsi Application Network
+
+[Network]
+NetworkName=opsi
+
+[Install]
+WantedBy=default.target
