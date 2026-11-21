@@ -46,11 +46,6 @@ Enable lingering so the user's systemd services can run without an active login 
 sudo loginctl enable-linger nextcloud
 ```
 
-To make *sudo -u nextcloud -i* work better set the account to use bin/bash rather than /bin/sh
-
-```bash
-sudo chsh -s /bin/bash nextcloud
-```
 
 ## 4. Create and Configure Secrets
 
