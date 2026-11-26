@@ -104,84 +104,32 @@ sudo chsh -s /bin/bash netbird
 
 ## 4. Create and Configure Secrets
 
-### 4.1 Create the Secrets Directory
-
-```bash
-sudo mkdir -p /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
-```
-
-### 4.2 Generate Passwords
-
-Generate each secure password:
-
-
-**Back up all secrets and passwords to a secure location**
-
- - Database Password:
-```bash
-sudo openssl rand -base64 64
-```
-
- - Auth Secret:
-```bash
-sudo openssl rand -base64 128
-```
-
-### 4.3 Create the password files:
-
-Paste the generated password into the file by itself, without additional text or spaces.
-
-```bash
-cd /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
-```
-```bash
-sudo nano .netbird-db-key.txt
-```
-```bash
-sudo nano .netbird-auth-secret.txt
-```
-
-## 4.4 Create netbird-store-dns:
-
-```bash
-sudo nano .netbird-store-dsn.txt
-```
-Paste the following string and copy the netbird-db-password after *password=*
-
-```bash
-host=netbird-db user=netbird password= dbname=netbird port=5432
-```
-
-### 4.5 Protect the Secrets
-
-**Mandatory:** Restrict access to the secrets directory and its contents.
-
-```bash
-sudo chown -R netbird:netbird /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
-
-sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
-```
-
-### 4.6 Create the Podman Secret
-
-Log in as the netbird application user:
+If you are not already logged in as the netbird application user:
 
 ```bash
 sudo -u netbird -i
 ```
 
-Create the Podman secrets:
+Generate and create each secure password:
 
+**Back up all secrets and passwords to a secure location**
+
+ - Database Password:
 ```bash
-cd /srv/CherryTech-App-Configs/podman/9001_netbird/secrets
+openssl rand -hex 64 | tr -d '\n' | tee >(podman secret create netbird-db-password -)
 ```
 
+ - MariaDB Root Password:
 ```bash
-podman secret create netbird-db-password .netbird-db-password.txt
+openssl rand -hex 128 | tr -d '\n' | tee >(podman secret create netbird-auth-secret -)
+```
 
-podman secret create netbird-auth-key .netbird-auth-key.txt
+## 4.1 Create netbird-store-dns:
 
-podman secret create netbird-store-dsn .netbird-store-dsn.txt
+Paste the following string and copy the netbird-db-password after *password=*
+
+```bash
+printf '%s' 'host=netbird-db user=netbird password= dbname=netbird port=5432' | podman secret create netbird-store-dsn -
 ```
 
 ## 5. Create Application Storage Directories
