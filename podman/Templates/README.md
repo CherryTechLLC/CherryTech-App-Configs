@@ -56,69 +56,26 @@ sudo chsh -s /bin/bash EXAMPLE
 
 ## 4. Create and Configure Secrets
 
-### 4.1 Create the Secrets Directory
-
-```bash
-sudo mkdir -p /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
-```
-
-### 4.2 Generate Passwords
-
-Generate each secure password:
-
- - Database Password:
-```bash
-sudo openssl rand -base64 64
-```
-
- - MariaDB Root Password:
-```bash
-sudo openssl rand -base64 64
-```
-
-### 4.3 Create the password files:
-
-Paste the generated password into the file by itself, without additional text or spaces.
-
-```bash
-cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
-```
-```bash
-sudo nano .EXAMPLE-db-password.txt
-```
-```bash
-sudo nano .EXAMPLE-db-root-password.txt
-```
-
-### 4.4 Protect the Secrets
-
-**Mandatory:** Restrict access to the secrets directory and its contents.
-
-```bash
-sudo chown -R EXAMPLE:EXAMPLE /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
-
-sudo chmod -R 700 /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
-```
-
-### 4.5 Create the Podman Secret
-
-Log in as the EXAMPLE application user:
+If you are not already logged in as the EXAMPLE application user:
 
 ```bash
 sudo -u EXAMPLE -i
 ```
 
-Create the Podman secrets:
+Generate and create each secure password:
 
+**Back up all secrets and passwords to a secure location**
+
+ - Database Password:
 ```bash
-cd /srv/CherryTech-App-Configs/podman/0000_EXAMPLE/secrets
+openssl rand -hex 32 | tr -d '\n' | tee >(podman secret create EXAMPLE-db-password -)
 ```
 
+ - MariaDB Root Password:
 ```bash
-podman secret create EXAMPLE-db-password .EXAMPLE-db-password.txt
-
-podman secret create EXAMPLE-db-root-password .EXAMPLE-db-root-password.txt
+openssl rand -hex 32 | tr -d '\n' | tee >(podman secret create EXAMPL-db-root-password -)
 ```
+
 
 ## 5. Create Application Storage Directories
 
